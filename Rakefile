@@ -1,3 +1,6 @@
+require 'bundler'
+Bundler.setup
+
 require 'toto'
 
 @config = Toto::Config::Defaults
@@ -40,3 +43,7 @@ def ask message
   STDIN.gets.chomp
 end
 
+desc 'Watch sass files.'
+task :sass do
+  `bundle exec sass --update public/sass:public/css`
+end

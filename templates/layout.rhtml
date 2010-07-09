@@ -1,18 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <link rel="alternate" type="application/atom+xml" title="<%= title %> - feed" href="/index.xml" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+    <meta charset="utf-8">
     <title><%= title %></title>
+    
+    <!--[if !IE]><!-->
+      <link rel="stylesheet" href="/css/application.css" type="text/css">
+    <!--<![endif]-->
+    
+    <!--[if gte IE 7]>
+      <link rel="stylesheet" href="/css/application.cs" type="text/css" media="screen, projection">
+    <![endif]-->
+    
+    <!--[IE 6]>
+      <link rel="stylesheet" href="http://universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
+    <![endif]-->
   </head>
   <body>
-    <section>
-      <%= yield %> 
-    </section>
+    <header>
+      <a href="/" id="logo"><%= title %></a>
+      <nav>
+        <ul>
+          <li><a href="#">Nav Place</li>
+          <li><a href="#">Nav Place</li>
+          <li><a href="#">Nav Place</li>
+          <li><a href="#">Nav Place</li>
+          <li><a href="#">Nav Place</li>
+        </ul>
+      </nav>
+    </header>
+    <div id="content">
+      <%= yield %>
+    </div>
+    <aside>
+      This is the sidebar content
+    </aside>
     <footer>
-      powered by <a href="http://cloudhead.io/toto">toto</a>
+      &copy; Copyright goes here
     </footer>
   </body>
 </html>
-

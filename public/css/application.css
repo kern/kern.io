@@ -1,0 +1,49 @@
+ul, ol, dl, li, dt, dd, h1, h2, h3, h4, h5, h6, pre,
+form, body, html, p, blockquote, fieldset, input {
+  padding: 0;
+  margin: 0; }
+
+ul, ol {
+  list-style: none; }
+
+a img, :link img, :visited img {
+  border: none; }
+
+address {
+  font-style: normal; }
+
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary {
+  display: block; }
+
+/* A font by Jos Buivenga (exljbris) -> http://www.exljbris.nl */
+@font-face {
+  font-family: 'Museo';
+  src: url("/fonts/Museo.eot");
+  src: local("Museo"), local("Museo500-Regular"), url("/fonts/Museo.woff") format("woff"), url("/fonts/Museo.ttf") format("truetype"); }
+
+html {
+  font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Museo', serif; }
+
+html {
+  font-size: 12px;
+  line-height: 18px; }
+
+h1 {
+  font-size: 24px;
+  line-height: 36px; }
+
+h2 {
+  font-size: 18px;
+  line-height: 18px; }
+
+h3, h4, h5, h6 {
+  font-size: 12px;
+  line-height: 18px; }
+
+small {
+  font-size: 10px;
+  line-height: 18px; }

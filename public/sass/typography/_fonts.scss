@@ -1,0 +1,14 @@
+/* A font by Jos Buivenga (exljbris) -> http://www.exljbris.nl */
+@font-face {
+  font-family: 'Museo';
+  src: url('/fonts/Museo.eot');
+  src: local('Museo'), local('Museo500-Regular'), url('/fonts/Museo.woff') format('woff'), url('/fonts/Museo.ttf') format('truetype');
+}
+
+html {
+  font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Museo', serif;
+}
