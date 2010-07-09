@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Kernpedia - {{ page.title }}</title>
+    <link rel="stylesheet" href="/css/master.css" type="text/css" media="screen" charset="utf-8">
+    <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body class="{{ page.tab }}Tab">
+    <div id="container">
+      <header id="header">
+        <a id="logo" href="/">kernpedia</a>
+        <nav>
+          <ul>
+            <li class="blogTab"><a href="/"><span>blog</span></a></li>
+            <li class="projectsTab"><a href="/projects.html"><span>projects</span></a></li>
+            <li class="aboutTab"><a href="/about.html"><span>about</span></a></li>
+            <li class="contactTab"><a href="/contact.html"><span>contact</span></a></li>
+          </ul>
+        </nav>
+      </header>
+      
+      <div id="body">
+        {{ content }}
+      </div>
+      
+      <footer id="footer">
+        <p><a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/us/80x15.png" /></a><br /><span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Text" property="dc:title" rel="dc:type">Kernpedia</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/">Creative Commons Attribution 3.0 United States License</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

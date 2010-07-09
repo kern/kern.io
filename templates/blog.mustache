@@ -1,0 +1,16 @@
+<div id="content">
+  {{ content }}
+</div>
+
+<div id="sidebar">
+  <h3>All Posts</h3>
+  <ul class="allPosts">
+    {% for post in site.posts %}
+      <li>
+        <span class="date">{{ post.date | date: "%d %b" }}</span>
+        <span class="raquo"> &raquo; </span>
+        <a class="title" href="{{ post.link }}">{{ post.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

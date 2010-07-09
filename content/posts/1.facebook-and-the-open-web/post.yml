@@ -1,0 +1,11 @@
+title: Facebook and the Open Web
+description: friends or enemies?
+tab: blog
+body: |
+  <p>Who doesn't use Facebook?</p>
+  
+  <p>Facebook is where every web startup wishes it was: in the minds of the general public. It is no longer some obscure unknown site that everyone just recently discovered. Quite the opposite, Facebook has become an accepted facet of life. Checking Facebook is daily occurrence for most users.</p>
+  
+  <p>Facebook recently came out with their Connect service, a proprietary single sign-on protocol that uses the user's Facebook credentials and data. On April 21, Facebook redid the Facebook Connect API with the open standard OAuth in place of their proprietary authentication protocol. This method of single sign-on is similar to Twitter's approach (In fact, Twitter is phasing out HTTP Basic authentication in favor of OAuth). All seems well, the largest social networking site on the web is a big supporter of the open protocols supported by the community. Right?</p>
+  
+  <p>Not exactly.</p>
