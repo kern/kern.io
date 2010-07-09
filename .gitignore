@@ -1,7 +1,3 @@
-# Jekyll noise
-_drafts
-_site
-
-# OSX noise
+.bundle
 .DS_Store
 .profile
