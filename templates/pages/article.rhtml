@@ -3,11 +3,11 @@
     <h1><%= title %></h1>
     <span class="date"><%= date %></span>
   </header>
-
+  
   <section class="content">
     <%= body %>
   </section>
-
+  
   <section class="comments">
     <% if @config[:disqus] %>
       <div id="disqus_thread"></div>

@@ -6,7 +6,7 @@ form, body, html, p, blockquote, fieldset, input {
 ul, ol {
   list-style: none; }
 
-a img, :link img, :visited img {
+a img, a:link img, a:visited img {
   border: none; }
 
 address {
@@ -47,3 +47,32 @@ h3, h4, h5, h6 {
 small {
   font-size: 10px;
   line-height: 18px; }
+
+body > header {
+  width: 960px;
+  height: 126px;
+  margin: 0 auto 54px auto; }
+  body > header > a, body > header nav {
+    display: table-cell;
+    vertical-align: center; }
+  body > header li {
+    float: left; }
+
+#main {
+  width: 960px;
+  margin: 54px auto; }
+
+#content {
+  display: table-cell;
+  vertical-align: top;
+  width: 600px;
+  padding: 0 30px; }
+
+#main > aside {
+  display: table-cell;
+  vertical-align: top;
+  width: 300px; }
+
+body > footer {
+  width: 960px;
+  margin: 0 auto; }

@@ -1,0 +1,14 @@
+body > header {
+  width: 960px;
+  height: $line-height * 7;
+  margin: 0 auto $line-height * 3 auto;
+  
+  & > a, nav {
+    display: table-cell;
+    vertical-align: center;
+  }
+  
+  li {
+    float: left;
+  }
+}
