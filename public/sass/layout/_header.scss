@@ -1,14 +1,33 @@
 body > header {
-  width: 960px;
-  height: $line-height * 7;
-  margin: 0 auto $line-height * 3 auto;
+  $height: $line-height * 7;
+  $margin-bottom: $line-height * 3;
   
-  & > a, nav {
+  display: table;
+  width: $body-width;
+  height: $height;
+  margin: 0 auto $margin-bottom auto;
+  
+  a#logo, nav, ul, li, li a {
+    height: 100%;
+  }
+  
+  a#logo, nav, li {
     display: table-cell;
-    vertical-align: center;
+  }
+  
+  ul {
+    display: table;
+  }
+  
+  a#logo {
+    vertical-align: top;
   }
   
   li {
-    float: left;
+    vertical-align: top;
+    
+    a {
+      display: block;
+    }
   }
 }

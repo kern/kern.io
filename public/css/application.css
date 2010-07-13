@@ -16,6 +16,12 @@ article, aside, canvas, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section, summary {
   display: block; }
 
+html {
+  background: white; }
+
+body {
+  background: white; }
+
 /* A font by Jos Buivenga (exljbris) -> http://www.exljbris.nl */
 @font-face {
   font-family: 'Museo';
@@ -36,7 +42,7 @@ h1 {
   font-size: 24px;
   line-height: 36px; }
 
-h2 {
+h2, body > header li a {
   font-size: 18px;
   line-height: 18px; }
 
@@ -49,30 +55,31 @@ small {
   line-height: 18px; }
 
 body > header {
+  display: table;
   width: 960px;
   height: 126px;
   margin: 0 auto 54px auto; }
-  body > header > a, body > header nav {
-    display: table-cell;
-    vertical-align: center; }
+  body > header a#logo, body > header nav, body > header ul, body > header li, body > header li a {
+    height: 100%; }
+  body > header a#logo, body > header nav, body > header li {
+    display: table-cell; }
+  body > header ul {
+    display: table; }
+  body > header a#logo {
+    vertical-align: top; }
   body > header li {
-    float: left; }
+    vertical-align: top; }
+    body > header li a {
+      display: block; }
 
-#main {
+#content {
   width: 960px;
   margin: 54px auto; }
 
-#content {
-  display: table-cell;
-  vertical-align: top;
-  width: 600px;
-  padding: 0 30px; }
-
-#main > aside {
-  display: table-cell;
-  vertical-align: top;
-  width: 300px; }
-
 body > footer {
   width: 960px;
-  margin: 0 auto; }
+  margin: 54px auto 0 auto;
+  padding: 0 18px; }
+
+body > footer {
+  text-align: center; }

@@ -1,7 +1,10 @@
+$html-background: white;
+$body-background: white;
+$body-width: 960px;
+
 @import "boilerplate";
 @import "typography/typography";
 @import "layout/header";
-@import "layout/main";
 @import "layout/content";
-@import "layout/aside";
 @import "layout/footer";
+@import "text/footer";

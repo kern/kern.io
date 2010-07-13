@@ -31,7 +31,7 @@ h1 {
   @include font-size(large);
 }
 
-h2 {
+h2, body > header li a {
   @include font-size(medium);
 }
 

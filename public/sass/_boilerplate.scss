@@ -30,3 +30,11 @@ article, aside, canvas, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section, summary { 
     display: block;
 }
+
+html {
+  background: $html-background;
+}
+
+body {
+  background: $body-background;
+}

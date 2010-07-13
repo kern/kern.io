@@ -1,6 +1,6 @@
 #content {
-  display: table-cell;
-  vertical-align: top;
-  width: 600px;
-  padding: 0 30px;
+  $margin-vertical: $line-height * 3;
+  
+  width: $body-width;
+  margin: $margin-vertical auto;
 }
