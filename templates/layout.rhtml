@@ -2,7 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title><%= title %></title>
+    <title>
+      <% page_title = self.title unless self.title == 'Kernpedia' %>
+      <% page_title ||= self.path.capitalize unless self.path == 'index' %>
+      <%= [page_title, 'Kernpedia'].compact.join ' - ' %>
+    </title>
     
     <!--[if !IE]><!-->
       <link rel="stylesheet" href="/css/application.css" type="text/css">
@@ -18,14 +22,12 @@
   </head>
   <body>
     <header>
-      <a href="/" id="logo"><%= title %></a>
+      <a href="/" id="logo">Kernpedia</a>
       <nav>
         <ul>
-          <li><a href="#">Nav Place</a></li>
-          <li><a href="#">Nav Place</a></li>
-          <li><a href="#">Nav Place</a></li>
-          <li><a href="#">Nav Place</a></li>
-          <li><a href="#">Nav Place</a></li>
+          <li><a href="/">Blog</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="http://github.com/CapnKernul">Code</a></li>
         </ul>
       </nav>
     </header>

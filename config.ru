@@ -11,10 +11,14 @@ if ENV['RACK_ENV'] == 'development'
   use Rack::ShowExceptions
 end
 
+class Toto::Site::Context
+  attr_reader :path
+end
+
 # Toto config
 toto = Toto::Server.new do
   set :author, 'Alexander Kern'
-  set :title, 'kernpedia'
+  set :title, 'Kernpedia'
   set :date, lambda {|now| now.strftime("%B #{now.day.ordinal} %Y") }
   set :ext, 'txt'
 end

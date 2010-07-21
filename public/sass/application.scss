@@ -1,10 +1,20 @@
-$html-background: white;
-$body-background: white;
+// Config
 $body-width: 960px;
 
-@import "boilerplate";
-@import "typography/typography";
+// Framework
+@import "framework/base";
+
+// Typography
+@import "typography/alignment";
+@import "typography/colors";
+@import "typography/fonts";
+@import "typography/size";
+
+// Layout
 @import "layout/header";
 @import "layout/content";
 @import "layout/footer";
-@import "text/footer";
+
+// Grouping
+@import "grouping/p";
+@import "grouping/ul";

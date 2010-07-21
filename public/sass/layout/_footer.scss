@@ -4,5 +4,5 @@ body > footer {
   
   width: $body-width;
   margin: $margin-top auto 0 auto;
-  padding: 0 $padding-vertical;
+  padding: $padding-vertical 0;
 }

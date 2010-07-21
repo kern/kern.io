@@ -1,10 +1,13 @@
-$line-height: 18px;
+// Helpers for maintaining the site's vertical rhythm.
 
-$large-size: 24px;
-$medium-size: 18px;
-$small-size: 12px;
-$kids-size: 10px;
+// Config
+$line-height: 18px !default;
+$large-size: 24px !default;
+$medium-size: 18px !default;
+$small-size: 12px !default;
+$kids-size: 10px !default;
 
+// For the sizing of fonts
 @mixin font-size($size: small) {
   
   // Screw SASS for not doing interpolation on variables.
@@ -20,25 +23,4 @@ $kids-size: 10px;
   
   font-size: $size;
   line-height: ceil($size / $line-height) * $line-height;
-}
-
-// Default font-sizes
-html {
-  @include font-size(small);
-}
-
-h1 {
-  @include font-size(large);
-}
-
-h2, body > header li a {
-  @include font-size(medium);
-}
-
-h3, h4, h5, h6 {
-  @include font-size(small);
-}
-
-small {
-  @include font-size(kids);
 }

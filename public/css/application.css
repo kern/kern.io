@@ -22,6 +22,30 @@ html {
 body {
   background: white; }
 
+body > header {
+  text-align: center; }
+
+#content {
+  text-align: left; }
+
+body > footer {
+  text-align: center; }
+
+body > header {
+  color: black; }
+  body > header a {
+    color: black; }
+
+#content {
+  color: black; }
+  #content a {
+    color: black; }
+
+body > footer {
+  color: black; }
+  body > footer a {
+    color: black; }
+
 /* A font by Jos Buivenga (exljbris) -> http://www.exljbris.nl */
 @font-face {
   font-family: 'Museo';
@@ -31,7 +55,7 @@ body {
 html {
   font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif; }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, #logo, body > header nav {
   font-family: 'Museo', serif; }
 
 html {
@@ -79,7 +103,10 @@ body > header {
 body > footer {
   width: 960px;
   margin: 54px auto 0 auto;
-  padding: 0 18px; }
+  padding: 18px 0; }
 
-body > footer {
-  text-align: center; }
+#content p {
+  margin: 0 18px; }
+
+#content ul {
+  margin: 0 18px; }

@@ -1,0 +1,19 @@
+html {
+  @include font-size(small);
+}
+
+h1 {
+  @include font-size(large);
+}
+
+h2, body > header li a {
+  @include font-size(medium);
+}
+
+h3, h4, h5, h6 {
+  @include font-size(small);
+}
+
+small {
+  @include font-size(kids);
+}
