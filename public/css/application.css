@@ -62,7 +62,7 @@ html {
   font-size: 12px;
   line-height: 18px; }
 
-h1 {
+h1, #logo {
   font-size: 24px;
   line-height: 36px; }
 
@@ -81,8 +81,8 @@ small {
 body > header {
   display: table;
   width: 960px;
-  height: 126px;
-  margin: 0 auto 54px auto; }
+  height: 108px;
+  margin: 0 auto 36px auto; }
   body > header a#logo, body > header nav, body > header ul, body > header li, body > header li a {
     height: 100%; }
   body > header a#logo, body > header nav, body > header li {
@@ -106,7 +106,13 @@ body > footer {
   padding: 18px 0; }
 
 #content p {
-  margin: 0 18px; }
+  margin: 18px 0; }
 
 #content ul {
-  margin: 0 18px; }
+  margin: 18px 0; }
+
+#content section {
+  margin: 36px 0; }
+
+#content article {
+  margin: 36px 0; }

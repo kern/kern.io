@@ -2,7 +2,7 @@ html {
   @include font-size(small);
 }
 
-h1 {
+h1, #logo {
   @include font-size(large);
 }
 

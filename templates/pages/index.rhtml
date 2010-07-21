@@ -1,11 +1,11 @@
-<section id="articles">
+<section class="articles">
   <% for article in articles[0...3] %>
-    <article class="post">
+    <article>
       <header>
         <h1><a href="<%= article.path %>"><%= article.title %></a></h1>
         <span class="date"><%= article.date %></span>
       </header>
-
+      
       <section class="content">
         <%= article.summary %>
       </section>
@@ -14,6 +14,6 @@
   <% end %>
 </section>
 
-<section id="archives">
+<section class="archives">
   <%= archives[3..-1] %>
 </section>
