@@ -5,7 +5,7 @@
 <ul>
   <% archives.each do |entry| %>
     <li>
-      <a href="<%= entry.path %>"><%= entry.title %></a>
+      <%= entry.date.strftime('%b %d %Y') %> - <a href="<%= entry.path %>"><%= entry.title %></a>
     </li>
   <% end %>
 </ul>
