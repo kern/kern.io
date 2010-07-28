@@ -1,19 +1,16 @@
-html {
+// Done in reverse order for precendence.
+small {
+  @include font-size(kids);
+}
+
+html, h3, h4, h5, h6 {
   @include font-size(small);
 }
 
-h1, #logo {
-  @include font-size(large);
-}
-
-h2, body > header li a {
+h2, body > header li a, .subtitle, .month {
   @include font-size(medium);
 }
 
-h3, h4, h5, h6 {
-  @include font-size(small);
-}
-
-small {
-  @include font-size(kids);
+h1, #logo, .title {
+  @include font-size(large);
 }

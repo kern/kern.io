@@ -27,6 +27,8 @@ body > header {
 
 #content {
   text-align: left; }
+  #content header time {
+    text-align: center; }
 
 body > footer {
   text-align: center; }
@@ -55,46 +57,48 @@ body > footer {
 html {
   font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif; }
 
-h1, h2, h3, h4, h5, h6, #logo, body > header nav {
+h1, h2, h3, h4, h5, h6, #logo, body > header nav, #content header {
   font-family: 'Museo', serif; }
-
-html {
-  font-size: 12px;
-  line-height: 18px; }
-
-h1, #logo {
-  font-size: 24px;
-  line-height: 36px; }
-
-h2, body > header li a {
-  font-size: 18px;
-  line-height: 18px; }
-
-h3, h4, h5, h6 {
-  font-size: 12px;
-  line-height: 18px; }
 
 small {
   font-size: 10px;
   line-height: 18px; }
 
+html, h3, h4, h5, h6 {
+  font-size: 12px;
+  line-height: 18px; }
+
+h2, body > header li a, .subtitle, .month {
+  font-size: 18px;
+  line-height: 18px; }
+
+h1, #logo, .title {
+  font-size: 24px;
+  line-height: 36px; }
+
+#logo {
+  text-transform: lowercase;
+  text-decoration: none; }
+
 body > header {
   display: table;
   width: 960px;
   height: 108px;
-  margin: 0 auto 36px auto; }
-  body > header a#logo, body > header nav, body > header ul, body > header li, body > header li a {
+  margin: 36px auto; }
+  body > header #logo, body > header nav, body > header ul, body > header li {
     height: 100%; }
-  body > header a#logo, body > header nav, body > header li {
+  body > header #logo, body > header nav, body > header li {
     display: table-cell; }
   body > header ul {
-    display: table; }
-  body > header a#logo {
-    vertical-align: top; }
+    display: table;
+    float: right; }
+  body > header #logo {
+    vertical-align: middle; }
   body > header li {
-    vertical-align: top; }
+    vertical-align: middle; }
     body > header li a {
-      display: block; }
+      display: block;
+      padding: 0 18px; }
 
 #content {
   width: 960px;
@@ -109,10 +113,22 @@ body > footer {
   margin: 18px 0; }
 
 #content ul {
-  margin: 18px 0; }
+  margin: 18px 0;
+  list-style-type: disc;
+  list-style-position: inside; }
 
 #content section {
   margin: 36px 0; }
 
 #content article {
   margin: 36px 0; }
+  #content article header {
+    margin: 18px 0; }
+    #content article header time, #content article header hgroup {
+      display: table-cell;
+      vertical-align: middle; }
+    #content article header time {
+      width: 54px;
+      padding-right: 18px; }
+    #content article header .month, #content article header .day {
+      display: block; }

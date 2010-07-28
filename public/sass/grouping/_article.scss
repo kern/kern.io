@@ -1,3 +1,21 @@
 #content article {
   margin: ($line-height * 2) 0;
+  
+  header {
+    margin: $line-height 0;
+    
+    time, hgroup {
+      display: table-cell;
+      vertical-align: middle;
+    }
+    
+    time {
+      width: ($line-height * 3);
+      padding-right: $line-height;
+    }
+    
+    .month, .day {
+      display: block;
+    }
+  }
 }

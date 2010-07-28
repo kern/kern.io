@@ -1,0 +1,18 @@
+title: Take Control of HTTP with Webbed
+subtitle: the most excellent way to manipulate HTTP messages
+
+Why the hell does [every](http://ruby-doc.org/stdlib/libdoc/net/http/rdoc/index.html) [HTTP](http://curb.rubyforge.org/) [library](http://github.com/igrigorik/em-http-request) [that](http://github.com/pauldix/typhoeus) [ever](http://github.com/toland/patron) [comes](http://github.com/adamwiggins/rest-client) [out](http://github.com/jnunemaker/httparty) [for](http://github.com/maccman/nestful) Ruby have a different way of internally representing and manipulating HTTP requests and responses? Can't _someone_ agree to call the Status Code a `Status Code` and not `code` or `status`? Or how about how you retrieve headers? I can never remember if it's in a hash named `headers` or the object responds to the `#[]` and `#[]=` methods so you can _treat_ it like a hash (but not exactly), or any other variation you could possibly come up with.
+
+Now, don't get me wrong and think that I don't like the freedom of choice on which HTTP client to use when I develop something. Each client has its own special abilities that is unique to it. Some are asynchronous, some are designed specifically for RESTful services, some are designed to just be plain-old fast. 
+
+But that's not what I'm complaining about. Rack has its own simple standardized interface for manipulating HTTP [Requests](http://rack.rubyforge.org/doc/classes/Rack/Request.html) and [Responses](http://rack.rubyforge.org/doc/classes/Rack/Response.html). The problem is that almost every single large framework out there doesn't use it; they opt for their own home-grown solution and subject us to have to change a bajillion different stupid one-liners in our code when we switch to something else. Why? Because the thing has its own stupid idiosyncrasies, like accessing query string parameters via `#GET` and mapping `[]` to the union of both the entity body's form data and the query string, rather than the headers which most other framework do.
+
+Why can't these HTTP clients just agree on what to use!?
+
+From what I can tell, the only thing that all client has in common is that it follows the [HTTP RFC](http://tools.ietf.org/html/rfc2616). That's why I used its terminology as the terminology for my standardized HTTP message-interface, [Webbed](http://github.com/CapnKernul/webbed). Right now it's _just_ getting started and only has the basics in place, but I'll be heavily focused on it over the next few days.
+
+By the end of the week, I should have some adapters for HTTP clients built into Webbed, so you can use your favorite library while getting a consistent interface. The eventual goal of this project is to make it so there's no need for adapters; the HTTP clients just output Webbed requests and receive Webbed responses.
+
+Another plan I have is to start adding much needed semantic value to HTTP messages. In almost every Ruby library I've seen, you have to roll-your-own way of processing common HTTP headers such as `Accept` and `Content-Type`. Webbed could implement a nice interface for manipulating those headers, along with some shortcuts to make the library's API more rich.
+
+Oh, one more thing: if you have a better name than Webbed, please-oh-plese drop it in the comments box.

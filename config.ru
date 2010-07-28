@@ -19,8 +19,8 @@ end
 toto = Toto::Server.new do
   set :author, 'Alexander Kern'
   set :title, 'Kernpedia'
-  set :date, lambda {|now| now.strftime("%B #{now.day.ordinal} %Y") }
   set :ext, 'txt'
+  set :disqus, 'kernpedia'
 end
 
 run toto

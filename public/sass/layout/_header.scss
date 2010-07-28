@@ -1,33 +1,35 @@
 body > header {
   $height: $line-height * 6;
-  $margin-bottom: $line-height * 2;
+  $vertical-margins: $line-height * 2;
   
   display: table;
   width: $body-width;
   height: $height;
-  margin: 0 auto $margin-bottom auto;
+  margin: $vertical-margins auto;
   
-  a#logo, nav, ul, li, li a {
+  #logo, nav, ul, li {
     height: 100%;
   }
   
-  a#logo, nav, li {
+  #logo, nav, li {
     display: table-cell;
   }
   
   ul {
     display: table;
+    float: right;
   }
   
-  a#logo {
-    vertical-align: top;
+  #logo {
+    vertical-align: middle;
   }
   
   li {
-    vertical-align: top;
+    vertical-align: middle;
     
     a {
       display: block;
+      padding: 0 $line-height;
     }
   }
 }

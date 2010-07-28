@@ -2,18 +2,19 @@
   <% for article in articles[0...3] %>
     <article>
       <header>
-        <h1><a href="<%= article.path %>"><%= article.title %></a></h1>
-        <span class="date"><%= article.date %></span>
+        <time>
+          <span class="month"><%= article.date.strftime '%b' %></span>
+          <span class="day"><%= article.date.strftime '%d' %></span>
+        </time>
+        <hgroup>
+          <h2 class="title"><a href="<%= article.path %>"><%= article.title %></a></h2>
+          <h3 class="subtitle"><%= article.subtitle %></h3>
+        </hgroup>
       </header>
       
-      <section class="content">
-        <%= article.summary %>
-      </section>
-      <div class="more"><a href="<%= article.path %>">read on &raquo;</a></div>
+      <%= article.summary %>
+      
+      <div class="more"><a href="<%= article.path %>">more &raquo;</a></div>
     </article>
   <% end %>
-</section>
-
-<section class="archives">
-  <%= archives[3..-1] %>
 </section>

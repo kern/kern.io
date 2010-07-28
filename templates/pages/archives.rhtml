@@ -1,10 +1,11 @@
-<h1><%= @path %></h1>
+<header>
+  <h1>Archives</h1>
+</header>
+
 <ul>
-  <% if archives.length > 0 %>
-    <% for entry in archives %>
-      <li>
-        <a href="<%= entry.path %>"><%= entry.title %></a>
-      </li>
-    <% end %>
+  <% archives.each do |entry| %>
+    <li>
+      <a href="<%= entry.path %>"><%= entry.title %></a>
+    </li>
   <% end %>
 </ul>
