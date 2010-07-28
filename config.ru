@@ -21,6 +21,7 @@ toto = Toto::Server.new do
   set :title, 'Kernpedia'
   set :ext, 'txt'
   set :disqus, 'kernpedia'
+  set :date, lambda {|now| now}
 end
 
 run toto
