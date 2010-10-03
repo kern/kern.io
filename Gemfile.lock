@@ -1,21 +1,15 @@
-GIT
-  remote: http://github.com/blahed/frank.git
-  revision: 9c09c4c9b12a1c281565811e6d841d6774108c46
-  specs:
-    frank (0.4.0)
-      haml (>= 3.0)
-      rack (>= 1.0)
-      tilt (= 0.9)
-
 GEM
   remote: http://rubygems.org/
   specs:
     daemons (1.1.0)
     eventmachine (0.12.10)
+    frank (0.4.0)
+      haml (>= 3.0)
+      rack (>= 1.0)
+      tilt (= 0.9)
     haml (3.0.21)
     rack (1.2.1)
-    sinatra (1.0)
-      rack (>= 1.0)
+    rake (0.8.7)
     thin (1.2.7)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -26,7 +20,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  frank!
+  frank
   haml
-  sinatra
+  rake
   thin
