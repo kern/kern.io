@@ -1,0 +1,42 @@
+@mixin font-size($size) {
+  font-size: $size;
+  line-height: ceil($size / $line-height) * $line-height;
+}
+
+.hide-text {
+  text-indent: -999999px;
+}
+
+.full-width {
+  width: 594px;
+}
+
+.table-cell {
+  display: table-cell;
+}
+
+.middle-table-cell {
+  @extend .table-cell;
+  vertical-align: middle;
+}
+
+.top-table-cell {
+  @extend .table-cell;
+  vertical-align: top;
+}
+
+.fake-collapse {
+  & > :first-child, & > :first-child > :first-child { margin-top: 0; }
+  & > :last-child, & > :last-child > :last-child { margin-bottom: 0; }
+}
+
+.centered {
+  margin: {
+    left: auto;
+    right: auto;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+}

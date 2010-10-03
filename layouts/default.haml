@@ -1,0 +1,10 @@
+!!! 5
+%html
+  %head
+    %title Kernpedia
+    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/css/application.css'}
+  %body
+    #container
+      %header#header= render_partial 'header'
+      #main= yield
+      %footer#footer= render_partial 'footer'

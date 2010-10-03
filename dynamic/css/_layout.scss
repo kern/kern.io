@@ -1,0 +1,302 @@
+// =============================================================================
+// Document
+// =============================================================================
+
+html {
+  @extend .body-type;
+  position: relative;
+  background: $gray url(/images/background.png) top center repeat-x;
+}
+
+body {
+  
+}
+
+// =============================================================================
+// Sections
+// =============================================================================
+
+header {
+  @extend .one-line;
+  position: relative;
+}
+
+section {
+  @extend .one-line;
+  position: relative;
+}
+
+nav {
+  @extend .one-line;
+  position: relative;
+}
+
+article {
+  @extend .one-line;
+  position: relative;
+}
+
+aside {
+  @extend .one-line;
+  position: relative;
+}
+
+h1 {
+  @extend .one-line;
+}
+
+h2 {
+  @extend .one-line;
+}
+
+h3 {
+  @extend .one-line;
+}
+
+h4 {
+  @extend .one-line;
+}
+
+h5 {
+  @extend .one-line;
+}
+
+h6 {
+  @extend .one-line;
+}
+
+hgroup {
+  @extend .one-line;
+  position: relative;
+}
+
+header {
+  @extend .one-line;
+  position: relative;
+}
+
+footer {
+  @extend .one-line;
+  position: relative;
+}
+
+address {
+  @extend .one-line;
+  position: relative;
+}
+
+// =============================================================================
+// Grouping
+// =============================================================================
+
+p {
+  @extend .one-line;
+}
+
+hr {
+  
+}
+
+pre {
+  @extend .one-line;
+  white-space: pre-wrap;
+}
+
+blockquote {
+  @extend .one-line;
+}
+
+ol {
+  @extend .one-line;
+  list-style-type: decimal;
+}
+
+ul {
+  @extend .one-line;
+  list-style-type: square;
+}
+
+li {
+  
+}
+
+dl {
+  @extend .one-line;
+}
+
+dt {
+  
+}
+
+dd {
+  
+}
+
+figure {
+  @extend .one-line;
+}
+
+figcaption {
+  
+}
+
+// =============================================================================
+// Text-level semantics
+// =============================================================================
+
+a {
+  @extend .link-type;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: bold;
+}
+
+small {
+  @extend .note-type;
+}
+
+s {
+  text-decoration: line-through;
+}
+
+cite {
+  
+}
+
+q {
+  
+}
+
+dfn {
+  
+}
+
+abbr {
+  
+}
+
+time {
+  @extend cite;
+}
+
+code {
+  
+}
+
+var {
+  @extend mark;
+}
+
+samp {
+  @extend mark;
+}
+
+kbd {
+  @extend mark;
+}
+
+sub {
+  
+}
+
+sup {
+  
+}
+
+i {
+  @extend em;
+}
+
+b {
+  @extend strong;
+}
+
+mark {
+  
+}
+
+// =============================================================================
+// Edits
+// =============================================================================
+
+ins {
+  text-decoration: underline;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+// =============================================================================
+// Embedded content
+// =============================================================================
+
+// TODO: Write styles for embedded content (flash, video, audio, etc.).
+
+// =============================================================================
+// Tabular data
+// =============================================================================
+
+// TODO: Write styles for tabular data (table, tbody, td, etc.).
+
+// =============================================================================
+// Forms
+// =============================================================================
+
+// TODO: Write styles for forms (form, fieldset, input, etc.).
+
+// =============================================================================
+// Section-specific
+// =============================================================================
+
+#container {
+  @extend .full-width;
+  @extend .centered;
+}
+
+#header {
+  @extend .full-width;
+  display: table;
+  
+  #logo, nav {
+    @extend .middle-table-cell;
+    width: $column * 16;
+    height: $line-height * 5;
+  }
+  
+  #logo {
+    @extend .hide-text;
+    background: url(/images/logo.png) center center no-repeat;
+  }
+  
+  nav {
+    padding-left: $column;
+    
+    ul {
+      list-style-type: none;
+    }
+    
+    a {
+      @extend .nav-type;
+    }
+    
+    a:before {
+      content: "\00BB\00A0";
+    }
+  }
+}
+
+#main {
+  @extend .full-width;
+  @extend .one-line;
+}
+
+#footer {
+  @extend .full-width;
+  text-align: center;
+}

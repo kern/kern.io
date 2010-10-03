@@ -1,6 +1,5 @@
-source 'http://rubygems.org/'
+source :gemcutter
 
-gem 'builder'
-gem 'rdiscount'
-gem 'toto'
+gem 'frank', :git => 'http://github.com/blahed/frank.git'
 gem 'haml'
+gem 'thin'

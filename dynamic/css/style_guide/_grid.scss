@@ -1,0 +1,16 @@
+$line-height: 18px;
+$column: 18px;
+
+.one-line {
+  margin: {
+    top: $line-height * 1;
+    bottom: $line-height * 1;
+  }
+}
+
+.two-line {
+  margin: {
+    top: $line-height * 2;
+    bottom: $line-height * 2;
+  }
+}
