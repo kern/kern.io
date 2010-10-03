@@ -144,7 +144,7 @@ figure {
     
     // Puts description on the left side of the image
     &:hover .description {
-      left: $column * -13;
+      left: $column * -11;
       right: auto;
       
       &:before {
@@ -164,7 +164,7 @@ figure {
     // Puts description on the right side of the image
     &:hover .description {
       left: auto;
-      right: $column * -13;
+      right: $column * -11;
       
       &:before {
         left: ($column * -2) - 4px;
@@ -186,7 +186,7 @@ figure {
     z-index: 999;
     top: 0;
     left: -999999px; // Readable by search engines, yet off the screen
-    width: $column * 10;
+    width: $column * 8;
     border: 2px solid $beige;
     padding: ($line-height - 2px) ($column - 2px);
     background: $white;
