@@ -9,7 +9,8 @@ html {
 }
 
 body {
-  
+  @extend .centered;
+  width: $column * 55;
 }
 
 // =============================================================================
@@ -132,12 +133,97 @@ dd {
   
 }
 
+// By far the most complicated CSS I've ever written
 figure {
-  @extend .one-line;
+  position: relative;
+  float: left;
+  margin-bottom: $line-height;
+  
+  &:nth-of-type(odd) {
+    @include box-shadow(2px 2px 0 $red);
+    
+    // Puts description on the left side of the image
+    &:hover .description {
+      left: $column * -13;
+      right: auto;
+      
+      &:before {
+        right: ($column * -2) - 4px;
+        border-color: transparent transparent transparent $white;
+      }
+      
+      &:after {
+        right: ($column * -1) - 2px;
+      }
+    }
+  }
+  
+  &:nth-of-type(even) {
+    @include box-shadow(2px 2px 0 $beige);
+    
+    // Puts description on the right side of the image
+    &:hover .description {
+      left: auto;
+      right: $column * -13;
+      
+      &:before {
+        left: ($column * -2) - 4px;
+        border-color: transparent $white transparent transparent;
+      }
+      
+      &:after {
+        left: ($column * -1) - 2px;
+      }
+    }
+  }
+  
+  .description {
+    @include box-shadow(2px 2px 0 $red);
+    @include border-radius(4px);
+    @extend .description-type;
+    @extend .fake-collapse;
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    left: -999999px; // Readable by search engines, yet off the screen
+    width: $column * 10;
+    border: 2px solid $beige;
+    padding: ($line-height - 2px) ($column - 2px);
+    background: $white;
+    
+    &:before {
+      position: absolute;
+      display: block;
+      content: '\00a0';
+      z-index: 99999;
+      top: $line-height;
+      width: 0;
+      height: 0;
+      border-width: $line-height + 2px;
+      border-style: solid;
+    }
+    
+    &:after {
+      position: absolute;
+      display: block;
+      content: '\00a0';
+      z-index: 99999;
+      top: -2px;
+      width: $column;
+      height: $line-height * 11;
+    }
+  }
+  
+  img {
+    display: block;
+  }
 }
 
 figcaption {
-  
+  @extend .nav-type;
+  position: absolute;
+  bottom: $line-height;
+  left: $column;
 }
 
 // =============================================================================
@@ -281,6 +367,10 @@ del {
       list-style-type: none;
     }
     
+    .current a {
+      @extend .nav-current-type;
+    }
+    
     a {
       @extend .nav-type;
     }
@@ -288,12 +378,22 @@ del {
     a:before {
       content: "\00BB\00A0";
     }
+    
+    .current a:before {
+      color: $red;
+    }
   }
 }
 
 #main {
   @extend .full-width;
   @extend .one-line;
+  @extend .clearfix;
+  position: relative;
+  
+  figure:nth-of-type(even) {
+    margin-left: $column;
+  }
 }
 
 #footer {

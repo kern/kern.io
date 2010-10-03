@@ -1,21 +1,30 @@
 .body-type {
   @include font-size(12px);
   @extend .body-font;
-  color: white;
+  color: $white;
   text-decoration: none;
 }
 
 .link-type {
   @include font-size(12px);
   @extend .body-font;
-  color: white;
+  color: $white;
   text-decoration: underline;
 }
 
 .nav-type {
   @include font-size(12px);
   @extend .emphasized-font;
-  color: white;
+  color: $white;
+  text-decoration: none;
+  text-shadow: 2px 2px 0 $black;
+  text-transform: uppercase;
+}
+
+.nav-current-type {
+  @include font-size(12px);
+  @extend .emphasized-font;
+  color: $beige;
   text-decoration: none;
   text-shadow: 2px 2px 0 $black;
   text-transform: uppercase;
@@ -24,6 +33,13 @@
 .note-type {
   @include font-size(10px);
   @extend .body-font;
-  color: white;
+  color: $white;
+  text-decoration: none;
+}
+
+.description-type {
+  @include font-size(12px);
+  @extend .body-font;
+  color: $black;
   text-decoration: none;
 }
