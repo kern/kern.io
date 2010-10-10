@@ -1,4 +1,6 @@
 require 'bundler/setup'
+require 'haml'
+require 'sass'
 require 'maruku'
 
 use Rack::Static, :urls => [/\/.+/], :root => 'output'
