@@ -1,0 +1,40 @@
+.examples {
+  figure {
+    @include box-shadow(2px 2px 0 $black);
+    margin-bottom: $line-height;
+    
+    &:nth-of-type(odd):hover .description {
+      @include show-description(left);
+    }
+    
+    &:nth-of-type(even):hover .description {
+      @include show-description(right);
+    }
+    
+    .description {
+      @include description;
+      
+      a {
+        @extend .description-link-type;
+      }
+      
+      h2 {
+        @extend .description-header-type;
+      }
+      
+      small {
+        @extend .description-note-type;
+      }
+    }
+    
+    img {
+      display: block;
+      width: $column * 16;
+      height: $column * 11;
+    }
+  }
+  
+  figcaption {
+    @extend .hide-block;
+  }
+}

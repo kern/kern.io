@@ -2,9 +2,11 @@
 
 %nav
   %ul
-    %li.current
-      %a{:href => '/portfolio'} Portfolio
-    %li
+    %li{:class => ('current' if @tab == :portfolio)}
+      %a{:href => '/'} Portfolio
+    %li{:class => ('current' if @tab == :blog)}
       %a{:href => '/blog'} Blog
     %li
+      %a{:href => 'http://github.com/CapnKernul'} Code
+    %li{:class => ('current' if @tab == :about)}
       %a{:href => '/about'} About

@@ -1,6 +1,10 @@
 source :gemcutter
 
-gem 'rake'
-gem 'frank'
 gem 'haml'
-gem 'thin'
+gem 'sass'
+gem 'maruku'
+
+group :development do
+  gem 'rake'
+  gem 'frank'
+end

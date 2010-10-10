@@ -1,0 +1,75 @@
+a {
+  @extend .link-type;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: bold;
+}
+
+small {
+  @extend .note-type;
+}
+
+s {
+  text-decoration: line-through;
+}
+
+cite {
+  
+}
+
+q {
+  
+}
+
+dfn {
+  
+}
+
+abbr {
+  
+}
+
+time {
+  @extend cite;
+}
+
+code {
+  
+}
+
+var {
+  @extend mark;
+}
+
+samp {
+  @extend mark;
+}
+
+kbd {
+  @extend mark;
+}
+
+sub {
+  
+}
+
+sup {
+  
+}
+
+i {
+  @extend em;
+}
+
+b {
+  @extend strong;
+}
+
+mark {
+  
+}

@@ -1,3 +1,8 @@
+// This file is meant for generic mixins and classes that are extremely useful
+// throughout the site. It is not meant to ever be directly applied to an
+// element via its class, but rather mixed into various other classes that have
+// more semantic meaning.
+
 @mixin font-size($size) {
   font-size: $size;
   line-height: ceil($size / $line-height) * $line-height;
@@ -15,26 +20,25 @@
   box-shadow: $shadow;
 }
 
+.hide {
+  display: none;
+}
+
 .hide-text {
   text-indent: -999999px;
 }
 
-.hide {
-  @extend .hide-text;
-  display: block;
-  width: 0;
-  height: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.full-width {
-  width: 594px;
+.hide-block {
+  position: absolute;
+  left: -9999999px;
 }
 
 .table-cell {
   display: table-cell;
+}
+
+.full-width {
+  width: $container-width;
 }
 
 .middle-table-cell {
@@ -60,7 +64,20 @@
 }
 
 .clickable {
-  cursor: pointer;
+  cursor: pointer !important;
+}
+
+.unclickable {
+  cursor: default !important;
+}
+
+.overlay {
+  position: absolute;
+  z-index: 99999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .clearfix {
@@ -69,5 +86,19 @@
     height: 0;
     content: '';
     clear: both;
+  }
+}
+
+.one-line {
+  margin: {
+    top: $line-height * 1;
+    bottom: $line-height * 1;
+  }
+}
+
+.two-line {
+  margin: {
+    top: $line-height * 2;
+    bottom: $line-height * 2;
   }
 }

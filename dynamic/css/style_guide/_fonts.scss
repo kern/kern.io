@@ -1,19 +1,22 @@
 @font-face {
   font-family: 'Museo';
-  src: url('/fonts/museo.eot');
-  src: local('☺'), url('/fonts/museo.woff') format('woff'), url('/fonts/museo.ttf') format('truetype'), url('/fonts/museo.svg#webfontPbjNkd07') format('svg');
+  src: url('/fonts/museo_500.eot');
+  src: local('☺'), url('/fonts/museo_500.woff') format('woff'), url('/fonts/museo_500.ttf') format('truetype'), url('/fonts/museo_500.svg#webfontPbjNkd07') format('svg');
   font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Museo';
+  src: url('/fonts/museo_700.eot');
+  src: local('☺'), url('/fonts/museo_700.woff') format('woff'), url('/fonts/museo_700.ttf') format('truetype'), url('/fonts/museo_700.svg#webfontPbjNkd07') format('svg');
+  font-weight: bold;
   font-style: normal;
 }
 
 .strong-font {
   font-family: 'Museo', serif;
-  font-weight: normal;
-}
-
-.emphasized-font {
-  font-family: 'Museo', serif;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 .body-font {

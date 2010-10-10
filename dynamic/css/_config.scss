@@ -1,0 +1,11 @@
+// The config file! Yahoo! Everyone's favorite. Normally, this file would be
+// the most important SCSS file on the site. However, it isn't! This config
+// file is for all those variables that are or will be used site-wide, such as
+// the page's width or the location of all the image URLs. Add to this file
+// sparingly. It's not meant for little variables like how wide the tabs are.
+// Since this is the first SCSS file loaded, all variables within this file can
+// be used throughout the site.
+
+$container-width: 594px;
+$line-height: 18px;
+$column: 18px;

@@ -1,4 +1,9 @@
-Frank.server.handler = 'thin'
+require 'bundler/setup'
+require 'haml'
+require 'sass'
+require 'maruku'
+
+Frank.server.handler = 'webrick'
 Frank.server.hostname = '0.0.0.0'
 Frank.server.port = '3000'
 

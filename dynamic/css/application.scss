@@ -1,13 +1,30 @@
-@import "boilerplate";
-@import "helpers";
+@import 'config';
+@import 'boilerplate';
+@import 'helpers';
 
-@import "style_guide/fonts";
-@import "style_guide/grid";
-@import "style_guide/palette";
-@import "style_guide/type";
+@import 'style_guide/fonts';
+@import 'style_guide/palette';
+@import 'style_guide/type';
 
-@import "layout";
-@import "temporary";
+@import 'ui/description';
+@import 'ui/examples';
+
+@import 'tags/document';
+@import 'tags/sections';
+@import 'tags/grouping';
+@import 'tags/text';
+@import 'tags/edits';
+@import 'tags/embedded';
+@import 'tags/tabular';
+@import 'tags/forms';
+
+@import 'sections/container';
+@import 'sections/header';
+@import 'sections/main';
+@import 'sections/footer';
+
+@import 'specific';
+@import 'temporary';
 
 @media screen {
   

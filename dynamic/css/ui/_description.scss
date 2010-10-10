@@ -1,0 +1,63 @@
+@mixin description($z-index: 999) {
+  @include box-shadow(2px 2px 0 $red);
+  @include border-radius(4px);
+  @extend .description-type;
+  @extend .fake-collapse;
+  @extend .hide-block;
+  top: 0;
+  z-index: $z-index;
+  width: $column * 8;
+  border: 2px solid $beige;
+  padding: ($line-height - 2px) ($column - 2px);
+  background: $white;
+  
+  &:before {
+    position: absolute;
+    display: block;
+    content: '\00a0';
+    z-index: $z-index + 1;
+    top: $line-height;
+    width: 0;
+    height: 0;
+    border-width: $line-height + 2px;
+    border-style: solid;
+  }
+  
+  &:after {
+    position: absolute;
+    display: block;
+    content: '\00a0';
+    z-index: 99999;
+    top: -2px;
+    width: $column;
+    height: $line-height * 11;
+  }
+}
+
+@mixin show-description($side) {
+  @if $side == right {
+    left: auto;
+    right: $column * -11;
+    
+    &:before {
+      left: ($column * -2) - 4px;
+      border-color: transparent $white transparent transparent;
+    }
+    
+    &:after {
+      left: ($column * -1) - 2px;
+    }
+  } @else {
+    left: $column * -11;
+    right: auto;
+    
+    &:before {
+      right: ($column * -2) - 4px;
+      border-color: transparent transparent transparent $white;
+    }
+    
+    &:after {
+      right: ($column * -1) - 2px;
+    }
+  }
+}

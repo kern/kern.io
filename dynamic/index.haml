@@ -1,7 +1,51 @@
-%h1.hide Portfolio
+- @tab = :portfolio
+%h1.hide-block Portfolio
 
-- 7.times do
+%section.examples
   %figure
-    %img{:src => 'http://placehold.it/288x198'}
-    %figcaption= lorem.word
-    .description= lorem.sentences 5
+    %img{:src => '/images/examples/white_rice_music.png'}
+    %figcaption White Rice Music
+    .description
+      %h2 White Rice Music
+      %p= lorem.sentences 5
+  
+  %figure
+    %img{:src => '/images/examples/folio.png'}
+    %figcaption Fol.io
+    .description
+      %h2 Fol.io
+      %p= lorem.sentences 5
+  
+  %figure
+    %img{:src => '/images/examples/andrewau_photography.png'}
+    %figcaption AndrewAU Photography
+    .description
+      %h2 Andrew AU Photography
+      %p= lorem.sentences 5
+  
+  %figure
+    %img{:src => '/images/examples/bhrobotics.png'}
+    %figcaption BHRobotics
+    .description
+      %h2 BHRobotics
+      %p= lorem.sentences 5
+  
+  %figure
+    %img{:src => '/images/examples/foss.png'}
+    %figcaption FOSS
+    .description
+      :markdown
+        Free and Open Source Software
+        -----------------------------
+        
+        All my open source development is done on [my GitHub profile](http://github.com/CapnKernul). I've developed multiple [Ruby](http://ruby-lang.org) and [Erlang](http://erlang.org) projects including [organize](http://github.com/CapnKernul/organize) and [httparadise](http://github.com/CapnKernul/httparadise). Currently, I am working on the [RubyGem](http://rubygems.org) [webbed](http://github.com/CapnKernul/webbed).
+  
+  %figure
+    %img{:src => '/images/examples/resume.png'}
+    %figcaption Resum&eacute;
+    .description
+      :markdown
+        Resum&eacute;
+        ------
+        
+        I have a more formal resum&eacute; in both [HTML](/files/resume/resume.html) and [PDF](/files/resume/resume.pdf) format.
