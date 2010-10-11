@@ -6,6 +6,16 @@ header {
 section {
   @extend .one-line;
   position: relative;
+  
+  &.column {
+    @extend .table-cell;
+    @extend .fake-collapse;
+    width: $column * 16;
+  }
+  
+  &.column + &.column {
+    padding-left: $column;
+  }
 }
 
 nav {
