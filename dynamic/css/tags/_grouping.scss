@@ -42,8 +42,14 @@ dd {
 }
 
 figure {
+  @include box-shadow(2px 2px 0 $black);
   position: relative;
-  float: left;
+  float: right;
+  margin: 0 0 $line-height $column;
+  
+  img {
+    display: block;
+  }
 }
 
 figcaption {

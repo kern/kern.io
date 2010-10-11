@@ -1,7 +1,7 @@
 .examples {
   figure {
-    @include box-shadow(2px 2px 0 $black);
-    margin-bottom: $line-height;
+    float: left;
+    margin: 0 0 $line-height 0;
     
     &:nth-of-type(odd):hover .description {
       @include show-description(left);
@@ -28,7 +28,6 @@
     }
     
     img {
-      display: block;
       width: $column * 16;
       height: $column * 11;
     }

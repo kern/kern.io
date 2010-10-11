@@ -1,4 +1,17 @@
+- @title = 'About'
 - @tab = :about
-%h1 About
 
-%p Coming soon.
+%section
+  %h1 About
+  %figure
+    %img{:src => 'http://placehold.it/288x198'}
+    %figcaption Me!
+  %p= lorem.sentences 10
+
+%section
+  %h2 Skills
+  %p= lorem.sentences 5
+
+%section
+  %h2 Contact me
+  %p= lorem.sentences 4
