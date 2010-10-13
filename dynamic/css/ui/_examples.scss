@@ -3,17 +3,19 @@
     float: left;
     margin: 0 0 $line-height 0;
     
-    &:nth-of-type(odd):hover .description {
-      @include show-description(left);
+    &:nth-child(odd) .description {
+      @include description(left);
     }
     
-    &:nth-of-type(even):hover .description {
-      @include show-description(right);
+    &:nth-child(even) .description {
+      @include description(right);
+    }
+    
+    &:hover .description {
+      display: block;
     }
     
     .description {
-      @include description;
-      
       a {
         @extend .description-link-type;
       }

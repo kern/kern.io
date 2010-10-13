@@ -1,26 +1,41 @@
-@mixin description($z-index: 999) {
+@mixin description($side) {
   @include box-shadow(2px 2px 0 $red);
   @include border-radius(4px);
   @extend .description-type;
   @extend .fake-collapse;
-  @extend .hide-block;
+  position: absolute;
+  display: none;
   top: 0;
-  z-index: $z-index;
+  z-index: 999;
   width: $column * 8;
   border: 2px solid $beige;
   padding: ($line-height - 2px) ($column - 2px);
   background: $white;
   
+  @if $side == right {
+    right: $column * -11;
+  } @else {
+    left: $column * -11;
+  }
+  
   &:before {
     position: absolute;
     display: block;
     content: '\00a0';
-    z-index: $z-index + 1;
+    z-index: 1000;
     top: $line-height;
     width: 0;
     height: 0;
     border-width: $line-height + 2px;
     border-style: solid;
+    
+    @if $side == right {
+      left: ($column * -2) - 4px;
+      border-color: transparent $white transparent transparent;
+    } @else {
+      right: ($column * -2) - 4px;
+      border-color: transparent transparent transparent $white;
+    }
   }
   
   &:after {
@@ -31,32 +46,10 @@
     top: -2px;
     width: $column;
     height: $line-height * 11;
-  }
-}
-
-@mixin show-description($side) {
-  @if $side == right {
-    left: auto;
-    right: $column * -11;
     
-    &:before {
-      left: ($column * -2) - 4px;
-      border-color: transparent $white transparent transparent;
-    }
-    
-    &:after {
+    @if $side == right {
       left: ($column * -1) - 2px;
-    }
-  } @else {
-    left: $column * -11;
-    right: auto;
-    
-    &:before {
-      right: ($column * -2) - 4px;
-      border-color: transparent transparent transparent $white;
-    }
-    
-    &:after {
+    } @else {
       right: ($column * -1) - 2px;
     }
   }

@@ -4,7 +4,7 @@
   @extend .clearfix;
   position: relative;
   
-  figure:nth-of-type(even) {
+  figure:nth-child(even) {
     margin-left: $column;
   }
 }
