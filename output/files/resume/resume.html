@@ -4,6 +4,10 @@
     <meta charset="utf-8" />
     <title>Alexander S. Kern's Resum&eacute;</title>
     <style>
+      h1 {
+        margin: 0.1in 0;
+      }
+      
       body > header, body > section, body > footer {
         width: 6.5in;
         margin: 0 auto;
@@ -31,6 +35,18 @@
         margin-left: 0.5in;
       }
       
+      h2, ul {
+        margin: 0.075in 0;
+      }
+      
+      h2 {
+        font-size: large;
+      }
+      
+      h3 {
+        font-size: medium;
+      }
+      
       header time, h3 {
         display: inline;
       }
@@ -46,17 +62,24 @@
       header time:after {
         content: ']';
       }
+      
+      #contact {
+        font-size: 75%;
+      }
+      
+      footer {
+        font-size: small;
+      }
     </style>
   </head>
   <body>
     <header>
       <h1>Alexander S. Kern</h1>
-      <p>Beverly Hills High School Student</p>
       <section id="contact">
         <ul>
           <li>Cell: (310) 975-5545</li>
           <li>Email: alex@kernul.com</li>
-          <li>Home: (310) 271-5056</li>
+          <li>221 S. La Peer Drive, Beverly Hills, CA 90211</li>
         </ul>
       </section>
     </header>
@@ -66,13 +89,39 @@
       <ul>
         <li>Extremely proficient in client-side web technologies (XHTML/CSS/JavaScript)</li>
         <li>Highly experienced with back-end web development in Ruby on Rails, PHP, and Erlang</li>
-        <li>Well versed in non-relational databases</li>
+        <li>Well versed in relational and non-relational databases</li>
         <li>Familiar with Java, Objective-C, and C++, Adobe Photoshop and Adobe Illustrator</li>
       </ul>
     </section>
     
     <section id="work-experience">
       <h2>Work Experience</h2>
+      
+      <section id="jpl-internship">
+        <header>
+          <h3>JPL Internship</h3>
+          <time>June 2010 - August 2010</time>
+        </header>
+        <ul>
+          <li>Worked as an intern at Jet Propulsion Laboratory, a major NASA contractor</li>
+          <li>Helped test the motor control system of the Mars Science Laboratory</li>
+          <li>Developed background scripts to speed up testing</li>
+          <li>Wrote plans and procedures to test various parts of the software on the rover</li>
+        </ul>
+      </section>
+      
+      <section id="artcentric-networks">
+        <header>
+          <h3>Artcentric Networks Lead Developer</h3>
+          <time>April 2010 - present</time>
+        </header>
+        <ul>
+          <li>Lead backend web developer of new web application (yet to be released)</li>
+          <li>Developing the backend in Ruby on Rails and CouchDB</li>
+          <li>Organized the website development team</li>
+          <li>Managed outsourced developers through oDesk</li>
+        </ul>
+      </section>
       
       <section id="robotics">
         <header>
@@ -108,38 +157,12 @@
           <li>Designed scripts for use with Torque Game Builder</li>
         </ul>
       </section>
-      
-      <section id="artcentric-networks">
-        <header>
-          <h3>Artcentric Networks Lead Developer</h3>
-          <time>April 2010 - present</time>
-        </header>
-        <ul>
-          <li>Lead backend web developer of new web application (yet to be released)</li>
-          <li>Developing the backend in Ruby on Rails and CouchDB</li>
-          <li>Organized the website development team</li>
-          <li>Managed outsourced developers through oDesk</li>
-        </ul>
-      </section>
-      
-      <section id="jpl-internship">
-        <header>
-          <h3>JPL Internship</h3>
-          <time>June 2010 - August 2010</time>
-        </header>
-        <ul>
-          <li>Worked as an intern at Jet Propulsion Laboratory, a major NASA contractor</li>
-          <li>Helped test the motor control system of the Mars Science Laboratory</li>
-          <li>Developed background scripts to speed up testing</li>
-          <li>Wrote plans and procedures to test various parts of the software on the rover</li>
-        </ul>
-      </section>
     </section>
+    
     <section id="education">
       <h2>Education</h2>
       <ul>
         <li>Beverly Hills High School - anticipated Graduation Date: <time>June 2012</time></li>
-        <li>High School Junior in <time>Fall 2010</time></li>
         <li>Cumulative Academic GPA: 3.75 with 4.2 GPA (Weighted)</li>
         <li>Completed: Advanced Algebra and Trigonometry, Chemistry, Honors Geometry</li>
       </ul>
