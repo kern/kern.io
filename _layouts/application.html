@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="stylesheet" href="/stylesheets/application.css" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <title>{{ page.title }}</title>
+  </head>
+  
+  <body>
+    <div id="container">
+      <header id="header">
+        <a href="/" id="logo">Kernpedia</a>
+        
+        <nav>
+          <ul>
+            {% if page.tab == 'portfolio' %}
+              <li class="current"><a href="/">Portfolio</a></li>
+            {% else %}
+              <li><a href="/">Portfolio</a></li>
+            {% endif %}
+            
+            <li><a href="/">Blog</a></li>
+            <li><a href="http://github.com/CapnKernul">Code</a></li>
+            
+            {% if page.tab == 'about' %}
+              <li class="current"><a href="/about">About</a></li>
+            {% else %}
+              <li><a href="/about">About</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </header>
+      
+      <div id="main">
+        {{ content }}
+      </div>
+      
+      <footer id="footer">
+        <small>&copy; Copyright 2010-2011 Alexander Kern. All Rights Reserved.</small>
+      </footer>
+    </div>
+  </body>
+</html>

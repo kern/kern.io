@@ -5,27 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <link rel="stylesheet" href="/stylesheets/application.css" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
     
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     
-    <title><%= @title %> - Kernpedia</title>
+    <title>Kernpedia</title>
   </head>
   
   <body>
     <div id="container">
       <header id="header">
-        <%= partial :header %>
+        <a href="/" id="logo">Kernpedia</a>
+        
+        <nav>
+          <ul>
+            
+              <li class="current"><a href="/">Portfolio</a></li>
+            
+            
+            <li><a href="/">Blog</a></li>
+            <li><a href="http://github.com/CapnKernul">Code</a></li>
+            
+            
+              <li><a href="/about">About</a></li>
+            
+          </ul>
+        </nav>
       </header>
       
       <div id="main">
-        <%= yield %>
+        OLOL.
       </div>
       
       <footer id="footer">
-        <%= partial :footer %>
+        <small>&copy; Copyright 2010-2011 Alexander Kern. All Rights Reserved.</small>
       </footer>
     </div>
   </body>
