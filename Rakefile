@@ -1,4 +1,4 @@
-task :output do
-  `rm -rf output`
-  `bundle exec frank export output`
+desc 'Watch for Sass files in /sass and compile them into /stylesheets'
+task :sass do
+  sh 'sass --watch sass:stylesheets'
 end

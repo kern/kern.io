@@ -1,0 +1,17 @@
+.columns {
+  @extend .clearfix;
+  
+  .primary {
+    @extend .fake-collapse;
+    float: left;
+    width: $column-width * 27;
+    margin: 0;
+  }
+  
+  .secondary {
+    @extend .fake-collapse;
+    float: right;
+    width: $column-width * 13;
+    margin: 0;
+  }
+}

@@ -1,0 +1,37 @@
+#header {
+  @extend .full-width;
+  margin-top: 0;
+  
+  #logo {
+    @extend .hide-text;
+    display: block;
+    float: left;
+    width: 203px;
+    height: $line-height * 3;
+    background: url(/images/logo.png) no-repeat center center;
+  }
+  
+  nav {
+    float: right;
+    margin: 0;
+  }
+  
+  ul {
+    margin: 0;
+    list-style-type: none;
+  }
+  
+  li {
+    float: left;
+    
+    a {
+      @extend .nav-type;
+      display: block;
+      padding: $line-height $column-width;
+    }
+    
+    a:hover, a:focus, &.current a {
+      background: transparentize($gray, 0.6);
+    }
+  }
+}

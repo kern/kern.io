@@ -1,0 +1,8 @@
+exclude:
+  - config.ru
+  - kernpedia.rb
+  - Gemfile
+  - Gemfile.lock
+  - Rakefile
+  - sass
+  - assets

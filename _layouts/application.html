@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="stylesheet" href="/stylesheets/screen.css" media="screen" />
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <title>{{ page.title }}</title>
+    
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-22930876-2']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+  
+  <body>
+    <div id="header-background">&nbsp;</div>
+    <div id="container">
+      <header id="header">
+        <a href="/" id="logo">Kernpedia</a>
+        
+        <nav>
+          <ul>
+            <li class="current portfolio"><a href="/">Portfolio</a></li>
+            <li class="blog"><a href="http://kernul.com">Blog</a></li>
+            <li class="code"><a href="https://github.com/CapnKernul">Code</a></li>
+          </ul>
+        </nav>
+      </header>
+      
+      <div id="main">
+        {{ content }}
+      </div>
+      
+      <footer id="footer">
+        <small>&copy; Copyright 2010-2011 Alexander Kern. All Rights Reserved.</small>
+      </footer>
+    </div>
+  </body>
+</html>

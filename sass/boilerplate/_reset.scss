@@ -1,0 +1,25 @@
+.box-model-reset {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+@mixin html5-element-reset {
+  article, aside, canvas, details, figcaption, figure,
+  footer, header, hgroup, menu, nav, section, summary {
+    display: block;
+  }
+}
+
+@mixin reset {
+  @include html5-element-reset;
+  
+  body, html, ul, ol, dl, li, dt, dd, h1, h2, h3, h4,
+  h5, h6, pre, form, p, blockquote, fieldset, input {
+    @extend .box-model-reset;
+  }
+  
+  a img {
+    border: none;
+  }
+}

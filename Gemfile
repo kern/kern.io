@@ -1,10 +1,8 @@
-source :gemcutter
+source :rubygems
 
-gem 'haml'
-gem 'sass'
-gem 'maruku'
+gem 'sinatra', '~> 1.2'
 
 group :development do
-  gem 'rake'
-  gem 'frank'
+  gem 'sass'
+  gem 'jekyll'
 end
