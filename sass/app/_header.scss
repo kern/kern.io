@@ -1,0 +1,40 @@
+#header {
+  @extend .full-width;
+  
+  nav {
+    float: right;
+    margin: 0;
+  }
+  
+  ul {
+    margin: 0;
+    list-style-type: none;
+  }
+  
+  li {
+    float: left;
+    
+    a {
+      @extend .nav-type;
+      display: block;
+      padding: $line-height $column-width;
+      background: transparentize($white, 0.9);
+    }
+    
+    &.portfolio a {
+      @include border-radius(5px 0 0 5px);
+    }
+    
+    &.code a {
+      @include border-radius(0 5px 5px 0);
+    }
+    
+    a:hover, a:focus {
+      background: transparentize($white, 0.8);
+    }
+    
+    &.current a {
+      background: transparentize($white, 0.7);
+    }
+  }
+}

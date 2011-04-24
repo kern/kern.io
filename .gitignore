@@ -12,6 +12,7 @@ spec/reports
 .config
 InstalledFiles
 .bundle
+.sass-cache
 
 # YARD artifacts
 .yardoc

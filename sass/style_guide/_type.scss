@@ -1,0 +1,71 @@
+.h1-type {
+  @include font-size(32px, $line-height);
+  @extend .strong-font;
+  color: $white;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.h2-type {
+  @include font-size(24px, $line-height);
+  @extend .emphasized-font;
+  color: $white;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.h3-type {
+  @include font-size(18px, $line-height);
+  @extend .emphasized-font;
+  color: $white;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.body-type {
+  @include font-size(12px, $line-height);
+  @extend .body-font;
+  color: $white;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.link-type {
+  @include font-size(12px, $line-height);
+  @extend .body-font;
+  color: $red;
+  text-decoration: underline;
+  text-shadow: none;
+}
+
+.note-type {
+  @include font-size(10px, $line-height);
+  @extend .body-font;
+  color: $white;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.pre-type {
+  @include font-size(12px, $line-height);
+  @extend .pre-font;
+  color: $white;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.blurb-type {
+  @include font-size(48px, $line-height);
+  @extend .strong-font;
+  color: $white;
+  text-decoration: none;
+  text-shadow: 5px 5px 0 $black;
+}
+
+.nav-type {
+  @include font-size(14px, $line-height);
+  @extend .emphasized-font;
+  color: $white;
+  text-decoration: none;
+  text-shadow: 1px 1px 0 $black;
+}

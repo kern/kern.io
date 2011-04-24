@@ -1,0 +1,50 @@
+p {
+  @extend .one-line;
+}
+
+hr {
+  
+}
+
+pre {
+  @extend .one-line;
+  white-space: pre-wrap;
+}
+
+blockquote {
+  @extend .one-line;
+}
+
+ol {
+  @extend .one-line;
+  list-style-type: decimal;
+}
+
+ul {
+  @extend .one-line;
+  list-style-type: square;
+}
+
+li {
+  
+}
+
+dl {
+  @extend .one-line;
+}
+
+dt {
+  
+}
+
+dd {
+  
+}
+
+figure {
+  
+}
+
+figcaption {
+  
+}

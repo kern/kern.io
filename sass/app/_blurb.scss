@@ -1,0 +1,19 @@
+#blurb {
+  p {
+    @extend .blurb-type;
+    width: $column-width * 32;
+    margin: 0;
+    padding: ($line-height * 2) 0;
+    text-align: center;
+  }
+  
+  img {
+    float: right;
+    width: $column-width * 14;
+    height: $line-height * 9;
+    border-top: ($line-height / 2) solid transparentize($black, 0.5);
+    border-right: ($column-width / 2) solid transparentize($black, 0.5);
+    border-bottom: ($line-height / 2) solid transparentize($black, 0.5);
+    border-left: ($column-width / 2) solid transparentize($black, 0.5);
+  }
+}

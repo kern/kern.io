@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <link rel="stylesheet" href="/stylesheets/application.css" />
+    <link rel="stylesheet" href="/stylesheets/screen.css" media="screen" />
+    <link rel="stylesheet" href="/stylesheets/print.css" media="print" />
     <link rel="shortcut icon" href="/favicon.ico" />
     
     <!--[if lt IE 9]>
@@ -20,20 +21,9 @@
         
         <nav>
           <ul>
-            {% if page.tab == 'portfolio' %}
-              <li class="current"><a href="/">Portfolio</a></li>
-            {% else %}
-              <li><a href="/">Portfolio</a></li>
-            {% endif %}
-            
-            <li><a href="/">Blog</a></li>
-            <li><a href="http://github.com/CapnKernul">Code</a></li>
-            
-            {% if page.tab == 'about' %}
-              <li class="current"><a href="/about">About</a></li>
-            {% else %}
-              <li><a href="/about">About</a></li>
-            {% endif %}
+            <li class="current portfolio"><a href="/">Portfolio</a></li>
+            <li class="blog"><a href="http://kernul.com">Blog</a></li>
+            <li class="code"><a href="https://github.com/CapnKernul">Code</a></li>
           </ul>
         </nav>
       </header>

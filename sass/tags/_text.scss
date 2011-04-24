@@ -1,0 +1,103 @@
+a {
+  @extend .link-type;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: bold;
+}
+
+small {
+  @extend .note-type;
+}
+
+s {
+  text-decoration: line-through;
+}
+
+cite {
+  
+}
+
+q {
+  
+}
+
+dfn {
+  
+}
+
+abbr {
+  
+}
+
+time {
+  
+}
+
+code {
+  
+}
+
+var {
+  
+}
+
+samp {
+  
+}
+
+kbd {
+  
+}
+
+sub {
+  
+}
+
+sup {
+  
+}
+
+i {
+  font-style: italic;
+}
+
+b {
+  font-weight: bold;
+}
+
+mark {
+  
+}
+
+ruby {
+  
+}
+
+rt {
+  
+}
+
+rp {
+  
+}
+
+bdi {
+  
+}
+
+bdo {
+  
+}
+
+br {
+  
+}
+
+wbr {
+  
+}

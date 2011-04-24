@@ -1,0 +1,17 @@
+$columns: 48;
+$column-width: 20px;
+$line-height: 20px;
+
+.one-line {
+  margin-top: $line-height;
+  margin-bottom: $line-height;
+}
+
+.two-line {
+  margin-top: $line-height * 2;
+  margin-bottom: $line-height * 2;
+}
+
+.full-width {
+  width: $column-width * $columns;
+}
