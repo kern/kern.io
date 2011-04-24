@@ -1,23 +1,12 @@
-#blurb {
-  padding-bottom: $line-height * 3;
-  background: url(/images/rule.png) no-repeat bottom center;
-  
-  p {
-    @extend .blurb-type;
-    width: $column-width * 28;
-    margin: 0;
-    padding: ($line-height * 2) 0;
-    text-align: center;
-  }
-  
+.work-example {
   figure {
     margin: 0;
   }
   
   img {
-    float: right;
-    width: $column-width * 12;
-    height: $line-height * 9;
+    float: left;
+    width: $column-width * 26;
+    height: $line-height * 16;
     border-top: ($line-height / 2) solid transparentize($black, 0.5);
     border-right: ($column-width / 2) solid transparentize($black, 0.5);
     border-bottom: ($line-height / 2) solid transparentize($black, 0.5);

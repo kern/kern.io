@@ -23,6 +23,7 @@ ol {
 ul {
   @extend .one-line;
   list-style-type: square;
+  list-style-position: inside;
 }
 
 li {

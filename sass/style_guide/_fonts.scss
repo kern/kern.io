@@ -20,18 +20,29 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Museo 500';
+    src: url('/fonts/Museo-500.eot');
+    src: url('/fonts/Museo-500.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/Museo-500.woff') format('woff'),
+         url('/fonts/Museo-500.ttf') format('truetype'),
+         url('/fonts/Museo-500.svg#webfontPbjNkd07') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .strong-font {
-  font-family: 'Fontin Sans';
+  font-family: 'Fontin Sans', serif;
   font-weight: bold;
 }
 
 .emphasized-font {
-  font-family: 'Fontin Sans';
-  font-weight: normal;
+  font-family: 'Fontin Sans', serif;
+  font-weight: bold;
 }
 
 .body-font {
-  font-family: sans-serif;
+  font-family: 'Museo 500', sans-serif;
   font-weight: normal;
 }
 

@@ -5,3 +5,4 @@ exclude:
   - Gemfile.lock
   - Rakefile
   - sass
+  - assets

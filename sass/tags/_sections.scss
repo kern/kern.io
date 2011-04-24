@@ -19,7 +19,15 @@ article {
 aside {
   @extend .two-line;
   @extend .clearfix;
+  @extend .fake-collapse;
+  @include border-radius(5px);
   position: relative;
+  float: right;
+  z-index: 1;
+  margin: 0 0 $line-height $column-width;
+  width: $column-width * 11;
+  padding: $line-height $column-width;
+  background: transparentize($white, 0.9);
 }
 
 h1 {
@@ -39,17 +47,17 @@ h3 {
 
 h4 {
   @extend .one-line;
-  @extend .h3-type;
+  @extend .h4-type;
 }
 
 h5 {
   @extend .one-line;
-  @extend .h3-type;
+  @extend .h4-type;
 }
 
 h6 {
   @extend .one-line;
-  @extend .h3-type;
+  @extend .h4-type;
 }
 
 hgroup {

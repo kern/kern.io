@@ -1,7 +1,7 @@
 html {
   @extend .body-type;
   position: relative;
-  background: $gray;
+  background: $gray url(/images/background.png) repeat top center;
 }
 
 body {

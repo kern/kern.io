@@ -1,0 +1,24 @@
+.icon {
+  background: no-repeat center left;
+  padding-left: $column-width * 2;
+}
+
+.person-icon {
+  @extend .icon;
+  background-image: url(/images/person-icon.png);
+}
+
+.mail-icon {
+  @extend .icon;
+  background-image: url(/images/mail-icon.png);
+}
+
+.gear-icon {
+  @extend .icon;
+  background-image: url(/images/gear-icon.png);
+}
+
+.bubbles-icon {
+  @extend .icon;
+  background-image: url(/images/bubbles-icon.png);
+}

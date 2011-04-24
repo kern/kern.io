@@ -11,7 +11,7 @@
   @extend .emphasized-font;
   color: $white;
   text-decoration: none;
-  text-shadow: none;
+  text-shadow: 2px 2px 0 $black;
 }
 
 .h3-type {
@@ -19,7 +19,15 @@
   @extend .emphasized-font;
   color: $white;
   text-decoration: none;
-  text-shadow: none;
+  text-shadow: 2px 2px 0 $black;
+}
+
+.h4-type {
+  @include font-size(14px, $line-height);
+  @extend .emphasized-font;
+  color: $white;
+  text-decoration: none;
+  text-shadow: 2px 2px 0 $black;
 }
 
 .body-type {
@@ -33,7 +41,7 @@
 .link-type {
   @include font-size(12px, $line-height);
   @extend .body-font;
-  color: $red;
+  color: $white;
   text-decoration: underline;
   text-shadow: none;
 }
@@ -59,7 +67,7 @@
   @extend .strong-font;
   color: $white;
   text-decoration: none;
-  text-shadow: 5px 5px 0 $black;
+  text-shadow: 2px 2px 0 $black;
 }
 
 .nav-type {
