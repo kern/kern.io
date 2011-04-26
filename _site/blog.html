@@ -12,9 +12,9 @@
     <![endif]-->
     
     <title>
-      {% unless page.tab == 'portfolio' %}
-        {{ page.title }} - 
-      {% endunless %}
+      
+        Blog - 
+      
       
       Kernpedia
     </title>
@@ -39,23 +39,17 @@
         
         <nav>
           <ul>
-            {% if page.tab == 'portfolio' %}
-              <li class="current portfolio"><a href="/">Portfolio</a></li>
-            {% else %}
+            
               <li class="portfolio"><a href="/">Portfolio</a></li>
-            {% endif %}
             
-            {% if page.tab == 'blog' %}
+            
+            
               <li class="current blog"><a href="/blog.html">Blog</a></li>
-            {% else %}
-              <li class="blog"><a href="/blog.html">Blog</a></li>
-            {% endif %}
             
-            {% if page.tab == 'archive' %}
-              <li class="current archive"><a href="/archive.html">Archive</a></li>
-            {% else %}
+            
+            
               <li class="archive"><a href="/archive.html">Archive</a></li>
-            {% endif %}
+            
             
             <li class="code"><a href="https://github.com/CapnKernul">Code</a></li>
           </ul>
@@ -63,7 +57,18 @@
       </header>
       
       <div id="main">
-        {{ content }}
+        <h1 class="hide">Blog</h1>
+
+
+  <section class="post">
+    <h2><a href="/2011/04/25/new-blog.html">New Blog</a></h2>
+    <time>Posted on 25 Apr 2011</time>
+    <p class="excerpt">
+      I just got a new blog!
+      <a href="/2011/04/25/new-blog.html">Read this post &raquo;</a>
+    </p>
+  </section>
+
       </div>
       
       <footer id="footer">

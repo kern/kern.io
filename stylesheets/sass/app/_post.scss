@@ -1,0 +1,25 @@
+.post {
+  & > header {
+    padding-bottom: $line-height * 3;
+    background: url(/images/rule.png) no-repeat bottom center;
+  }
+  
+  h2 {
+    margin-bottom: 0;
+    
+    a {
+      @extend .h1-type;
+    }
+  }
+  
+  #dsq-content {
+    margin-top: $line-height * 2;
+    padding-top: $line-height * 3;
+    background: url(/images/rule.png) no-repeat top center;
+  }
+  
+  & + .post {
+    padding-top: $line-height * 3;
+    background: url(/images/rule.png) no-repeat top center;
+  }
+}

@@ -17,7 +17,6 @@ article {
 }
 
 aside {
-  @extend .two-line;
   @extend .clearfix;
   @extend .fake-collapse;
   @include border-radius(5px);
