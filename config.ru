@@ -1,2 +1,2 @@
-require './kernpedia'
+require './kernul'
 run Sinatra::Application
