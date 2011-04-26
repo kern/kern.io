@@ -1,7 +1,7 @@
 pygments: true
 exclude:
   - config.ru
-  - kernpedia.rb
+  - kernul.rb
   - Gemfile
   - Gemfile.lock
   - Rakefile
