@@ -1,0 +1,16 @@
+.projects {
+  list-style-type: none;
+  
+  li {
+    @extend .one-line;
+  }
+  
+  h3, p {
+    margin: 0;
+  }
+  
+  p {
+    margin-left: $column-width;
+    color: $gray;
+  }
+}

@@ -1,0 +1,16 @@
+.web-design {
+  figure {
+    float: left;
+    margin: 0;
+  }
+  
+  img {
+    float: left;
+    width: $column-width * 17;
+    height: $line-height * 11;
+  }
+  
+  & + .web-design {
+    margin-top: $line-height * 2;
+  }
+}

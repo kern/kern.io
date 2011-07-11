@@ -1,18 +1,20 @@
 #header {
   @extend .full-width;
-  margin-top: 0;
+  height: $line-height * 2;
+  margin: 0;
   
   #logo {
     @extend .hide-text;
     display: block;
     float: left;
-    width: 203px;
-    height: $line-height * 3;
-    background: url(/images/logo.png) no-repeat center center;
+    width: 120px;
+    height: $line-height * 2;
+    background: url("/images/logo.png") no-repeat center center;
   }
   
   nav {
     float: right;
+    height: $line-height * 2;
     margin: 0;
   }
   
@@ -22,16 +24,18 @@
   }
   
   li {
+    display: block;
     float: left;
     
     a {
-      @extend .nav-type;
+      @extend .hide-text;
       display: block;
-      padding: $line-height $column-width;
+      width: $column-width * 2;
+      height: $line-height * 2;
     }
     
     a:hover, a:focus, &.current a {
-      background: transparentize($gray, 0.6);
+      background-color: transparentize($black, 0.6);
     }
   }
 }

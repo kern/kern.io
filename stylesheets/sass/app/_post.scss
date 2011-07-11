@@ -1,10 +1,5 @@
 .post {
-  & > header {
-    padding-bottom: $line-height * 3;
-    background: url(/images/rule.png) no-repeat bottom center;
-  }
-  
-  h2 {
+  h1 {
     margin-bottom: 0;
     
     a {
@@ -12,14 +7,41 @@
     }
   }
   
-  #dsq-content {
-    margin-top: $line-height * 2;
-    padding-top: $line-height * 3;
-    background: url(/images/rule.png) no-repeat top center;
+  time {
+    color: $gray;
   }
   
-  & + .post {
-    padding-top: $line-height * 3;
-    background: url(/images/rule.png) no-repeat top center;
+  #disqus_thread {
+    @extend .one-line;
+  }
+}
+
+.post-list {
+  list-style-type: none;
+  
+  li {
+    @extend .clearfix;
+  }
+  
+  li:nth-child(even) {
+    background: #eee;
+  }
+  
+  h3 {
+    float: left;
+    margin: 0;
+  }
+  
+  time {
+    @extend .note-type;
+    float: right;
+    
+    &:before {
+      content: '[';
+    }
+    
+    &:after {
+      content: ']';
+    }
   }
 }

@@ -1,6 +1,5 @@
 ---
 layout: post
-excerpt: I just got a new blog!
 ---
 I just got a new blog! Who knows what I'll post...
 

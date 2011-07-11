@@ -67,11 +67,12 @@ i {
 }
 
 b {
-  font-weight: bold;
+  color: $red;
+  font-weight: normal;
 }
 
 mark {
-  
+  @extend b;
 }
 
 ruby {

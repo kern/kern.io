@@ -1,17 +1,17 @@
 section {
-  @extend .two-line;
+  @extend .one-line;
   @extend .clearfix;
   position: relative;
 }
 
 nav {
-  @extend .two-line;
+  @extend .one-line;
   @extend .clearfix;
   position: relative;
 }
 
 article {
-  @extend .two-line;
+  @extend .one-line;
   @extend .clearfix;
   position: relative;
 }
@@ -35,8 +35,22 @@ h1 {
 }
 
 h2 {
-  @extend .one-line;
   @extend .h2-type;
+  position: relative;
+  display: inline-block;
+  padding-right: $column-width * 0.5;
+  background: white;
+  vertical-align: top;
+  
+  &:after {
+    @extend .no-content;
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    width: $column-width * 17;
+    height: $line-height;
+    background: url('/images/dot.png') repeat-x center right;
+  }
 }
 
 h3 {
@@ -66,19 +80,19 @@ hgroup {
 }
 
 header {
-  @extend .two-line;
+  @extend .one-line;
   @extend .clearfix;
   position: relative;
 }
 
 footer {
-  @extend .two-line;
+  @extend .one-line;
   @extend .clearfix;
   position: relative;
 }
 
 address {
-  @extend .two-line;
+  @extend .one-line;
   @extend .clearfix;
   position: relative;
 }

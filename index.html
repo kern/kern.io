@@ -1,91 +1,54 @@
 ---
 layout: application
-tab: portfolio
 ---
-<section id="blurb">
-  <h1 class="hide">Kernul</h1>
-  <figure>
-    <img src="/images/me.png" alt="Picture of me" />
-  </figure>
-  <p>Hello there! I'm Alex.<br />I develop websites.</p>
-</section>
+<img src="/images/blurb.png" alt="I make stuff for the web." id="blurb" />
 
-<aside>
-  <h2 class="mail-icon">Contact me</h2>
-  <p>I'm <a href="http://twitter.com/CapnKernul">@CapnKernul</a> over on Twitter. I tend to respond fairly quickly to any direct messages I get there. If you’re into old-school email feel free to <a href="mailto:alex@kernul.com">email me</a>.</p>
-  <p>If you're looking to hire me, I also have an online resum&eacute; in both <a href="/files/resume.html">HTML</a> and <a href="/files/resume.pdf">PDF</a> format.
-</aside>
-
-<section>
-  <h2 class="person-icon">About me</h2>
-  <p>I'm a dedicated 17-year-old web developer with a lot of strong opinions (yes, I am still in high school). I tend to take sides in arguments and design sites according to what makes sense to me rather than what's considered the norm. I'm a fan of minimalist design and <a href="http://agilemanifesto.org/">agile development</a> techniques. Hard problems make me excited.</p> 
-  <p>Everything I have learned is self-taught. I am strongly self-motivated to learn about the latest programming technologies (though, I'm <em>not</em> a programming hipster). New, shiny code interests me. Especially when it's <a href="https://github.com/CapnKernul">open source</a>.</p>
-  <p>I’m proficient in anything Ruby or Rails related. I'm also an HTML, CSS, and Javascript expert. My fort&eacute; is creating RESTful web services.</p>
-</section>
-
-<section>
-  <h2 class="gear-icon">Enough talk! Let's see some work.</h2>
-  
-  <section class="work-example columns">
-    <figure class="primary">
-      <a href="http://andrewauphoto.com">
-        <img src="/images/work-examples/andrewau-photography.png" alt="AndrewAU Photography work example" />
-      </a>
-    </figure>
-    <div class="secondary">
-      <h3>AndrewAU Photography</h3>
-      <p>Andrew Gold is an up-and-coming photographer in the Los Angeles area.</p>
-      <h4>What I worked on</h4>
-      <ul>
-        <li>Logo design</li>
-        <li>Site design</li>
-        <li>HTML/CSS of layout</li>
+<div class="columns">
+  <div class="left-column">
+    <section>
+      <p><b>Hey! I'm Alex Kern.</b> I'm a dedicated 17-year-old web developer with a lot of strong opinions (yes, I'm still in high school). I build the simplest thing that could possibly work.</p> 
+      <p>I really enjoy programming in Ruby, HTML, CSS, and Javascript, making absolutely awesome web applications. I'm especially interested in creating <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">RESTful web services</a>.</p>
+      <p>Currently, I work for <a href="http://jpl.nasa.gov">Jet Propulsion Laboratory</a> and Artcentric Networks LLC on some super-duper top-secret projects.</p>
+    </section>
+    
+    <section>
+      <h2>Latest Blog Posts</h2>
+      <ul class="post-list">
+        {% for post in site.posts limit:5 %}
+          <li>
+            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+            <time>{{ post.date | date_to_string }}</time>
+          </li>
+        {% endfor %}
       </ul>
-    </div>
-  </section>
+      <p><a href="/archives.html">See all blog posts &raquo;</a></p>
+    </section>
+  </div>
   
-  <section class="work-example columns">
-    <figure class="primary">
-      <a href="http://bhrobotics.com">
-        <img src="/images/work-examples/bhrobotics.png" alt="BHRobotics work example" />
-      </a>
-    </figure>
-    <div class="secondary">
-      <h3>BHRobotics</h3>
-      <p>As a president of the award-winning Beverly Hills Robotics Team, MorTorq, I manage the team website.</p>
-      <h4>What I worked on</h4>
-      <ul>
-        <li>Site design</li>
-        <li>Content strategy</li>
-        <li>HTML/CSS of layout</li>
-        <li>Backend CMS</li>
-        <li>Managed website team</li>
+  <div class="right-column">
+    <section>
+      <h2>Projects</h2>
+      <ul class="projects">
+        <li>
+          <h3><a href="https://github.com/CapnKernul/jason">jason</a></h3>
+          <p>Insanely simple JSON templates using Erubis and a little parsing magic</p>
+        </li>
+        <li>
+          <h3><a href="https://github.com/CapnKernul/zeppelin">zeppelin</a></h3>
+          <p>Bare-bones Urban Airship library for Ruby</p>
+        </li>
+        <li>
+          <h3><a href="https://github.com/CapnKernul/journo">journo</a></h3>
+          <p>Adds support for reporters for MiniTest, making the best testing library extensible</p>
+        </li>
       </ul>
-    </div>
-  </section>
-  
-  <section class="work-example columns">
-    <figure class="primary">
-      <a href="http://whitericemusic.com">
-        <img src="/images/work-examples/white-rice-music.png" alt="White Rice Music work example" />
-      </a>
-    </figure>
-    <div class="secondary">
-      <h3>White Rice Music</h3>
-      <p>White Rice Music is the DJ company that I run with my friend George. We have a super snazzy site.</p>
-      <h4>What I worked on</h4>
-      <ul>
-        <li>Logo design</li>
-        <li>Site design</li>
-        <li>Writing</li>
-        <li>Content strategy</li>
-        <li>HTML/CSS of layout</li>
-      </ul>
-    </div>
-  </section>
-</section>
-
-<section>
-  <h2 class="bubbles-icon">Sweet! What else do you do?</h2>
-  <p>I contribute quite a bit to <a href="https://github.com/CapnKernul">open source projects</a>. You can read about everything that I'm working on at my <a href="/blog">blog</a>. When I'm not working, I enjoy playing music really loud, hiking, and eating.</p>
-</section>
+      <p>The rest of my open source work is on <a href="https://github.com/CapnKernul">my GitHub profile</a>. I also do some <a href="/web-design.html">web design</a> on the side.</p>
+    </section>
+    
+    <section>
+      <h2>Contact me</h2>
+      <p>I'm <a href="http://twitter.com/CapnKernul">@CapnKernul</a> over on Twitter. I respond fairly quickly to any direct messages I get there. If you’re old-school, <a href="mailto:alex@kernul.com">email me</a>.</p>
+      <p>Looking to hire me? I have an online resum&eacute; in both <a href="/files/resume.html">HTML</a> and <a href="/files/resume.pdf">PDF</a> format.
+    </section>
+  </div>
+</div>
