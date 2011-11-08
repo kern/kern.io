@@ -25,6 +25,7 @@
         display: table;
         width: 100%;
         list-style-type: none;
+        padding: 0;
       }
       
       body > header li {
@@ -62,6 +63,10 @@
       header time:after {
         content: ']';
       }
+
+      a {
+        color: blue;
+      }
       
       #contact {
         font-size: 75%;
@@ -77,8 +82,9 @@
       <h1>Alexander S. Kern</h1>
       <section id="contact">
         <ul>
+          <li><a href="mailto:alex@kernul.com">alex@kernul.com</a></li>
+          <li><a href="http://kernul.com">http://kernul.com</a></li>
           <li>Cell: (310) 975-5545</li>
-          <li>Email: alex@kernul.com</li>
           <li>426 S. Bedford Drive, Beverly Hills, CA 90212</li>
         </ul>
       </section>
@@ -87,26 +93,37 @@
     <section id="computer-skills">
       <h2>Computer Skills</h2>
       <ul>
-        <li>Extremely proficient in client-side web technologies (XHTML/CSS/JavaScript)</li>
-        <li>Highly experienced with back-end web development in Ruby on Rails, PHP, and Erlang</li>
+        <li>Extremely proficient in client-side web technologies (HTML/CSS/JavaScript)</li>
+        <li>Highly experienced with back-end web development in Ruby on Rails and Node.js</li>
         <li>Well versed in relational and non-relational databases</li>
-        <li>Familiar with Java, Objective-C, and C++, Adobe Photoshop and Adobe Illustrator</li>
+        <li>Familiar with Java, Objective-C, Adobe Photoshop and Adobe Illustrator</li>
       </ul>
     </section>
     
     <section id="work-experience">
       <h2>Work Experience</h2>
       
-      <section id="jpl-internship">
+      <section id="jpl-internship-ops-lab">
         <header>
-          <h3>JPL Internship</h3>
-          <time>June to August in 2010 and 2011</time>
+          <h3>NASA Jet Propulsion Laboratory Intern, Ops Lab</h3>
+          <time>June - August 2011</time>
         </header>
         <ul>
-          <li>Worked as an intern at Jet Propulsion Laboratory, a major NASA field center</li>
-          <li>Helped test the motor control system of the Mars Science Laboratory</li>
-          <li>Developed software to enable extremely durable storage on the cloud</li>
-          <li>Gave presentations on domain-specific languages and cloud architecture</li>
+          <li>Developed patent-pending software to enable extremely durable storage on the cloud</li>
+          <li>Gave a live-broadcated JPL-wide presentation on cloud architecture</li>
+          <li>Presented at <a href="http://www.eoalchemy.com/">eoAlchemy</a>, one of Los Angeles's largest entrepreneurial conferences</li>
+          <li>Coauthored an IEEE paper on cost-effective cloud storage solutions</li>
+        </ul>
+      </section>
+
+      <section id="jpl-internship-motor-testing-division">
+        <header>
+          <h3>NASA Jet Propulsion Laboratory Intern, Motor Testing Division</h3>
+          <time>June - August 2010</time>
+        </header>
+        <ul>
+          <li>Helped test the motor controller of the Mars Science Laboratory, the next Mars rover</li>
+          <li>Gave a talk at JPL about domain-specific languages and their use in testing</li>
         </ul>
       </section>
       
@@ -116,10 +133,10 @@
           <time>April 2010 - present</time>
         </header>
         <ul>
-          <li>Lead backend web developer of new web application (yet to be released)</li>
-          <li>Developed the backend in Ruby on Rails and PostgreSQL</li>
-          <li>Organized the website development team</li>
-          <li>Managed outsourced developers through oDesk</li>
+          <li>Lead web developer of location-based web service Check2 (<a href="http://check2.com">http://check2.com</a>)</li>
+          <li>Developed the backend in Ruby on Rails and Node.js</li>
+          <li>Created front-end iPhone, Android, and web application</li>
+          <li>Managed local and remote development team</li>
         </ul>
       </section>
       
@@ -129,20 +146,20 @@
           <time>December 2007 - present</time>
         </header>
         <ul>
-          <li>Team Co-President - BHHS FIRST Robotics Team 1515 - MorTorq (1 year)</li>
-          <li>Programming Captain - BHHS FIRST Robotics Team 1515 - MorTorq (2 years)</li>
-          <li>Website Co-Leader - BHHS FIRST Robotics Team 1515 - MorTorq (3 years)</li>
+          <li>Joined high school team (<a href="http://bhrobotics.com">http://bhrobotics.com</a>) in 8th grade</li>
+          <li>Programming and website captain for 3 years, team president for 2 years</li>
+          <li>Helped team win internationally-recognized awards such as the Motorola Quality Award, Innovation in Control Award, and Chairman's Award</li>
         </ul>
       </section>
       
       <section id="freelance-web-design">
         <header>
           <h3>Freelance Web Designer</h3>
-          <time>August 2008 - present</time>
+          <time>August 2008 - June 2011</time>
         </header>
         <ul>
-          <li>Developed over 20 websites for both friends and clients</li>
-          <li>Single-handedly created the entire design: wire frame to completion</li>
+          <li>Designed and developed over 20 websites for both friends and clients</li>
+          <li>Responsible for the entire design from wireframe to completion</li>
         </ul>
       </section>
       
@@ -152,9 +169,9 @@
           <time>June to August in 2008 and 2009</time>
         </header>
         <ul>
-          <li>Developed Robotics curriculum and taught Robotics to elementary school-age campers</li>
-          <li>Assisted Game Design and Web Design instructors creating and teaching courses</li>
-          <li>Designed scripts for use with Torque Game Builder</li>
+          <li>Developed and taught Robotics curriculum to elementary school-age campers</li>
+          <li>Assisted Game Design and Web Design instructors with teaching courses</li>
+          <li>Designed advanced scripts for use with Torque Game Builder</li>
         </ul>
       </section>
     </section>
@@ -163,22 +180,12 @@
       <h2>Education</h2>
       <ul>
         <li>Beverly Hills High School - anticipated Graduation Date: <time>June 2012</time></li>
-        <li>Cumulative Academic GPA: 3.75 with 4.2 GPA (Weighted)</li>
-        <li>Completed: Advanced Algebra and Trigonometry, Chemistry, Honors Geometry</li>
+        <li>Cumulative Academic GPA: 4.25 (Weighted)</li>
       </ul>
     </section>
-    
-    <section id="interpersonal-skills">
-      <h2>Interpersonal Skills</h2>
-      <ul>
-        <li>Organized and efficient in leadership position</li>
-        <li>Creative and supportive team member</li>
-        <li>Resourceful problem solver dedicated to highest quality of work</li>
-        <li>Excellent communication skills and <em>great sense of humor</em></li>
-      </ul>
-    </section>
+
     <footer>
-      References and links for website portfolio available upon request.
+      References available upon request.
     </footer>
   </body>
 </html>
