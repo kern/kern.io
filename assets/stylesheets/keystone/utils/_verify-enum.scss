@@ -1,0 +1,10 @@
+@function verify-enum($value, $values, $default-value) {
+  @each $v in $values {
+    @if $value == $v {
+      @return $value;
+    }
+  }
+
+  @warn "'#{$value}' was not in '#{$values}'. Using '#{$default-value}'.";
+  @return $default-value;
+}

@@ -1,0 +1,21 @@
+@mixin respond-to($type) {
+  @if $type == phone {
+    @media (max-width: 767px) {
+      @content;
+    }
+  } @else if $type == tablet {
+    @media (min-width: 768px) and (max-width: 979px) {
+      @content;
+    }
+  } @else if $type == desktop {
+    @media (min-width: 980px) and (max-width: 1199px) {
+      @content;
+    }
+  } @else if $type == large-desktop {
+    @media (min-width: 1200px) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown media type '#{$type}'. Ignoring.";
+  }
+}

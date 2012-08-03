@@ -1,0 +1,5 @@
+// Sets the `box-sizing` property of the element. This adds the necessary
+// prefixes for older browsers.
+@mixin box-sizing($value) {
+  @include prefixed-property(box-sizing, $value);
+}

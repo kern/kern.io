@@ -1,0 +1,189 @@
+$column-count: 12 !default;
+$responsive-grid: true !default;
+$default-grid-expand: none !default;
+
+$desktop-column-width: 60px !default;
+$tablet-column-width: 42px !default;
+$large-desktop-column-width: 70px !default;
+
+$phone-gutter-width: 20px !default;
+$desktop-gutter-width: 20px !default;
+$tablet-gutter-width: 20px !default;
+$large-desktop-gutter-width: 30px !default;
+
+@function tablet-columns($n) {
+  @return $tablet-column-width * $n;
+}
+
+@function desktop-columns($n) {
+  @return $desktop-column-width * $n;
+}
+
+@function large-desktop-columns($n) {
+  @return $large-desktop-column-width * $n;
+}
+
+@function phone-gutters($n) {
+  @return $phone-gutter-width * $n;
+}
+
+@function tablet-gutters($n) {
+  @return $tablet-gutter-width * $n;
+}
+
+@function desktop-gutters($n) {
+  @return $desktop-gutter-width * $n;
+}
+
+@function large-desktop-gutters($n) {
+  @return $large-desktop-gutter-width * $n;
+}
+
+@mixin grid {
+  padding-left: desktop-gutters(0.5);
+  padding-right: desktop-gutters(0.5);
+  width: desktop-columns($column-count) + desktop-gutters($column-count);
+
+  @if $responsive-grid {
+    @include respond-to(large-desktop) {
+      width: large-desktop-columns($column-count) + large-desktop-gutters($column-count);
+      padding-left: large-desktop-gutters(0.5);
+      padding-right: large-desktop-gutters(0.5);
+    }
+
+    @include respond-to(tablet) {
+      width: tablet-columns($column-count) + tablet-gutters($column-count);
+      padding-left: tablet-gutters(0.5);
+      padding-right: tablet-gutters(0.5);
+    }
+
+    @include respond-to(phone) {
+      width: auto;
+      padding-left: phone-gutters(1);
+      padding-right: phone-gutters(1);
+    }
+  }
+}
+
+@mixin row {
+  @include clearfix;
+  position: relative;
+  margin-left: desktop-gutters(-1);
+  margin-right: desktop-gutters(-1);
+
+  @if $responsive-grid {
+    @include respond-to(large-desktop) {
+      margin-left: large-desktop-gutters(-1);
+      margin-right: large-desktop-gutters(-1);
+    }
+
+    @include respond-to(tablet) {
+      margin-left: tablet-gutters(-1);
+      margin-right: tablet-gutters(-1);
+    }
+
+    @include respond-to(phone) {
+      margin-left: phone-gutters(-1);
+      margin-right: phone-gutters(-1);
+    }
+  }
+}
+
+@mixin cell($columns, $push: 0) {
+  float: left;
+  left: desktop-columns($push) + desktop-gutters($push);
+  margin-left: desktop-gutters(1);
+  position: relative;
+  width: desktop-columns($columns) + desktop-gutters($columns - 1);
+
+  @if $responsive-grid {
+    @include respond-to(large-desktop) {
+      width: large-desktop-columns($columns) + large-desktop-gutters($columns - 1);
+      left: large-desktop-columns($push) + large-desktop-gutters($push);
+      margin-left: large-desktop-gutters(1);
+    }
+
+    @include respond-to(tablet) {
+      width: tablet-columns($columns) + tablet-gutters($columns - 1);
+      left: tablet-columns($push) + tablet-gutters($push);
+      margin-left: tablet-gutters(1);
+    }
+
+    @include respond-to(phone) {
+      width: auto;
+      left: 0;
+      padding-left: phone-gutters(1);
+      padding-right: phone-gutters(1);
+      float: none;
+      margin-left: 0;
+    }
+  }
+}
+
+@mixin inner-cell($expand: $default-grid-expand) {
+  $expand: verify-enum($expand, (both, left, right, none), $default-grid-expand);
+
+  &:before {
+    @include box-sizing(border-box);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+    display: block;
+    content: "\00A0";
+
+    @if $expand == none or $expand == left {
+      right: 0;
+
+      @include respond-to(phone) {
+        right: phone-gutters(1);
+      }
+    }
+
+    @if $expand == none or $expand == right {
+      left: 0;
+
+      @include respond-to(phone) {
+        left: phone-gutters(1);
+      }
+    }
+
+    @if $expand == left or $expand == both {
+      left: desktop-gutters(-0.5);
+
+      @if $responsive-grid {
+        @include respond-to(large-desktop) {
+          left: large-desktop-gutters(-0.5);
+        }
+
+        @include respond-to(tablet) {
+          left: tablet-gutters(-0.5);
+        }
+
+        @include respond-to(phone) {
+          left: 0;
+        }
+      }
+    }
+
+    @if $expand == right or $expand == both {
+      right: desktop-gutters(-0.5);
+
+      @if $responsive-grid {
+        @include respond-to(large-desktop) {
+          right: large-desktop-gutters(-0.5);
+        }
+
+        @include respond-to(tablet) {
+          right: tablet-gutters(-0.5);
+        }
+
+        @include respond-to(phone) {
+          right: 0;
+        }
+      }
+    }
+
+    @content;
+  }
+}

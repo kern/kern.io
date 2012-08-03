@@ -1,0 +1,21 @@
+@mixin define-alert($name, $default-selector: true) {
+  %alert-#{$name} {
+    @content;
+  }
+
+  @if $default-selector {
+    #{alert-selector($name)} {
+      @include alert($name);
+    }
+  }
+}
+
+@mixin alert($name) {
+  @extend %alert-#{$name};
+}
+
+@function alert-selector($name) {
+  @return "section.alert-#{$name}";
+}
+
+@import "alerts/simple";

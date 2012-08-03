@@ -1,0 +1,36 @@
+@mixin button-flat-pop($type: inline, $background: #1B7FB2, $shadow: #219BD9, $depth: 3px, $border-radius: 3px, $padding: default) {
+  $type: verify-enum($type, (inline, block), inline);
+
+  @include box-shadow(0 $depth 0 $shadow);
+  @include border-radius($border-radius);
+  background: $background;
+  border: 0;
+  position: relative;
+
+  @if $type == inline {
+    display: inline-block;
+    top: $shadow-depth * -1;
+
+    &:active, &:focus {
+      top: 0;
+    }
+  } @else {
+    display: block;
+
+    &:active, &:focus {
+      top: $shadow-depth;
+    }
+  }
+
+  @if $padding != default {
+    padding: $padding;
+  } @else if $type == inline {
+    padding: 0 5px;
+  } @else {
+    padding: 5px;
+  }
+
+  &:active, &:focus {
+    @include box-shadow(none);
+  }
+}

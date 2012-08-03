@@ -1,0 +1,3 @@
+@mixin box-shadow($value) {
+  @include prefixed-property(box-shadow, $value);
+}

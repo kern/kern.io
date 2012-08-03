@@ -1,0 +1,6 @@
+@mixin alert-simple($border-radius: 5px, $background: #B94A48, $border: darken($background, 20%), $padding: 20px, $margin: 20px 0) {
+  background: $background;
+  border: 1px solid $border;
+  padding: $padding;
+  margin: $margin;
+}

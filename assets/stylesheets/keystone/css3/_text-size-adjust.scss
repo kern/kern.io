@@ -1,0 +1,3 @@
+@mixin text-size-adjust($value) {
+  @include prefixed-property(text-size-adjust, $value, $ms: true, $spec: false);
+}

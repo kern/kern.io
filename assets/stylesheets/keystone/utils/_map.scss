@@ -1,0 +1,85 @@
+@function pair($key, $value) {
+  @return ($key, $value);
+}
+
+@function key($pair) {
+  @return nth($pair, 1);
+}
+
+@function value($pair) {
+  @return nth($pair, 2);
+}
+
+@function map($pairs: ()) {
+  @return merge((), $pairs);
+}
+
+@function keys($map) {
+  $result: ();
+
+  @each $pair in $map {
+    $result: append($result, key($pair));
+  }
+
+  @return $result;
+}
+
+@function fetch($map, $key) {
+  @each $pair in $map {
+    @if $key == key($pair) {
+      @return value($pair);
+    }
+  }
+
+  @return undefined;
+}
+
+@function contains-key($map, $key) {
+  @each $pair in $map {
+    @if $key == key($pair) {
+      @return true;
+    }
+  }
+
+  @return false;
+}
+
+@function contains-value($map, $value) {
+  @each $pair in $map {
+    @if $value == value($pair) {
+      @return true;
+    }
+  }
+
+  @return false;
+}
+
+@function put($map, $key, $value) {
+  $new-pair: pair($key, $value);
+
+  @if contains-key($map, $key) {
+    $result: map();
+
+    @each $pair in $map {
+      @if $key == key($pair) {
+        $result: append($result, $new-pair);
+      } @else {
+        $result: append($result, $pair);
+      }
+    }
+
+    @return $result;
+  } @else {
+    @return append($map, $new-pair);
+  }
+}
+
+@function merge($map-1, $map-2) {
+  $result: $map-1;
+
+  @each $pair in $map-2 {
+    $result: put($result, key($pair), value($pair));
+  }
+
+  @return $result;
+}

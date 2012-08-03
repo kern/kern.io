@@ -1,9 +1,0 @@
-pygments: true
-exclude:
-  - config.ru
-  - kernul.rb
-  - Gemfile
-  - Gemfile.lock
-  - Rakefile
-  - stylesheets/sass
-  - assets
