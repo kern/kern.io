@@ -4,6 +4,7 @@ require "kernul/views/index"
 
 module Kernul
   class Application < Sinatra::Application
+    use Rack::Static, urls: ["/images", "/fonts"], root: "assets"
     set :views, scss: "assets/stylesheets", default: "assets"
     set :mustache, { views: "keystone/views", templates: "assets/templates", namespace: Kernul::Views }
 

@@ -1,0 +1,30 @@
+@function icon-selector($name) {
+  @return "i.icon-#{$name}";
+}
+
+@mixin define-icon-set($name) {
+  %icon-set-#{$name} {
+    @content;
+  }
+}
+
+@mixin icon-set($name) {
+  @extend %icon-set-#{$name};
+}
+
+@mixin text-icon($name, $family, $content) {
+  #{icon-selector($name)} {
+    vertical-align: middle;
+    display: inline-block;
+
+    &:before {
+      content: $content;
+      display: block;
+      font-family: $family;
+      font-style: normal;
+      font-weight: normal;
+    }
+  }
+}
+
+@import "icon-sets/font-awesome";

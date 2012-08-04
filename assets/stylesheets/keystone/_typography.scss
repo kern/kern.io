@@ -76,7 +76,7 @@ $default-font-transform: none !default;
   $shadow: fetch($settings, shadow);
   $transform: fetch($settings, transform);
 
-  color: $color;
+  color: color($color);
   font: $style $variant $weight #{$size}/#{$height} font-family($family);
   text-decoration: $decoration;
   text-shadow: $shadow;

@@ -56,6 +56,12 @@ body {
 // Links
 // -----
 
+// Remove the default styling on links.
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 // Addresses outline displayed oddly in Chrome.
 a:focus {
   outline: thin dotted;
@@ -70,7 +76,15 @@ a:active {
 // Typography
 // ----------
 
-// Unset the default styling of b, i, strong, em, and dfn.
+// Unset the default styling of h1, h2, h3, h4, h5, h6, b, i, strong, em, dfn,
+// code, pre, kbd, and samp.
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: inherit;
+  font-size: inherit;
+  font-family: inherit;
+}
+
 b,
 strong {
   font-weight: inherit;
@@ -82,19 +96,18 @@ dfn {
   font-style: inherit;
 }
 
-// Addresses styling not present in IE8/9.
-mark {
-  background: #ff0;
-  color: #000;
-}
-
-// Corrects font family set oddly in S4/5, Chrome.
 pre,
 code,
 kbd,
 samp {
-  font-family: monospace, serif;
-  font-size: 1em;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+// Addresses styling not present in IE8/9.
+mark {
+  background: #ff0;
+  color: #000;
 }
 
 // Improves readability of pre-formatted text in all browsers.
@@ -250,3 +263,13 @@ ol, ul, dl {
   padding: 0;
   margin: 0;
 }
+
+// Paragraphs
+// ----------
+
+// Remove the margin on paragraphs.
+p {
+  margin: 0;
+}
+
+//

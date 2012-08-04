@@ -1,0 +1,50 @@
+// Headers
+// -------
+
+h1 {
+  @include font(h1);
+}
+
+h2 {
+}
+
+h3 {
+}
+
+h4 {
+}
+
+h5 {
+}
+
+h6 {
+}
+
+// Paragraphs
+// ----------
+
+p {
+  margin: 20px 0;
+}
+
+// Times
+// -----
+
+time {
+  @include font(time);
+}
+
+// Blockquote
+// ----------
+
+blockquote {
+  @include font(blockquote);
+  margin-left: 40px;
+}
+
+// Code
+// ----
+
+code {
+  @include font(code);
+}

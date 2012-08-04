@@ -6,7 +6,62 @@
   </head>
   <body>
     <div id="container">
-      {{{yield}}}
+      <div class="wrapper">
+        <header id="header">
+          <a href="/" id="logo">Alex Kern</a>
+
+          <nav id="header-nav">
+            <ul class="site-sections">
+              <li><a href="/">Blog</a></li>
+              <li><a href="/archive">Archive</a></li>
+              <li><a href="/about">About</a></li>
+            </ul>
+
+            <ul class="social-links">
+              <li>
+                <a href="https://github.com/CapnKernul">
+                  <i class="icon-github">
+                    <span hidden>GitHub</span>
+                  </i>
+                </a>
+              </li>
+
+              <li>
+                <a href="https://twitter.com/CapnKernul">
+                  <i class="icon-twitter">
+                    <span hidden>Twitter</span>
+                  </i>
+                </a>
+              </li>
+
+              <li>
+                <a href="mailto:alex@kernul.com">
+                  <i class="icon-envelope">
+                    <span hidden>Email</span>
+                  </i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </header>
+
+        <div id="main">
+          {{{yield}}}
+        </div>
+      </div>
+
+      <footer id="footer">
+        <p class="copyright">&copy; Copyright 2012 Alexander Kern</p>
+
+        <nav id="footer-nav">
+          <ul class="site-sections">
+            <li><a href="/">Blog</a></li>
+            <li><a href="/archive">Archive</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/feed">Feed</a></li>
+          </ul>
+        </nav>
+      </footer>
     </div>
   </body>
 </html>
