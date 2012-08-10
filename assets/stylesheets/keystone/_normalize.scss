@@ -104,6 +104,10 @@ samp {
   font-size: inherit;
 }
 
+pre {
+  margin: 0;
+}
+
 // Addresses styling not present in IE8/9.
 mark {
   background: #ff0;
@@ -271,5 +275,3 @@ ol, ul, dl {
 p {
   margin: 0;
 }
-
-//

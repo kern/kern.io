@@ -85,6 +85,11 @@
 @include define-font-family(header, ("Cubano", sans-serif));
 @include define-font-family(monospace, ("Consolas", "Liberation Mono", "Courier", monospace));
 
+// Config
+// ------
+
+$default-font-color: gray-stone;
+
 // Body
 // ----
 
@@ -98,6 +103,18 @@
 @include define-font(body,
   $selector: "em",
   $color: green-leaf
+);
+
+@include define-font(body,
+  $selector: "a",
+  $color: blue-moon,
+  $decoration: underline
+);
+
+@include define-font(body,
+  $selector: "a:hover, a:focus",
+  $color: green-leaf,
+  $decoration: underline
 );
 
 // Logo
@@ -173,6 +190,7 @@
 // --
 
 @include define-font(h1,
+  $selector: "&, a",
   $family: header,
   $size: 36px,
   $color: blue-moon
@@ -182,6 +200,33 @@
   $selector: "a:hover, a:focus",
   $family: header,
   $size: 36px,
+  $color: green-leaf
+);
+
+// H2
+// --
+
+@include define-font(h2,
+  $family: header,
+  $size: 24px,
+  $color: blue-moon
+);
+
+// H3
+// --
+
+@include define-font(h3,
+  $family: header,
+  $size: 18px,
+  $color: green-leaf
+);
+
+// H4
+// --
+
+@include define-font(h4,
+  $family: header,
+  $size: 14px,
   $color: green-leaf
 );
 

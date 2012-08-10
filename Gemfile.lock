@@ -2,8 +2,12 @@ GEM
   remote: http://rubygems.org/
   specs:
     mustache (0.99.4)
+    nokogiri (1.5.5)
     rack (1.4.1)
     rack-protection (1.2.0)
+      rack
+    rack-pygments (0.4)
+      nokogiri
       rack
     sass (3.2.0.alpha.261)
     sinatra (1.3.2)
@@ -17,5 +21,6 @@ PLATFORMS
 
 DEPENDENCIES
   mustache
+  rack-pygments
   sass (= 3.2.0.alpha.261)
   sinatra
