@@ -1,6 +1,10 @@
 article.post {
   margin: 20px 0;
 
+  & > header {
+    margin-bottom: 20px;
+  }
+
   & + & {
     padding-top: 20px;
     border-top: 1px dotted color(gray-bone);
