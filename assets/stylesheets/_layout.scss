@@ -12,6 +12,10 @@
     width: 100%;
     background: url("/images/header-background.png") repeat-x bottom center;
     background-size: 50px 18px;
+
+    @include respond-to(phone) {
+      height: 129px;
+    }
   }
 
   & > div.wrapper {
@@ -27,14 +31,24 @@
   padding-top: 20px;
   padding-bottom: 20px;
   margin-bottom: 20px;
+
+  @include respond-to(phone) {
+    padding-top: 0;
+  }
 }
 
 #logo {
   @include font(logo);
   float: left;
+
+  @include respond-to(phone) {
+    float: none;
+  }
 }
 
 #header-nav {
+  @include clearfix;
+
   ul.site-sections {
     float: left;
     list-style-type: none;
@@ -48,6 +62,14 @@
       @include font(site-sections);
       display: block;
       padding: 20px;
+
+      @include respond-to(phone) {
+        padding: 10px 10px 10px 0;
+      }
+    }
+
+    @include respond-to(phone) {
+      margin: 0;
     }
   }
 
@@ -64,6 +86,10 @@
       @include font(social-links);
       display: block;
       padding: 10px;
+
+      @include respond-to(phone) {
+        padding: 0 2px;
+      }
     }
 
     i {

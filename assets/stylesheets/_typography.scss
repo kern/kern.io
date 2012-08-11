@@ -250,3 +250,26 @@ $default-font-color: gray-stone;
 @include define-font(code,
   $family: monospace
 );
+
+// Archive Link
+// ------------
+
+@include define-font(archive-link,
+  $family: header,
+  $size: 18px,
+  $color: blue-moon
+);
+
+@include define-font(archive-link,
+  $selector: "&:hover, &:focus",
+  $family: header,
+  $size: 18px,
+  $color: green-leaf
+);
+
+// Dd
+// --
+
+@include define-font(dd,
+  $color: gray-cement
+);

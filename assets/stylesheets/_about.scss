@@ -1,0 +1,11 @@
+section.about {
+  @include row;
+
+  section.personal-information {
+    @include cell(6);
+  }
+
+  section.projects {
+    @include cell(6);
+  }
+}

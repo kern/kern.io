@@ -34,7 +34,7 @@ h6 {
 // ----------
 
 p {
-  margin: 20px 0;
+  margin-bottom: 20px;
 }
 
 // Times
@@ -64,7 +64,25 @@ code {
 // -----
 
 ul,
-ol {
+ol,
+dl {
   margin: 20px 0;
   list-style-position: inside;
+}
+
+dd {
+  @include font(dd);
+  margin: 10px 0 10px 20px;
+}
+
+// Images
+// ------
+
+img {
+  @include border-radius(5px);
+  max-width: 100%;
+  height: auto;
+  border: 5px solid color(gray-stone);
+  float: left;
+  margin: 0 20px 20px 0;
 }

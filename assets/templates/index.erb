@@ -1,0 +1,7 @@
+<% posts.each do |post| %>
+  <%= erb :post, locals: { post: post } %>
+<% end %>
+
+<section class="archive-link">
+  <a href="/archive">Archive</a>
+</section>

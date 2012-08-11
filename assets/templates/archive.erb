@@ -1,0 +1,10 @@
+<h1>Archive</h1>
+
+<ul class="post-list">
+  <% posts.each do |post| %>
+    <li>
+      <a href="/post/<%= post.permalink %>"><%= post.title %></a>
+      <time><i class="icon-time"></i> <%= post.date.strftime("%B %-d, %Y") %></time>
+    </li>
+  <% end %>
+</ul>
