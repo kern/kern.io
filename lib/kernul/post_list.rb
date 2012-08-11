@@ -2,7 +2,7 @@ require "kernul/post"
 
 module Kernul
   class PostList
-    def initialize(pattern = "posts/**/*.md")
+    def initialize(pattern = "assets/posts/**/*.md")
       @posts = Dir[pattern].reverse.map do |p|
         basename = File.basename(p, ".md")
         if basename =~ /^\d{4}-\d{2}-\d{2}-(.+)$/
