@@ -1,6 +1,6 @@
 $column-count: 12 !default;
 $responsive-grid: true !default;
-$default-grid-expand: none !default;
+$default-grid-retract: none !default;
 
 $desktop-column-width: 60px !default;
 $tablet-column-width: 42px !default;
@@ -106,18 +106,17 @@ $large-desktop-gutter-width: 30px !default;
     }
 
     @include respond-to(phone) {
-      width: auto;
-      left: 0;
+      float: none;
       padding-left: phone-gutters(1);
       padding-right: phone-gutters(1);
-      float: none;
-      margin-left: 0;
+      width: auto;
+      left: 0;
     }
   }
 }
 
-@mixin inner-cell($expand: $default-grid-expand) {
-  $expand: verify-enum($expand, (both, left, right, none), $default-grid-expand);
+@mixin inner-cell($retract: $default-grid-retract) {
+  $retract: verify-enum($retract, (both, left, right, none), $default-grid-retract);
 
   &:before {
     @include box-sizing(border-box);
@@ -128,56 +127,44 @@ $large-desktop-gutter-width: 30px !default;
     display: block;
     content: "\00A0";
 
-    @if $expand == none or $expand == left {
-      right: 0;
+    @if $retract == both or $retract == left {
+      left: desktop-gutters(0.5);
 
-      @include respond-to(phone) {
-        right: phone-gutters(1);
+      @if $responsive-grid {
+        @include respond-to(large-desktop) {
+          left: large-desktop-gutters(0.5);
+        }
+
+        @include respond-to(tablet) {
+          left: tablet-gutters(0.5);
+        }
+
+        @include respond-to(phone) {
+          left: phone-gutters(1);
+        }
       }
-    }
-
-    @if $expand == none or $expand == right {
+    } @else {
       left: 0;
-
-      @include respond-to(phone) {
-        left: phone-gutters(1);
-      }
     }
 
-    @if $expand == left or $expand == both {
-      left: desktop-gutters(-0.5);
+    @if $retract == both or $retract == left {
+      right: desktop-gutters(0.5);
 
       @if $responsive-grid {
         @include respond-to(large-desktop) {
-          left: large-desktop-gutters(-0.5);
+          right: large-desktop-gutters(0.5);
         }
 
         @include respond-to(tablet) {
-          left: tablet-gutters(-0.5);
+          right: tablet-gutters(0.5);
         }
 
         @include respond-to(phone) {
-          left: 0;
+          right: phone-gutters(1);
         }
       }
-    }
-
-    @if $expand == right or $expand == both {
-      right: desktop-gutters(-0.5);
-
-      @if $responsive-grid {
-        @include respond-to(large-desktop) {
-          right: large-desktop-gutters(-0.5);
-        }
-
-        @include respond-to(tablet) {
-          right: tablet-gutters(-0.5);
-        }
-
-        @include respond-to(phone) {
-          right: 0;
-        }
-      }
+    } @else {
+      right: 0;
     }
 
     @content;
