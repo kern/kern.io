@@ -32,10 +32,6 @@ module Kernul
       erb :archive, locals: { posts: posts }
     end
 
-    get "/about" do
-      erb :about
-    end
-
     get "/feed" do
       posts = POST_LIST.latest(5)
 

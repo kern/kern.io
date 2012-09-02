@@ -40,27 +40,20 @@ $large-desktop-gutter-width: 30px !default;
 }
 
 @mixin grid {
-  padding-left: desktop-gutters(0.5);
-  padding-right: desktop-gutters(0.5);
+  @include clearfix;
   width: desktop-columns($column-count) + desktop-gutters($column-count);
 
   @if $responsive-grid {
     @include respond-to(large-desktop) {
       width: large-desktop-columns($column-count) + large-desktop-gutters($column-count);
-      padding-left: large-desktop-gutters(0.5);
-      padding-right: large-desktop-gutters(0.5);
     }
 
     @include respond-to(tablet) {
       width: tablet-columns($column-count) + tablet-gutters($column-count);
-      padding-left: tablet-gutters(0.5);
-      padding-right: tablet-gutters(0.5);
     }
 
     @include respond-to(phone) {
       width: auto;
-      padding-left: phone-gutters(1);
-      padding-right: phone-gutters(1);
     }
   }
 }
@@ -68,18 +61,18 @@ $large-desktop-gutter-width: 30px !default;
 @mixin row {
   @include clearfix;
   position: relative;
-  margin-left: desktop-gutters(-1);
-  margin-right: desktop-gutters(-1);
+  margin-left: desktop-gutters(-0.5);
+  margin-right: desktop-gutters(-0.5);
 
   @if $responsive-grid {
     @include respond-to(large-desktop) {
-      margin-left: large-desktop-gutters(-1);
-      margin-right: large-desktop-gutters(-1);
+      margin-left: large-desktop-gutters(-0.5);
+      margin-right: large-desktop-gutters(-0.5);
     }
 
     @include respond-to(tablet) {
-      margin-left: tablet-gutters(-1);
-      margin-right: tablet-gutters(-1);
+      margin-left: tablet-gutters(-0.5);
+      margin-right: tablet-gutters(-0.5);
     }
 
     @include respond-to(phone) {
@@ -92,21 +85,24 @@ $large-desktop-gutter-width: 30px !default;
 @mixin cell($columns, $push: 0) {
   float: left;
   left: desktop-columns($push) + desktop-gutters($push);
-  margin-left: desktop-gutters(1);
+  padding-left: desktop-gutters(0.5);
+  padding-right: desktop-gutters(0.5);
   position: relative;
-  width: desktop-columns($columns) + desktop-gutters($columns - 1);
+  width: desktop-columns($columns) + desktop-gutters($columns);
 
   @if $responsive-grid {
     @include respond-to(large-desktop) {
-      width: large-desktop-columns($columns) + large-desktop-gutters($columns - 1);
       left: large-desktop-columns($push) + large-desktop-gutters($push);
-      margin-left: large-desktop-gutters(1);
+      padding-left: large-desktop-gutters(0.5);
+      padding-right: large-desktop-gutters(0.5);
+      width: large-desktop-columns($columns) + large-desktop-gutters($columns);
     }
 
     @include respond-to(tablet) {
-      width: tablet-columns($columns) + tablet-gutters($columns - 1);
+      width: tablet-columns($columns) + tablet-gutters($columns);
+      padding-left: tablet-gutters(0.5);
+      padding-right: tablet-gutters(0.5);
       left: tablet-columns($push) + tablet-gutters($push);
-      margin-left: tablet-gutters(1);
     }
 
     @include respond-to(phone) {

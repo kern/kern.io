@@ -1,101 +1,128 @@
-#container {
+body {
   height: 100%;
+}
 
-  &:before {
-    content: "\00A0";
-    position: absolute;
-    display: block;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    height: 99px;
-    width: 100%;
-    background: url("/images/header-background.png") repeat-x bottom center;
-    background-size: 50px 18px;
+#container {
+  @include grid;
+  margin: 0 auto;
+  min-height: 100%;
+  padding-bottom: 60px;
+}
 
-    @include respond-to(phone) {
-      height: 129px;
-    }
-  }
-
-  & > div.wrapper {
-    @include grid;
-    margin: 0 auto;
-    min-height: 100%;
-    padding-bottom: 60px;
-  }
+#sidebar {
+  @include cell(4, $push: 8);
 }
 
 #header {
   @include clearfix;
   padding-top: 20px;
-  padding-bottom: 20px;
   margin-bottom: 20px;
 
   @include respond-to(phone) {
-    padding-top: 0;
+    padding-top: 10px;
   }
 }
 
 #logo {
   @include font(logo);
-  float: left;
+  display: block;
+  text-align: center;
 
-  @include respond-to(phone) {
-    float: none;
+  span {
+    display: block;
+    padding-top: 10px;
+
+    @include respond-to(phone) {
+      display: inline;
+      padding-top: 0;
+    }
   }
 }
 
-#header-nav {
-  @include clearfix;
+#profile {
+  display: block;
+  float: left;
+  width: 100px;
+  margin-bottom: 0;
 
-  ul.site-sections {
-    float: left;
+  @include respond-to(phone) {
+    display: inline;
+    float: none;
+    width: 40px;
+    vertical-align: -5px;
+    margin-right: 0;
+  }
+}
+
+#social-links {
+  background: url("/images/header-background.png") repeat-x 3px bottom;
+  background-size: 50px 18px;
+  padding-bottom: 50px;
+
+  @include respond-to(large-desktop) {
+    background-position: 1px bottom;
+  }
+
+  @include respond-to(tablet) {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-position: 4px bottom;
+  }
+
+  @include respond-to(phone) {
+    background-position: center bottom;
+    padding: 10px 10000px 20px 10000px;
+    margin-left: -10000px;
+    margin-right: -10000px;
+  }
+
+  ul {
+    margin: 0;
+    display: table;
+    width: 180px;
+
+    @include respond-to(large-desktop) {
+      width: 250px;
+    }
+
+    @include respond-to(tablet) {
+      width: 228px;
+    }
+    
+    @include respond-to(phone) {
+      width: 100%;
+    }
+  }
+
+  li {
+    display: table-cell;
     list-style-type: none;
-    margin: 0 0 0 20px;
+  }
 
-    li {
-      float: left;
-    }
-
-    a {
-      @include font(site-sections);
-      display: block;
-      padding: 20px;
-
-      @include respond-to(phone) {
-        padding: 10px 10px 10px 0;
-      }
-    }
+  a {
+    @include font(social-links);
+    display: block;
+    text-align: center;
 
     @include respond-to(phone) {
-      margin: 0;
+      padding: 0 2px;
     }
   }
 
-  ul.social-links {
-    float: right;
-    list-style-type: none;
-    margin: 0;
-
-    li {
-      float: left;
-    }
-
-    a {
-      @include font(social-links);
-      display: block;
-      padding: 10px;
-
-      @include respond-to(phone) {
-        padding: 0 2px;
-      }
-    }
-
-    i {
-      display: block;
-    }
+  i {
+    display: block;
   }
+}
+
+@include respond-to(phone) {
+  #personal-information, #projects {
+    display: none;
+  }
+}
+
+#main {
+  @include cell(8, $push: -4);
+  margin-top: 20px;
 }
 
 #footer {

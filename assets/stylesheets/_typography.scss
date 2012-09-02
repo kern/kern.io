@@ -117,49 +117,52 @@ $default-font-color: gray-stone;
   $decoration: underline
 );
 
+@include define-font(body,
+  $selector: "a:active",
+  $color: blue-sky,
+  $decoration: underline
+);
+
 // Logo
 // ----
 
 @include define-font(logo,
   $family: header,
   $color: blue-moon,
-  $size: 48px
+  $size: 36px
 );
 
 @include define-font(logo,
   $selector: "&:hover, &:focus",
   $family: header,
   $color: green-leaf,
-  $size: 48px
+  $size: 36px
 );
 
-// Site sections
-// -------------
-
-@include define-font(site-sections,
+@include define-font(logo,
+  $selector: "&:active",
   $family: header,
-  $color: green-leaf,
-  $size: 18px
-);
-
-@include define-font(site-sections,
-  $selector: "&:hover, &:focus",
-  $family: header,
-  $color: blue-moon,
-  $size: 18px
+  $color: blue-sky,
+  $size: 36px
 );
 
 // Social links
 // ------------
 
 @include define-font(social-links,
-  $color: blue-moon,
+  $color: green-leaf,
   $size: 24px
 );
 
 @include define-font(social-links,
   $selector: "&:hover, &:focus",
-  $color: green-leaf,
+  $color: blue-moon,
+  $size: 24px
+);
+
+@include define-font(social-links,
+  $selector: "&:active",
+  $color: blue-sky,
   $size: 24px
 );
 
@@ -175,6 +178,13 @@ $default-font-color: gray-stone;
   $selector: "a",
   $size: 9px,
   $color: white,
+  $decoration: underline
+);
+
+@include define-font(footer,
+  $selector: "a:active",
+  $size: 9px,
+  $color: blue-sky,
   $decoration: underline
 );
 
@@ -201,6 +211,13 @@ $default-font-color: gray-stone;
   $family: header,
   $size: 36px,
   $color: green-leaf
+);
+
+@include define-font(h1,
+  $selector: "a:active",
+  $family: header,
+  $size: 36px,
+  $color: blue-sky
 );
 
 // H2
@@ -265,6 +282,13 @@ $default-font-color: gray-stone;
   $family: header,
   $size: 18px,
   $color: green-leaf
+);
+
+@include define-font(archive-link,
+  $selector: "&:active",
+  $family: header,
+  $size: 18px,
+  $color: blue-sky
 );
 
 // Dd
