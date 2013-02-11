@@ -1,0 +1,38 @@
+@function first($list) {
+  @return nth($list, 1);
+}
+
+@function second($list) {
+  @return nth($list, 2);
+}
+
+@function third($list) {
+  @return nth($list, 3);
+}
+
+@function fourth($list) {
+  @return nth($list, 4);
+}
+
+@function fifth($list) {
+  @return nth($list, 5);
+}
+
+@function head($list) {
+  @return first($list);
+}
+
+@function last($list) {
+  @return nth($list, length($list));
+}
+
+@function tail($list) {
+  $result: ();
+
+  @for $i from 2 through length($list) {
+    $elem: nth($list, $i);
+    $result: append($result, $elem);
+  }
+
+  @return $result;
+}

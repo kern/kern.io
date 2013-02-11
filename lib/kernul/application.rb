@@ -21,7 +21,7 @@ module Kernul
     get "/post/:permalink" do
       post = POST_LIST.by_permalink(params[:permalink])
       halt 404 unless post
-      slim :post, :locals => { :post => post }
+      slim :index, :locals => { :posts => [post] }
     end
 
     get "/archive" do

@@ -1,159 +1,103 @@
-body {
-  height: 100%;
-}
-
-#container {
+.container {
   @include grid;
   margin: 0 auto;
   min-height: 100%;
-  padding-bottom: 60px;
+  padding: l(1) 0 l(3);
 }
 
-#sidebar {
-  @include cell(4, $push: 8);
-}
+.sidebar { @include cell(4); }
 
-#header {
+.header {
   @include clearfix;
-  padding-top: 20px;
-  margin-bottom: 20px;
-
-  @include respond-to(phone) {
-    padding-top: 10px;
-  }
-}
-
-#logo {
-  @include font(logo);
-  display: block;
   text-align: center;
-
-  span {
-    display: block;
-    padding-top: 10px;
-
-    @include respond-to(phone) {
-      display: inline;
-      padding-top: 0;
-    }
-  }
-}
-
-#profile {
-  display: block;
-  float: left;
-  width: 100px;
-  margin-bottom: 0;
-
-  @include respond-to(phone) {
-    display: inline;
-    float: none;
-    width: 40px;
-    vertical-align: -5px;
-    margin-right: 0;
-  }
-}
-
-#social-links {
-  background: url("/images/header-background.png") repeat-x 3px bottom;
+  padding-bottom: l(3);
+  background: url("/images/header-background.png") repeat-x left 101px;
   background-size: 50px 18px;
-  padding-bottom: 50px;
 
-  @include respond-to(large-desktop) {
-    background-position: 1px bottom;
-  }
-
-  @include respond-to(tablet) {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    background-position: 4px bottom;
-  }
-
-  @include respond-to(phone) {
-    background-position: center bottom;
-    padding: 10px 10000px 20px 10000px;
-    margin-left: -10000px;
-    margin-right: -10000px;
-  }
-
-  ul {
-    margin: 0;
-    display: table;
-    width: 180px;
-
-    @include respond-to(large-desktop) {
-      width: 250px;
+  > a {
+    > img {
+      @include border-radius(5px);
+      @include cell(3);
+      border: 5px solid color(gray-stone);
     }
 
-    @include respond-to(tablet) {
-      width: 228px;
+    > span {
+      @include cell(9);
+      @include font(blue-moon, 24px, header);
     }
-    
-    @include respond-to(phone) {
-      width: 100%;
-    }
-  }
-
-  li {
-    display: table-cell;
-    list-style-type: none;
-  }
-
-  a {
-    @include font(social-links);
-    display: block;
-    text-align: center;
-
-    @include respond-to(phone) {
-      padding: 0 2px;
-    }
-  }
-
-  i {
-    display: block;
   }
 }
 
-@include respond-to(phone) {
-  #personal-information, #projects {
-    display: none;
+.social-links {
+  @include cell(9);
+
+  > li {
+    @include cell(4);
+
+    > a {
+      display: block;
+      @include font(green-leaf, 24px, font-awesome);
+    }
   }
 }
 
-#main {
-  @include cell(8, $push: -4);
-  margin-top: 20px;
+.personal-information {
+  @include font(gray-stone, 12px, body);
+
+  > p {
+    margin-bottom: l(1);
+    > em { @include font(green-leaf, 12px, body); }
+    > a { @include font(blue-moon, 12px, body, $decoration: underline); }
+  }
 }
 
-#footer {
-  @include clearfix;
-  @include font(footer);
+.project-list {
+  > h3 {
+    @include font(blue-moon, 24px, header);
+    margin-bottom: l(1);
+  }
+
+  > dl {
+    > dt { @include font(blue-moon, 12px, body, $decoration: underline); }
+    > dd {
+      @include font(gray-cement, 12px, body);
+      margin: l(0.5) 0 l(0.5) 20px;
+    }
+  }
+}
+
+.main {
+  @include cell(8, $gutters: both);
+
+  h1 {
+    @include font(blue-moon, 36px, header);
+    margin-bottom: l(1);
+  }
+}
+
+.footer {
+  height: l(2);
+  margin-top: l(-2);
+  padding: l(0.5) 0;
   background: color(gray-stone);
   text-align: center;
-  padding: 10px 0;
-  margin-top: -40px;
-
-  p.copyright {
-    display: inline;
-    text-align: right;
-  }
 }
 
-#footer-nav {
+.copyright {
+  @include font(white, 10px, body);
+  display: inline;
+}
+
+.footer-nav {
   display: inline;
 
-  ul {
+  > li {
     display: inline;
-    list-style-type: none;
-    margin: 0;
-  }
-
-  li {
-    display: inline;
+    a { @include font(white, 10px, body, $decoration: underline); }
 
     &:before {
-      @include font(footer-separator);
-      content: "• ";
+      @include font(blue-sky, 10px, body, bold);
+      content: "\0A\B7\0A";
     }
   }
 }

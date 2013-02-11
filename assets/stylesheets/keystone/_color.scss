@@ -1,0 +1,9 @@
+$colors: map();
+
+@mixin define-color($name, $color) {
+  $colors: put($colors, $name, $color);
+}
+
+@function color($name) {
+  @return get($colors, $name, $name);
+}

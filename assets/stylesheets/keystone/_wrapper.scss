@@ -1,0 +1,12 @@
+@mixin wrapper($depth: 0) {
+  @if $depth == 0 {
+    > .wrapper { @content; }
+  } @else {
+    $selector: "";
+    @for $i from 1 through $depth {
+      $selector: "#{$selector} > .wrapper-#{$i}";
+    }
+
+    #{$selector} { @content; }
+  }
+}

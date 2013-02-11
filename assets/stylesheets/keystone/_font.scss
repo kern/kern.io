@@ -1,0 +1,39 @@
+$base-line-height: 20px !default;
+$font-families: map();
+
+@mixin define-font-family($name, $family) {
+  $font-families: put($font-families, $name, $family);
+}
+
+@function font-family($name) {
+  @return get($font-families, $name, $name);
+}
+
+@function lines($n) {
+  @return $base-line-height * $n;
+}
+
+@function l($n) {
+  @return lines($n);
+}
+
+@function line-height($font-size) {
+  @return lines(ceil($font-size / $base-line-height));
+}
+
+@mixin font(
+  $color,
+  $size,
+  $family,
+  $other: normal normal normal,
+  $height: line-height($size),
+  $decoration: none,
+  $shadow: none,
+  $transform: none
+) {
+  color: color($color);
+  font: $other #{$size}/#{$height} font-family($family);
+  text-decoration: $decoration;
+  text-shadow: $shadow;
+  text-transform: $transform;
+}

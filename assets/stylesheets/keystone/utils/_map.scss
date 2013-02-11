@@ -1,42 +1,77 @@
+// Implements an inefficient but working map.
 @function pair($key, $value) {
-  @return ($key, $value);
+  @return (pair, $key, $value);
 }
 
 @function key($pair) {
-  @return nth($pair, 1);
+  @return second($pair);
 }
 
 @function value($pair) {
-  @return nth($pair, 2);
+  @return third($pair);
+}
+
+@function has-key($pair, $key) {
+  @return key($pair) == $key;
+}
+
+@function has-value($pair, $value) {
+  @return value($pair) == $value;
+}
+
+@function same-key($pair-1, $pair-2) {
+  @return key($pair-1) == key($pair-2);
+}
+
+@function same-value($pair-1, $pair-2) {
+  @return value($pair-1) == value($pair-2);
+}
+
+@function pair-to-string($pair) {
+  @return "#{key($pair)} => #{value($pair)}";
 }
 
 @function map($pairs: ()) {
-  @return merge((), $pairs);
+  @return (map, $pairs);
+}
+
+@function pairs($map) {
+  @return second($map);
 }
 
 @function keys($map) {
   $result: ();
 
-  @each $pair in $map {
+  @each $pair in pairs($map) {
     $result: append($result, key($pair));
   }
 
   @return $result;
 }
 
-@function fetch($map, $key) {
-  @each $pair in $map {
-    @if $key == key($pair) {
+@function values($map) {
+  $result: ();
+
+  @each $pair in pairs($map) {
+    $result: append($result, value($pair));
+  }
+
+  @return $result;
+}
+
+@function get($map, $key, $default: undefined) {
+  @each $pair in pairs($map) {
+    @if has-key($pair, $key) {
       @return value($pair);
     }
   }
 
-  @return undefined;
+  @return $default;
 }
 
 @function contains-key($map, $key) {
-  @each $pair in $map {
-    @if $key == key($pair) {
+  @each $pair in pairs($map) {
+    @if has-key($pair, $key) {
       @return true;
     }
   }
@@ -45,8 +80,8 @@
 }
 
 @function contains-value($map, $value) {
-  @each $pair in $map {
-    @if $value == value($pair) {
+  @each $pair in pairs($map) {
+    @if has-value($pair, $value) {
       @return true;
     }
   }
@@ -54,32 +89,69 @@
   @return false;
 }
 
-@function put($map, $key, $value) {
-  $new-pair: pair($key, $value);
+@function put-pair($map, $new-pair) {
+  $pairs: ();
 
-  @if contains-key($map, $key) {
-    $result: map();
-
-    @each $pair in $map {
-      @if $key == key($pair) {
-        $result: append($result, $new-pair);
-      } @else {
-        $result: append($result, $pair);
-      }
+  @each $old-pair in pairs($map) {
+    @if not same-key($old-pair, $new-pair) {
+      $pairs: append($pairs, $old-pair);
     }
-
-    @return $result;
-  } @else {
-    @return append($map, $new-pair);
   }
+
+  @return map(append($pairs, $new-pair));
+}
+
+@function put($map, $key, $value) {
+  @return put-pair($map, pair($key, $value));
+}
+
+@function delete-key($map, $key) {
+  $result: map();
+
+  @each $pair in pairs($map) {
+    @if not has-key($pair, $key) {
+      $result: put-pair($result, $pair);
+    }
+  }
+
+  @return $result;
+}
+
+@function delete-value($map, $value) {
+  $result: map();
+
+  @each $pair in pairs($map) {
+    @if not has-value($pair, $value) {
+      $result: put-pair($result, $pair);
+    }
+  }
+
+  @return $result;
 }
 
 @function merge($map-1, $map-2) {
   $result: $map-1;
 
   @each $pair in $map-2 {
-    $result: put($result, key($pair), value($pair));
+    $result: put-pair($result, $pair);
   }
 
   @return $result;
+}
+
+@function map-to-string($map) {
+  $pairs: pairs($map);
+
+  @if length($pairs) == 0 {
+    @return "{}";
+  } @else {
+    $result: "{";
+
+    @for $i from 1 to length($pairs) {
+      $pair: nth($pairs, $i);
+      $result: "#{$result} #{pair-to-string($pair)},";
+    }
+
+    @return "#{$result} #{pair-to-string(last($pairs))} }";
+  }
 }

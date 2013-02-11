@@ -1,0 +1,16 @@
+// Implements inclusive and exclusive ranges.
+@function range($first, $last) {
+  @return (range, $first, $last);
+}
+
+@function range-first($range) {
+  @return second($range);
+}
+
+@function range-last($range) {
+  @return third($range);
+}
+
+@function within($range, $value) {
+  @return $value >= range-first($range) and $value <= range-last($range);
+}

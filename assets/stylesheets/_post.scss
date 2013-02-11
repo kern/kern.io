@@ -1,12 +1,51 @@
-article.post {
-  margin-bottom: 20px;
+.post {
+  @include font(gray-stone, 12px, body);
+  @include inner-box { border-bottom: 1px dotted color(gray-bone); }
+  & + & { margin-top: l(1); }
+}
 
-  & > header {
-    margin-bottom: 20px;
-  }
+.post-header {
+  margin-bottom: l(1);
 
-  & + & {
-    padding-top: 20px;
-    border-top: 1px dotted color(gray-bone);
+  > h2 {
+    @include font(blue-moon, 36px, header);
+    > a { display: block; }
   }
+}
+
+.post-time {
+  @include font(blue-sky, 12px, body);
+  height: 20px;
+
+  &:before {
+    @include font(blue-sky, 12px, font-awesome);
+    content: "\F017\0A";
+  }
+}
+
+.post-body {
+  @include clearfix;
+  > p { margin-bottom: l(1); }
+}
+
+.post-list {
+  > li {
+    @include clearfix;
+    padding: l(0.5) 0;
+
+    > a {
+      @include font(gray-stone, 12px, body, $decoration: underline);
+      float: left;
+    }
+
+    > .post-time { float: right; }
+  }
+}
+
+.archive-link {
+  @include font(blue-moon, 18px, header);
+  display: block;
+  padding: l(1);
+  text-align: center;
+  &:after { content: "\0A\BB"; }
 }
