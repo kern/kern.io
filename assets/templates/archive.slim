@@ -1,0 +1,7 @@
+h1 Archive
+
+ul.post-list
+  - posts.each do |post|
+    li
+      a href="/post/#{post.permalink}" = post.title
+      .post-time = post.date.strftime("%B %-d, %Y")

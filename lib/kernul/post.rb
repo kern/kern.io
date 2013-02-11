@@ -1,40 +1,24 @@
-require "kernul/markdown"
-require "date"
-
 module Kernul
   class Post
-    HEADER_REGEX = /^(.+) \/ (.+ \d{1,2}, \d{4})\n^=+\s*\n*/m
-
-    attr_reader :permalink
+    HEADER_REGEX = /^(.+) \/ (.+) \/ (.+)$/
 
     attr_reader :title
-
     attr_reader :date
-
+    attr_reader :permalink
     attr_reader :body
 
-    def self.from_file(permalink, path)
+    def initialize(path)
       contents = File.read(path)
 
-      if contents =~ HEADER_REGEX
-        title = $1
-        date = $2
-        body = $'
-        new(permalink, title, date, body)
-      else
-        raise ArgumentError, "Post has invalid format"
-      end
+      md = HEADER_REGEX.match(contents) or raise InvalidPostHeader
+      @title = md[1]
+      @date = DateTime.strptime(md[2], "%b %d, %Y")
+      @permalink = md[3]
+      @body = Markdown.new(md.post_match).to_html
     end
 
-    def initialize(permalink, title, date, body)
-      @permalink = permalink
-      @title = title
-      @date = DateTime.strptime(date, "%b %d, %Y")
-      @body = body
-    end
-
-    def rendered_body
-      MARKDOWN.render(body)
+    def <=>(other)
+      other.date <=> date
     end
   end
 end

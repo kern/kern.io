@@ -1,12 +1,9 @@
-require "sinatra/base"
-require "kernul/post_list"
-
 module Kernul
   class Application < Sinatra::Application
-    POST_LIST = PostList.new
+    POST_LIST = PostList.new(Dir["posts/**/*.md"])
 
-    use Rack::Static, urls: ["/images", "/fonts", "/files"], root: "assets"
-    set :views, erb: "assets/templates", scss: "assets/stylesheets", default: "assets"
+    use Rack::Static, :urls => ["/images", "/fonts", "/files"], :root => "assets"
+    set :views, :default => "assets/templates", :scss => "assets/stylesheets"
 
     helpers do
       def find_template(views, name, engine, &block)
@@ -18,39 +15,39 @@ module Kernul
 
     get "/" do
       posts = POST_LIST.latest(3)
-      erb :index, locals: { posts: posts }
+      slim :index, :locals => { :posts => posts }
     end
 
     get "/post/:permalink" do
       post = POST_LIST.by_permalink(params[:permalink])
       halt 404 unless post
-      erb :post, locals: { post: post }
+      slim :post, :locals => { :post => post }
     end
 
     get "/archive" do
       posts = POST_LIST.all
-      erb :archive, locals: { posts: posts }
+      slim :archive, :locals => { :posts => posts }
     end
 
     get "/feed" do
       posts = POST_LIST.latest(5)
 
       builder do |xml|
-        xml.instruct! :xml, version: "1.0", encoding: "utf-8"
-        xml.feed xmlns: "http://www.w3.org/2005/Atom" do
+        xml.instruct! :xml, :version => "1.0", :encoding => "utf-8"
+        xml.feed :xmlns => "http://www.w3.org/2005/Atom" do
           xml.title "Kernul"
-          xml.link href: "http://kernul.com", rel: "self"
+          xml.link :href => "http://kernul.com", :rel => "self"
           xml.id "http://kernul.com"
           xml.updated posts.first.date.rfc3339
 
           posts.each do |post|
             xml.entry do
               xml.title post.title
-              xml.link rel: "alternate", type: "text/html", href: "http://kernul.com/post/#{post.permalink}"
+              xml.link :rel => "alternate", :type => "text/html", :href => "http://kernul.com/post/#{post.permalink}"
               xml.id "http://kernul.com/post/#{post.permalink}"
               xml.updated post.date.rfc3339
 
-              xml.content type: "text/html" do
+              xml.content :type => "text/html" do
                 xml.text! post.rendered_body
               end
 

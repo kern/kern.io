@@ -1,14 +1,13 @@
-require "redcarpet"
-require "net/http"
-
 module Kernul
-  class PygmentsMarkdownRenderer < Redcarpet::Render::HTML
-    PYGMENTIZE_URL = URI.parse('http://pygmentize.herokuapp.com/')
+  class Markdown
+    def initialize(text)
+      @renderer = Kramdown::Document.new(text,
+                                         :coderay_css => :class,
+                                         :coderay_line_numbers => nil)
+    end
 
-    def block_code(code, language)
-      Net::HTTP.post_form(PYGMENTIZE_URL, code: code, lang: language).body
+    def to_html
+      @renderer.to_html
     end
   end
-
-  MARKDOWN = Redcarpet::Markdown.new(PygmentsMarkdownRenderer, fenced_code_blocks: true)
 end

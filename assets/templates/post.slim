@@ -1,0 +1,5 @@
+.post
+  .post-header
+    h2: a href="/post/#{post.permalink}" = post.title
+    .post-time = post.date.strftime("%B %-d, %Y")
+  == post.body
