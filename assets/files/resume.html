@@ -25,6 +25,7 @@
         display: table;
         width: 100%;
         list-style-type: none;
+        padding-left: 0;
       }
 
       body > header li {
@@ -74,6 +75,24 @@
       a {
         color: blue;
       }
+
+      .cell {
+        text-align: left;
+        width: 19%;
+      }
+
+      .email {
+        width: 19%;
+      }
+
+      .website {
+        width: 19%;
+      }
+
+      .address {
+        text-align: right;
+        width: 43%;
+      }
     </style>
   </head>
   <body>
@@ -81,10 +100,10 @@
       <h1>Alexander S. Kern</h1>
       <section id="contact">
         <ul>
-          <li>Cell: (310) 975-5545</li>
-          <li><a href="mailto:alex@kernul.com">alex@kernul.com</a></li>
-          <li><a href="http://kernul.com">http://kernul.com</a></li>
-          <li>426 S. Bedford Drive, Beverly Hills, CA 90212</li>
+          <li class="cell">Cell: (310) 975-5545</li>
+          <li class="email"><a href="mailto:alex@kernul.com">alex@kernul.com</a></li>
+          <li class="website"><a href="http://kernul.com">http://kernul.com</a></li>
+          <li class="address">Box #203, 2601 Warring Street, Berkeley, CA 94720</li>
         </ul>
       </section>
     </header>
