@@ -4,9 +4,55 @@
     <meta charset="utf-8" />
     <title>Alexander S. Kern's Resum&eacute;</title>
     <style>
+      @font-face {
+        font-family: "Hoefler Text";
+        src: url("/fonts/HoeflerText-Roman.eot");
+        src: url("/fonts/HoeflerText-Roman.eot?#iefix") format("embedded-opentype"),
+             url("/fonts/HoeflerText-Roman.woff") format("woff"),
+             url("/fonts/HoeflerText-Roman.ttf")  format("truetype"),
+             url("/fonts/HoeflerText-Roman.svg#svgFontName") format("svg");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Hoefler Text";
+        src: url("/fonts/HoeflerText-Bold.eot");
+        src: url("/fonts/HoeflerText-Bold.eot?#iefix") format("embedded-opentype"),
+             url("/fonts/HoeflerText-Bold.woff") format("woff"),
+             url("/fonts/HoeflerText-Bold.ttf")  format("truetype"),
+             url("/fonts/HoeflerText-Bold.svg#svgFontName") format("svg");
+        font-weight: bold;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Hoefler Text";
+        src: url("/fonts/HoeflerText-BoldSC.eot");
+        src: url("/fonts/HoeflerText-BoldSC.eot?#iefix") format("embedded-opentype"),
+             url("/fonts/HoeflerText-BoldSC.woff") format("woff"),
+             url("/fonts/HoeflerText-BoldSC.ttf")  format("truetype"),
+             url("/fonts/HoeflerText-BoldSC.svg#svgFontName") format("svg");
+        font-weight: bold;
+        font-style: normal;
+        font-variant: small-caps;
+      }
+
+      @font-face {
+        font-family: "Hoefler Text";
+        src: url("/fonts/HoeflerText-RegularItalic.eot");
+        src: url("/fonts/HoeflerText-RegularItalic.eot?#iefix") format("embedded-opentype"),
+             url("/fonts/HoeflerText-RegularItalic.woff") format("woff"),
+             url("/fonts/HoeflerText-RegularItalic.ttf")  format("truetype"),
+             url("/fonts/HoeflerText-RegularItalic.svg#svgFontName") format("svg");
+        font-weight: normal;
+        font-style: italic;
+      }
+
       body {
         width: 6.5in;
         margin: 0.5in auto;
+        color: #333;
       }
 
       h1, h2, h3, ul, p {
@@ -18,13 +64,13 @@
       a { color: blue; }
 
       .header > h1 {
-        font: bold 18pt/30pt serif;
+        font: 18pt/30pt "Hoefler Text", serif;
         text-align: center;
         text-transform: uppercase;
       }
 
       .contact-information {
-        font: 8pt/15pt serif;
+        font: 8pt/15pt "Hoefler Text", serif;
         list-style-type: none;
         margin: 0 auto;
         text-align: center;
@@ -36,24 +82,24 @@
       }
 
       .section-header {
-        border-bottom: 1px solid black;
-        font: bold 12pt/15pt serif;
-        margin: 10pt 0 5pt;
+        border-bottom: 1px solid #CCC;
+        font: 12pt/15pt "Hoefler Text", serif;
+        margin: 17pt 0 2pt;
         text-transform: uppercase;
       }
 
-      .education, .job-header, .activity { overflow: auto; }
-      .education > .left, .job-header > .left, .activity > p { float: left; }
-      .education > .right, .job-header > .right, .activity > span { float: right; }
-      .school-name, .job-name { font: bold 12pt/15pt serif; }
-      .school-major, .job-position { font: 12pt/15pt serif; }
-      .school-location, .school-duration, .job-location, .job-duration, .activity > span {
-        font: italic 10pt/15pt serif;
+      .education, .job-header { overflow: auto; }
+      .education > .left, .job-header > .left { float: left; }
+      .education > .right, .job-header > .right { float: right; }
+      .school-name, .job-name { font: small-caps bold 12pt/15pt "Hoefler Text", serif; }
+      .school-major, .job-position { font: italic 12pt/15pt "Hoefler Text", serif; }
+      .school-location, .school-duration, .job-location, .job-duration {
+        font: 10pt/15pt "Hoefler Text", serif;
         text-align: right;
       }
 
-      .job, .skills, .activity > p { font: 10pt/15pt serif; }
-      .job { margin-bottom: 5pt; }
+      .job, .skills, .activities-and-interests > p { font: 10pt/13pt "Hoefler Text", serif; }
+      .job { margin-bottom: 10pt; }
       .job > ul { margin-left: 0.25in; }
       .skills > ul { list-style-type: none; }
     </style>
@@ -101,9 +147,8 @@
         </div>
 
         <ul>
-          <li>Developed highly-available backup software to enable durable storage on the cloud</li>
-          <li>Gave a live-broadcast presentation to JPL employees on cloud architecture</li>
-          <li>Presented at EO Alchemy (<a href="http://eoalchemy.com">http://eoalchemy.com</a>), one of Los Angeles's largest entrepreneurial conferences</li>
+          <li>Developed highly-available backup software to enable durable cloud storage for Jet Propulsion Laboratory's (JPL) satellites and Spirit and Opportunity Mars rovers</li>
+          <li>Gave separate presentations at JPL and at EO Alchemy (<a href="http://eoalchemy.com">http://eoalchemy.com</a>), one of Los Angeles's largest entrepreneurial conferences, about cloud data storage strategies</li>
           <li>Coauthored an IEEE paper on cost-effective cloud storage solutions</li>
         </ul>
       </div>
@@ -122,7 +167,7 @@
         </div>
 
         <ul>
-          <li>Helped test the motor controller of the Curiosity Mars Rover by developing new unit testing strategies</li>
+          <li>Helped test the motor controller of the Curiosity Mars Rover by automating unit testing workflows</li>
           <li>Presented to JPL computer scientists on domain-specific languages and their applications in testing</li>
         </ul>
       </div>
@@ -141,10 +186,9 @@
         </div>
 
         <ul>
-          <li>Lead developer of restuarant loyalty program Check2</li>
-          <li>Developed back-end in Ruby on Rails and Node.js</li>
-          <li>Created front-end iPhone, Android, and web applications</li>
-          <li>Managed local and international development team of 7 people</li>
+          <li>Lead developer of mobile application Check2 designed to provide frequent restaurant-goers with deals</li>
+          <li>Developed back-end Ruby on Rails application along with front-end iPhone, Android, and web apps</li>
+          <li>Managed local and international development team of 7 people over the course of 2 years</li>
         </ul>
       </div>
 
@@ -162,8 +206,8 @@
         </div>
 
         <ul>
-          <li>Designed and developed over 20 websites for clients</li>
-          <li>Responsible for the entire design from wireframe to completion</li>
+          <li>Designed and developed over 20 websites for clients including photographers and interior designers</li>
+          <li>Responsible for the entire design from wireframe to completion, including interactive animations</li>
         </ul>
       </div>
 
@@ -181,8 +225,8 @@
         </div>
 
         <ul>
-          <li>Developed and taught Robotics curriculum to elementary school-age campers</li>
-          <li>Assisted Game Design and Web Design instructors with teaching courses</li>
+          <li>Developed and taught Robotics curriculum to elementary school-age campers, teaching 20 students a week how to build and program their own personal robot</li>
+          <li>Aided Game Design and Web Design instructors as a teaching assistant</li>
         </ul>
       </div>
     </div>
@@ -192,23 +236,16 @@
 
       <ul>
         <li>9 years of experience using client-side web technologies (HTML/CSS/JavaScript)</li>
-        <li>6 years of back-end web development in Java, Ruby, and Node.js</li>
-        <li>Proficient in both relational and non-relational databases including PostgreSQL, Redis, and MongoDB</li>
+        <li>7 years of software development in Ruby, Java, Node.js, PHP, Python, Clojure, C, C++, and Objective-C</li>
+        <li>Proficient in database management of MySQL, PostgreSQL, Redis, MongoDB, CouchDB, and Riak</li>
       </ul>
     </div>
 
-    <div class="activities">
-      <h2 class="section-header">Activities</h2>
+    <div class="activities-and-interests">
+      <h2 class="section-header">Activities &amp; Interests</h2>
 
-      <div class="activity">
-        <p>Website and Internet Chairman for the Alpha Epsilon Pi Fraternity</p>
-        <span class="duration">December 2012 to Present</span>
-      </div>
-
-      <div class="activity">
-        <p>Mentor for the Beverly Hills High School FIRST Robotics Team</p>
-        <span class="duration">June 2012 to Present</span>
-      </div>
+      <p><strong>Activities:</strong> Internet Chairman for Alpha Epsilon Pi, Mentor for the Beverly Hills High School Robotics Team</p>
+      <p><strong>Interests:</strong> International travel, music production, cycling, typography, and modern art</p>
     </div>
   </body>
 </html>
