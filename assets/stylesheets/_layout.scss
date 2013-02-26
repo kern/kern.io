@@ -1,16 +1,33 @@
 .container {
-  @include grid;
+  // TODO: Uncomment when there are blog posts.
+  // @include grid;
   margin: 0 auto;
   min-height: 100%;
   padding: l(1) 0 l(3);
 }
 
+// TODO: Uncomment when there are blog posts.
 .sidebar { @include cell(4); }
+
+// TODO: Remove when there are blog posts.
+.sidebar {
+  width: 480px;
+  margin: 0 auto;
+  float: none;
+}
+
+// TODO: Remove when there are blog posts.
+.header {
+  padding-bottom: l(1);
+}
 
 .header {
   @include clearfix;
   text-align: center;
-  padding-bottom: l(3);
+
+  // TODO: Uncomment when there are blog posts.
+  // padding-bottom: l(3);
+
   background: url("/images/header-background.png") repeat-x left 101px;
   background-size: 50px 18px;
 
