@@ -4,207 +4,210 @@
     <meta charset="utf-8" />
     <title>Alexander S. Kern's Resum&eacute;</title>
     <style>
-      h1 {
-        margin: 0.1in 0;
-      }
-
-      body > header, body > section, body > footer {
+      body {
         width: 6.5in;
+        margin: 0.5in auto;
+      }
+
+      h1, h2, h3, ul, p {
+        border: 0;
+        margin: 0;
+        padding: 0;
+      }
+
+      a { color: blue; }
+
+      .header > h1 {
+        font: bold 18pt/30pt serif;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .contact-information {
+        font: 8pt/15pt serif;
+        list-style-type: none;
         margin: 0 auto;
-      }
-
-      body > header {
-        border-bottom: 1px solid black;
-      }
-
-      body > header, body > footer {
         text-align: center;
       }
 
-      body > header ul {
-        display: table;
-        width: 100%;
-        list-style-type: none;
-        padding-left: 0;
+      .contact-information > li { display: inline; }
+      .contact-information > li + li:before {
+        content: "\2022\0A";
       }
 
-      body > header li {
-        display: table-cell;
+      .section-header {
+        font: 12pt/15pt serif;
+        border-bottom: 1px solid black;
+        margin: 10pt 0 5pt;
       }
 
-      body > section section {
-        margin-left: 0.5in;
-      }
-
-      h2, ul {
-        margin: 0.075in 0;
-      }
-
-      h2 {
-        font-size: large;
-      }
-
-      h3 {
-        font-size: medium;
-      }
-
-      header time, h3 {
-        display: inline;
-      }
-
-      header time {
-        font-size: small;
-      }
-
-      header time:before {
-        content: ' - [';
-      }
-
-      header time:after {
-        content: ']';
-      }
-
-      #contact {
-        font-size: 75%;
-      }
-
-      footer {
-        font-size: small;
-      }
-
-      a {
-        color: blue;
-      }
-
-      .cell {
-        text-align: left;
-        width: 19%;
-      }
-
-      .email {
-        width: 19%;
-      }
-
-      .website {
-        width: 19%;
-      }
-
-      .address {
+      .education, .job-header, .activity { overflow: auto; }
+      .education > .left, .job-header > .left, .activity > p { float: left; }
+      .education > .right, .job-header > .right, .activity > span { float: right; }
+      .school-name, .job-name { font: bold 12pt/15pt serif; }
+      .school-major, .job-position { font: 12pt/15pt serif; }
+      .school-location, .school-duration, .job-location, .job-duration, .activity > span {
+        font: italic 10pt/15pt serif;
         text-align: right;
-        width: 43%;
       }
+
+      .job, .skills, .activity > p { font: 10pt/15pt serif; }
+      .job { margin-bottom: 5pt; }
+      .job > ul { margin-left: 0.25in; }
+      .skills > ul { list-style-type: none; }
     </style>
   </head>
   <body>
-    <header>
+    <div class="header">
       <h1>Alexander S. Kern</h1>
-      <section id="contact">
-        <ul>
-          <li class="cell">Cell: (310) 975-5545</li>
-          <li class="email"><a href="mailto:alex@kernul.com">alex@kernul.com</a></li>
-          <li class="website"><a href="http://kernul.com">http://kernul.com</a></li>
-          <li class="address">Box #203, 2601 Warring Street, Berkeley, CA 94720</li>
-        </ul>
-      </section>
-    </header>
 
-    <section id="computer-skills">
-      <h2>Computer Skills</h2>
-      <ul>
-        <li>Extremely proficient in client-side web technologies (HTML/CSS/JavaScript)</li>
-        <li>Highly experienced with back-end web development in Ruby on Rails and Node.js</li>
-        <li>Well versed in relational and non-relational databases</li>
-        <li>Proficient with Java, Objective-C, Adobe Photoshop and Adobe Illustrator</li>
+      <ul class="contact-information">
+        <li>Cell: (310) 975-5545</li>
+        <li><a href="mailto:alex@kernul.com">alex@kernul.com</a></li>
+        <li><a href="http://kernul.com">http://kernul.com</a></li>
+        <li>Box #203, 2601 Warring Street, Berkeley, CA 94720</li>
       </ul>
-    </section>
+    </div>
 
-    <section id="work-experience">
-      <h2>Work Experience</h2>
+    <div class="education">
+      <h2 class="section-header">Education</h2>
 
-      <section id="jpl-internship-ops-lab">
-        <header>
-          <h3>NASA Jet Propulsion Laboratory Intern, Ops Lab</h3>
-          <time>June - August 2011</time>
-        </header>
+      <div class="left">
+        <h3 class="school-name">University of California, Berkeley</h3>
+        <div class="school-major">Computer Science Major (4.0 GPA)</div>
+      </div>
+
+      <div class="right">
+        <div class="school-location">Berkeley, CA</div>
+        <div class="school-duration">August 2012 to May 2016</div>
+      </div>
+    </div>
+
+    <div class="work-experience">
+      <h2 class="section-header">Work Experience</h2>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="left">
+            <h3 class="job-name">NASA Jet Propulsion Laboratory, Ops Lab</h3>
+            <div class="job-position">Software Engineering Intern</div>
+          </div>
+
+          <div class="right">
+            <div class="job-location">Pasadena, California</div>
+            <div class="job-duration">June 2011 to August 2011</div>
+          </div>
+        </div>
+
         <ul>
-          <li>Developed patent-pending software to enable extremely durable storage on the cloud</li>
-          <li>Gave a live-broadcast JPL-wide presentation on cloud architecture</li>
+          <li>Developed highly-available backup software to enable durable storage on the cloud</li>
+          <li>Gave a live-broadcast presentation to JPL employees on cloud architecture</li>
           <li>Presented at EO Alchemy (<a href="http://eoalchemy.com">http://eoalchemy.com</a>), one of Los Angeles's largest entrepreneurial conferences</li>
           <li>Coauthored an IEEE paper on cost-effective cloud storage solutions</li>
         </ul>
-      </section>
+      </div>
 
-      <section id="jpl-internship-motor-testing-division">
-        <header>
-          <h3>NASA Jet Propulsion Laboratory Intern, Motor Testing Division</h3>
-          <time>June - August 2010</time>
-        </header>
+      <div class="job">
+        <div class="job-header">
+          <div class="left">
+            <h3 class="job-name">NASA Jet Propulsion Laboratory, Motor Testing Division</h3>
+            <div class="job-position">Software Engineering Intern</div>
+          </div>
+
+          <div class="right">
+            <div class="job-location">Pasadena, California</div>
+            <div class="job-duration">June 2010 to August 2010</div>
+          </div>
+        </div>
+
         <ul>
-          <li>Helped test the motor controller of the Mars Science Laboratory, the next Mars rover</li>
-          <li>Gave a talk at JPL about domain-specific languages and their use in testing</li>
+          <li>Helped test the motor controller of the Curiosity Mars Rover by developing new unit testing strategies</li>
+          <li>Presented to JPL computer scientists on domain-specific languages and their applications in testing</li>
         </ul>
-      </section>
+      </div>
 
-      <section id="artcentric-networks">
-        <header>
-          <h3>Artcentric Networks Lead Developer</h3>
-          <time>April 2010 - July 2012</time>
-        </header>
+      <div class="job">
+        <div class="job-header">
+          <div class="left">
+            <h3 class="job-name">Artcentric Networks LLC</h3>
+            <div class="job-position">Chief Technology Officer</div>
+          </div>
+
+          <div class="right">
+            <div class="job-location">Santa Monica, California</div>
+            <div class="job-duration">April 2010 to July 2012</div>
+          </div>
+        </div>
+
         <ul>
-          <li>Lead web developer of location-based web service Check2 (<a href="http://check2.com">http://check2.com</a>)</li>
-          <li>Developed the backend in Ruby on Rails and Node.js</li>
+          <li>Lead developer of restuarant loyalty program Check2</li>
+          <li>Developed back-end in Ruby on Rails and Node.js</li>
           <li>Created front-end iPhone, Android, and web applications</li>
-          <li>Managed local and international development team</li>
+          <li>Managed local and international development team of 7 people</li>
         </ul>
-      </section>
+      </div>
 
-      <section id="robotics">
-        <header>
-          <h3>BHHS Robotics Team Leader</h3>
-          <time>December 2007 - June 2012</time>
-        </header>
-        <ul>
-          <li>Joined high school robotics team (<a href="http://bhrobotics.com">http://bhrobotics.com</a>) in 8th grade</li>
-          <li>Programming and Website Captain for 3 years, Team President for 2 years</li>
-          <li>Helped team win internationally-recognized awards such as the Motorola Quality Award, Innovation in Control Award, and Chairman's Award</li>
-          <li>Continued to mentor robotics team while attending college</li>
-        </ul>
-      </section>
+      <div class="job">
+        <div class="job-header">
+          <div class="left">
+            <h3 class="job-name">Freelance Web Development</h3>
+            <div class="job-position">Freelancer</div>
+          </div>
 
-      <section id="freelance-web-design">
-        <header>
-          <h3>Freelance Web Designer</h3>
-          <time>August 2008 - June 2011</time>
-        </header>
+          <div class="right">
+            <div class="job-location">Beverly Hills, California</div>
+            <div class="job-duration">August 2008 to June 2011</div>
+          </div>
+        </div>
+
         <ul>
           <li>Designed and developed over 20 websites for both friends and clients</li>
           <li>Responsible for the entire design from wireframe to completion</li>
         </ul>
-      </section>
+      </div>
 
-      <section id="planetbravo-summer-camp">
-        <header>
-          <h3>PlanetBravo Summer Camp</h3>
-          <time>June to August in 2008 and 2009</time>
-        </header>
+      <div class="job">
+        <div class="job-header">
+          <div class="left">
+            <h3 class="job-name">PlanetBravo Summer Camp</h3>
+            <div class="job-position">Assistant Camp Director</div>
+          </div>
+
+          <div class="right">
+            <div class="job-location">Beverly Hills, California</div>
+            <div class="job-duration">June 2008 to August 2009</div>
+          </div>
+        </div>
+
         <ul>
           <li>Developed and taught Robotics curriculum to elementary school-age campers</li>
           <li>Assisted Game Design and Web Design instructors with teaching courses</li>
         </ul>
-      </section>
-    </section>
+      </div>
+    </div>
 
-    <section id="education">
-      <h2>Education</h2>
+    <div class="skills">
+      <h2 class="section-header">Skills</h2>
+
       <ul>
-        <li>Studying Computer Science at the University of California, Berkeley</li>
-        <li>Expected graduation year: <time>2016</time></li>
-        <li>Beverly Hills High School class of <time>2012</time></li>
+        <li>9 years of experience using client-side web technologies (HTML/CSS/JavaScript)</li>
+        <li>6 years of back-end web development in Java, Ruby, and Node.js</li>
+        <li>Proficient in both relational and non-relational databases including PostgreSQL, Redis, and MongoDB</li>
       </ul>
-    </section>
+    </div>
 
-    <footer>
-      References available upon request.
-    </footer>
+    <div class="activities">
+      <h2 class="section-header">Activities</h2>
+
+      <div class="activity">
+        <p>Website and Internet Chairman for the Alpha Epsilon Pi Fraternity</p>
+        <span class="duration">December 2012 to Present</span>
+      </div>
+
+      <div class="activity">
+        <p>Mentor for the Beverly Hills High School FIRST Robotics Team</p>
+        <span class="duration">June 2012 to Present</span>
+      </div>
+    </div>
   </body>
 </html>
