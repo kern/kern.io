@@ -1,8 +1,6 @@
 source "https://rubygems.org"
 
-gem "builder"
-gem "coderay"
-gem "kramdown"
+gem "jekyll"
+gem "rake"
 gem "sass"
-gem "sinatra"
-gem "slim"
+gem "rb-fsevent"

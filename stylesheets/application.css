@@ -1,0 +1,345 @@
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
+pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small,
+strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label,
+legend, table, caption, tbody, tfoot, thead, tr, th, td, canvas, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent; }
+
+html, body {
+  height: 100%; }
+
+body {
+  line-height: 1; }
+
+blockquote, q {
+  quotes: none; }
+  blockquote:before, blockquote:after, q:before, q:after {
+    content: "";
+    content: none; }
+
+a {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  color: inherit;
+  text-decoration: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  margin: 0;
+  padding: 0; }
+
+input, select {
+  vertical-align: middle; }
+
+ul, ol {
+  list-style: none; }
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+@font-face {
+  font-family: "Font Awesome";
+  src: url("/fonts/fontawesome-webfont.eot");
+  src: url("/fonts/fontawesome-webfont.eot?#iefix") format("eot"), url("/fonts/fontawesome-webfont.woff") format("woff"), url("/fonts/fontawesome-webfont.ttf") format("truetype"), url("/fonts/fontawesome-webfont.svg#FontAwesome") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Cubano";
+  src: url("/fonts/cubano-regular-webfont.eot");
+  src: url("/fonts/cubano-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/cubano-regular-webfont.woff") format("woff"), url("/fonts/cubano-regular-webfont.ttf") format("truetype"), url("/fonts/cubano-regular-webfont.svg#CubanoRegular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Museo";
+  src: url("/fonts/museo100-regular-webfont.eot");
+  src: url("/fonts/museo100-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/museo100-regular-webfont.woff") format("woff"), url("/fonts/museo100-regular-webfont.ttf") format("truetype"), url("/fonts/museo100-regular-webfont.svg#Museo100Regular") format("svg");
+  font-weight: 100;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Museo";
+  src: url("/fonts/museo300-regular-webfont.eot");
+  src: url("/fonts/museo300-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/museo300-regular-webfont.woff") format("woff"), url("/fonts/museo300-regular-webfont.ttf") format("truetype"), url("/fonts/museo300-regular-webfont.svg#Museo100Regular") format("svg");
+  font-weight: 300;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Museo";
+  src: url("/fonts/museo500-regular-webfont.eot");
+  src: url("/fonts/museo500-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/museo500-regular-webfont.woff") format("woff"), url("/fonts/museo500-regular-webfont.ttf") format("truetype"), url("/fonts/museo500-regular-webfont.svg#Museo500Regular") format("svg");
+  font-weight: 500;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Museo";
+  src: url("/fonts/museo700-regular-webfont.eot");
+  src: url("/fonts/museo700-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/museo700-regular-webfont.woff") format("woff"), url("/fonts/museo700-regular-webfont.ttf") format("truetype"), url("/fonts/museo700-regular-webfont.svg#Museo700Regular") format("svg");
+  font-weight: 700;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Museo";
+  src: url("/fonts/museo900-regular-webfont.eot");
+  src: url("/fonts/museo900-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/museo900-regular-webfont.woff") format("woff"), url("/fonts/museo900-regular-webfont.ttf") format("truetype"), url("/fonts/museo900-regular-webfont.svg#Museo900Regular") format("svg");
+  font-weight: 900;
+  font-style: normal; }
+
+.container {
+  margin: 0 auto;
+  min-height: 100%;
+  padding: 20px 0 60px; }
+
+.sidebar {
+  float: left;
+  left: 0%;
+  position: relative;
+  width: 33.33333%; }
+
+.sidebar {
+  width: 480px;
+  margin: 0 auto;
+  float: none; }
+
+.header {
+  padding-bottom: 20px; }
+
+.header {
+  zoom: 1;
+  text-align: center;
+  background: url("/images/header-background.png") repeat-x left 101px;
+  background-size: 50px 18px; }
+  .header:before, .header:after {
+    content: "";
+    display: table; }
+  .header:after {
+    clear: both; }
+  .header > a > img {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    float: left;
+    left: 0%;
+    position: relative;
+    width: 25%;
+    border: 5px solid #383838; }
+  .header > a > span {
+    float: left;
+    left: 0%;
+    position: relative;
+    width: 75%;
+    color: #195073;
+    font: normal normal normal 24px/40px "Cubano", sans-serif;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none; }
+
+.social-links {
+  float: left;
+  left: 0%;
+  position: relative;
+  width: 75%; }
+  .social-links > li {
+    float: left;
+    left: 0%;
+    position: relative;
+    width: 33.33333%; }
+    .social-links > li > a {
+      display: block;
+      color: #7f8c38;
+      font: normal normal normal 24px/40px "Font Awesome";
+      text-decoration: none;
+      text-shadow: none;
+      text-transform: none; }
+
+.personal-information {
+  color: #383838;
+  font: normal normal normal 12px/20px "Museo", sans-serif;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none; }
+  .personal-information > p {
+    margin-bottom: 20px; }
+    .personal-information > p > em {
+      color: #7f8c38;
+      font: normal normal normal 12px/20px "Museo", sans-serif;
+      text-decoration: none;
+      text-shadow: none;
+      text-transform: none; }
+    .personal-information > p > a {
+      color: #195073;
+      font: normal normal normal 12px/20px "Museo", sans-serif;
+      text-decoration: underline;
+      text-shadow: none;
+      text-transform: none; }
+
+.project-list > h3 {
+  color: #195073;
+  font: normal normal normal 24px/40px "Cubano", sans-serif;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  margin-bottom: 20px; }
+.project-list > dl > dt {
+  color: #195073;
+  font: normal normal normal 12px/20px "Museo", sans-serif;
+  text-decoration: underline;
+  text-shadow: none;
+  text-transform: none; }
+.project-list > dl > dd {
+  color: #888888;
+  font: normal normal normal 12px/20px "Museo", sans-serif;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  margin: 10px 0 10px 20px; }
+
+.main {
+  float: left;
+  left: 0%;
+  position: relative;
+  width: 66.66667%;
+  padding-left: 20px;
+  padding-right: 20px; }
+  .main h1 {
+    color: #195073;
+    font: normal normal normal 36px/40px "Cubano", sans-serif;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    margin-bottom: 20px; }
+
+.footer {
+  height: 40px;
+  margin-top: -40px;
+  padding: 10px 0;
+  background: #383838;
+  text-align: center; }
+
+.copyright {
+  color: white;
+  font: normal normal normal 10px/20px "Museo", sans-serif;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  display: inline; }
+
+.footer-nav {
+  display: inline; }
+  .footer-nav > li {
+    display: inline; }
+    .footer-nav > li a {
+      color: white;
+      font: normal normal normal 10px/20px "Museo", sans-serif;
+      text-decoration: underline;
+      text-shadow: none;
+      text-transform: none; }
+    .footer-nav > li:before {
+      color: #9ed7c7;
+      font: bold 10px/20px "Museo", sans-serif;
+      text-decoration: none;
+      text-shadow: none;
+      text-transform: none;
+      content: "\0A\B7\0A"; }
+
+.post {
+  color: #383838;
+  font: normal normal normal 12px/20px "Museo", sans-serif;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  position: relative; }
+  .post:after {
+    content: "\A0";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-bottom: 1px dotted #eeeeee; }
+  .post + .post {
+    margin-top: 20px; }
+
+.post-header {
+  margin-bottom: 20px; }
+  .post-header > h2 {
+    color: #195073;
+    font: normal normal normal 36px/40px "Cubano", sans-serif;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none; }
+    .post-header > h2 > a {
+      display: block; }
+
+.post-time {
+  color: #9ed7c7;
+  font: normal normal normal 12px/20px "Museo", sans-serif;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  height: 20px; }
+  .post-time:before {
+    color: #9ed7c7;
+    font: normal normal normal 12px/20px "Font Awesome";
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    content: "\F017\0A"; }
+
+.post-body {
+  zoom: 1; }
+  .post-body:before, .post-body:after {
+    content: "";
+    display: table; }
+  .post-body:after {
+    clear: both; }
+  .post-body > p {
+    margin-bottom: 20px; }
+
+.post-list > li {
+  zoom: 1;
+  padding: 10px 0; }
+  .post-list > li:before, .post-list > li:after {
+    content: "";
+    display: table; }
+  .post-list > li:after {
+    clear: both; }
+  .post-list > li > a {
+    color: #383838;
+    font: normal normal normal 12px/20px "Museo", sans-serif;
+    text-decoration: underline;
+    text-shadow: none;
+    text-transform: none;
+    float: left; }
+  .post-list > li > .post-time {
+    float: right; }
+
+.archive-link {
+  color: #195073;
+  font: normal normal normal 18px/20px "Cubano", sans-serif;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  display: block;
+  padding: 20px;
+  text-align: center; }
+  .archive-link:after {
+    content: "\0A\BB"; }
