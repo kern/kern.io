@@ -103,9 +103,16 @@ ul, ol {
   font-style: normal; }
 
 .container {
+  zoom: 1;
+  width: 960px;
   margin: 0 auto;
   min-height: 100%;
   padding: 20px 0 60px; }
+  .container:before, .container:after {
+    content: "";
+    display: table; }
+  .container:after {
+    clear: both; }
 
 .sidebar {
   float: left;
@@ -124,6 +131,7 @@ ul, ol {
 .header {
   zoom: 1;
   text-align: center;
+  padding-bottom: 60px;
   background: url("/images/header-background.png") repeat-x left 101px;
   background-size: 50px 18px; }
   .header:before, .header:after {
