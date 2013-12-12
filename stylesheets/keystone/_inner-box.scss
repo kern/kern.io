@@ -1,10 +1,6 @@
-@mixin inner-box($position: true) {
-  @if $position {
-    position: relative;
-  }
-
+@mixin inner-box {
   &:after {
-    content: "\A0";
+    content: " ";
     position: absolute;
     z-index: -1;
     top: 0;

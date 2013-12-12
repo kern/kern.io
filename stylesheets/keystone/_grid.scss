@@ -1,21 +1,11 @@
 $column-count: 12 !default;
-$grid-width: 960px !default;
 $gutter-width: 20px !default;
-
-@include define-enum(gutters, (both, left, right, none));
 
 @function columns($n) {
   @return $n / $column-count * 100%;
 }
 
-@mixin grid {
-  @include clearfix;
-  width: $grid-width;
-}
-
 @mixin cell($columns, $gutters: none, $push: 0) {
-  $gutters: coerce-enum(gutters, $gutters, none);
-
   float: left;
   left: columns($push);
   position: relative;

@@ -1,0 +1,14 @@
+<nav class="blog-navigation">
+  {% if post.previous.url %} 
+    <a href="{{ post.previous.url }}" class="prev">{{ post.previous.title }}</a> 
+  {% endif %} 
+
+  {% if post.next.url %} 
+    <a href="{{ post.next.url }}" class="next">{{ post.next.title }}</a> 
+  {% endif %} 
+
+  <a href="/archive.html" class="archive">Archive</a>
+</nav>
+
+<time datetime="{{ post.date | date_to_xmlschema }}" class="post-date">{{ post.date | date_to_long_string }}</time>
+{{ content }}

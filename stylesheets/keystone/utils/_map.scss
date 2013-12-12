@@ -1,4 +1,3 @@
-// Implements an inefficient but working map.
 @function pair($key, $value) {
   @return (pair, $key, $value);
 }

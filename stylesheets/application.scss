@@ -1,5 +1,163 @@
 @import "keystone";
-@import "colors";
-@import "fonts";
-@import "layout";
-@import "post";
+@import "font-faces";
+
+// Colors
+// ======
+$white: white;
+$blue-sky: #9ED7C7;
+$blue-moon: #195073;
+$gray-stone: #383838;
+$gray-cement: #888888;
+$gray-bone: #EEEEEE;
+$green-leaf: #7F8C38;
+
+// Font families
+// =============
+$body-font-family: "Museo", sans-serif;
+$header-font-family: "Cubano", sans-serif;
+$monospace: "Consolas", "Liberation Mono", "Courier", monospace;
+
+// Layout
+// ======
+body {
+  @include font($gray-stone, 12px, $body-font-family);
+  background: url("/images/header-background.png") repeat-x left 21px;
+  background-size: 50px 18px;
+}
+
+em {
+  @include font($green-leaf, 12px, $body-font-family);
+}
+
+a {
+  @include font($blue-moon, 12px, $body-font-family, $decoration: underline);
+}
+
+.container {
+  @include clearfix;
+  width: 960px;
+  margin: 0 auto;
+  min-height: 100%;
+  padding-bottom: lines(4);
+}
+
+.sidebar {
+  @include cell(3);
+  padding-top: lines(4);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: lines(0.5);
+
+  a {
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    width: 140px;
+    margin: 0 auto;
+  }
+
+  span {
+    @include font($blue-moon, 24px, $header-font-family);
+  }
+}
+
+.social-links {
+  @include clearfix;
+  margin-bottom: lines(1);
+
+  li {
+    @include cell(4);
+  }
+
+  img {
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin: 0 auto;
+  }
+
+  img:hover, img:focus {
+    opacity: 0.5;
+  }
+}
+
+.personal-information p {
+  margin-bottom: lines(1);
+}
+
+.main {
+  @include cell(9, $gutters: both);
+  padding-top: lines(4);
+  background: transparentize(white, 0.25);
+
+  h1 {
+    @include font($blue-moon, 36px, $header-font-family);
+    margin-bottom: lines(1);
+  }
+
+  p {
+    margin-bottom: lines(1);
+  }
+
+  ul {
+    list-style-type: square;
+    list-style-position: inside;
+  }
+}
+
+.footer {
+  @include font($gray-cement, 10px, $body-font-family);
+  height: lines(2);
+  margin-top: lines(-2);
+  padding: lines(0.5) 0;
+  text-align: center;
+  border-top: 1px solid $gray-bone;
+}
+
+.blog-navigation {
+  position: relative;
+  padding: lines(0.5) 0;
+  margin-bottom: lines(1);
+  border-bottom: 1px solid $gray-bone;
+
+  a {
+    @include font($gray-cement, 12px, $body-font-family);
+    display: block;
+
+    &:hover, &:focus {
+      @include font($gray-cement, 12px, $body-font-family, $decoration: underline);
+    }
+  }
+
+  .prev {
+    position: absolute;
+    left: 0;
+
+    &:before {
+      content: "« ";
+    }
+  }
+
+  .next {
+    position: absolute;
+    right: 0;
+
+    &:after {
+      content: " »";
+    }
+  }
+
+  .archive {
+    margin: 0 auto;
+    text-align: center;
+    width: 200px;
+  }
+}
+
+.post-date {
+  @include font($gray-cement, 18px, $header-font-family);
+}

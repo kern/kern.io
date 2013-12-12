@@ -1,3 +1,0 @@
-@mixin border-radius($value) {
-  @include prefixed-property(border-radius, $value);
-}

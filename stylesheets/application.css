@@ -1,64 +1,40 @@
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
-pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small,
-strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label,
-legend, table, caption, tbody, tfoot, thead, tr, th, td, canvas, audio, video {
+@charset "UTF-8";
+* {
+  -webkit-box-sizing: border-box;
+  -mox-box-sizing: border-box;
+  box-sizing: border-box; }
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
-  outline: 0;
   font-size: 100%;
-  vertical-align: baseline;
-  background: transparent; }
+  font: inherit;
+  vertical-align: baseline; }
 
-html, body {
-  height: 100%; }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block; }
 
 body {
   line-height: 1; }
 
+ol, ul {
+  list-style: none; }
+
 blockquote, q {
   quotes: none; }
-  blockquote:before, blockquote:after, q:before, q:after {
-    content: "";
-    content: none; }
 
-a {
-  margin: 0;
-  padding: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: transparent;
-  color: inherit;
-  text-decoration: none; }
+blockquote:before, blockquote:after {
+  content: "";
+  content: none; }
+
+q:before, q:after {
+  content: "";
+  content: none; }
 
 table {
   border-collapse: collapse;
   border-spacing: 0; }
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  margin: 0;
-  padding: 0; }
-
-input, select {
-  vertical-align: middle; }
-
-ul, ol {
-  list-style: none; }
-
-* {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box; }
-
-@font-face {
-  font-family: "Font Awesome";
-  src: url("/fonts/fontawesome-webfont.eot");
-  src: url("/fonts/fontawesome-webfont.eot?#iefix") format("eot"), url("/fonts/fontawesome-webfont.woff") format("woff"), url("/fonts/fontawesome-webfont.ttf") format("truetype"), url("/fonts/fontawesome-webfont.svg#FontAwesome") format("svg");
-  font-weight: normal;
-  font-style: normal; }
 
 @font-face {
   font-family: "Cubano";
@@ -102,12 +78,34 @@ ul, ol {
   font-weight: 900;
   font-style: normal; }
 
+body {
+  color: #383838;
+  font: normal normal normal 12px/20px "Museo", sans-serif;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  background: url("/images/header-background.png") repeat-x left 21px;
+  background-size: 50px 18px; }
+
+em {
+  color: #7f8c38;
+  font: normal normal normal 12px/20px "Museo", sans-serif;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none; }
+
+a {
+  color: #195073;
+  font: normal normal normal 12px/20px "Museo", sans-serif;
+  text-decoration: underline;
+  text-shadow: none;
+  text-transform: none; }
+
 .container {
-  zoom: 1;
   width: 960px;
   margin: 0 auto;
   min-height: 100%;
-  padding: 20px 0 60px; }
+  padding-bottom: 80px; }
   .container:before, .container:after {
     content: "";
     display: table; }
@@ -118,41 +116,19 @@ ul, ol {
   float: left;
   left: 0%;
   position: relative;
-  width: 33.33333%; }
-
-.sidebar {
-  width: 480px;
-  margin: 0 auto;
-  float: none; }
+  width: 25%;
+  padding-top: 80px; }
 
 .header {
-  padding-bottom: 20px; }
-
-.header {
-  zoom: 1;
   text-align: center;
-  padding-bottom: 60px;
-  background: url("/images/header-background.png") repeat-x left 101px;
-  background-size: 50px 18px; }
-  .header:before, .header:after {
-    content: "";
-    display: table; }
-  .header:after {
-    clear: both; }
-  .header > a > img {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    float: left;
-    left: 0%;
-    position: relative;
-    width: 25%;
-    border: 5px solid #383838; }
-  .header > a > span {
-    float: left;
-    left: 0%;
-    position: relative;
-    width: 75%;
+  margin-bottom: 10px; }
+  .header a {
+    text-decoration: none; }
+  .header img {
+    display: block;
+    width: 140px;
+    margin: 0 auto; }
+  .header span {
     color: #195073;
     font: normal normal normal 24px/40px "Cubano", sans-serif;
     text-decoration: none;
@@ -160,72 +136,37 @@ ul, ol {
     text-transform: none; }
 
 .social-links {
-  float: left;
-  left: 0%;
-  position: relative;
-  width: 75%; }
-  .social-links > li {
+  margin-bottom: 20px; }
+  .social-links:before, .social-links:after {
+    content: "";
+    display: table; }
+  .social-links:after {
+    clear: both; }
+  .social-links li {
     float: left;
     left: 0%;
     position: relative;
     width: 33.33333%; }
-    .social-links > li > a {
-      display: block;
-      color: #7f8c38;
-      font: normal normal normal 24px/40px "Font Awesome";
-      text-decoration: none;
-      text-shadow: none;
-      text-transform: none; }
+  .social-links img {
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin: 0 auto; }
+  .social-links img:hover, .social-links img:focus {
+    opacity: 0.5; }
 
-.personal-information {
-  color: #383838;
-  font: normal normal normal 12px/20px "Museo", sans-serif;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none; }
-  .personal-information > p {
-    margin-bottom: 20px; }
-    .personal-information > p > em {
-      color: #7f8c38;
-      font: normal normal normal 12px/20px "Museo", sans-serif;
-      text-decoration: none;
-      text-shadow: none;
-      text-transform: none; }
-    .personal-information > p > a {
-      color: #195073;
-      font: normal normal normal 12px/20px "Museo", sans-serif;
-      text-decoration: underline;
-      text-shadow: none;
-      text-transform: none; }
-
-.project-list > h3 {
-  color: #195073;
-  font: normal normal normal 24px/40px "Cubano", sans-serif;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
+.personal-information p {
   margin-bottom: 20px; }
-.project-list > dl > dt {
-  color: #195073;
-  font: normal normal normal 12px/20px "Museo", sans-serif;
-  text-decoration: underline;
-  text-shadow: none;
-  text-transform: none; }
-.project-list > dl > dd {
-  color: #888888;
-  font: normal normal normal 12px/20px "Museo", sans-serif;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  margin: 10px 0 10px 20px; }
 
 .main {
   float: left;
   left: 0%;
   position: relative;
-  width: 66.66667%;
+  width: 75%;
   padding-left: 20px;
-  padding-right: 20px; }
+  padding-right: 20px;
+  padding-top: 80px;
+  background: rgba(255, 255, 255, 0.75); }
   .main h1 {
     color: #195073;
     font: normal normal normal 36px/40px "Cubano", sans-serif;
@@ -233,121 +174,60 @@ ul, ol {
     text-shadow: none;
     text-transform: none;
     margin-bottom: 20px; }
+  .main p {
+    margin-bottom: 20px; }
+  .main ul {
+    list-style-type: square;
+    list-style-position: inside; }
 
 .footer {
-  height: 40px;
-  margin-top: -40px;
-  padding: 10px 0;
-  background: #383838;
-  text-align: center; }
-
-.copyright {
-  color: white;
+  color: #888888;
   font: normal normal normal 10px/20px "Museo", sans-serif;
   text-decoration: none;
   text-shadow: none;
   text-transform: none;
-  display: inline; }
+  height: 40px;
+  margin-top: -40px;
+  padding: 10px 0;
+  text-align: center;
+  border-top: 1px solid #eeeeee; }
 
-.footer-nav {
-  display: inline; }
-  .footer-nav > li {
-    display: inline; }
-    .footer-nav > li a {
-      color: white;
-      font: normal normal normal 10px/20px "Museo", sans-serif;
+.blog-navigation {
+  position: relative;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eeeeee; }
+  .blog-navigation a {
+    color: #888888;
+    font: normal normal normal 12px/20px "Museo", sans-serif;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    display: block; }
+    .blog-navigation a:hover, .blog-navigation a:focus {
+      color: #888888;
+      font: normal normal normal 12px/20px "Museo", sans-serif;
       text-decoration: underline;
       text-shadow: none;
       text-transform: none; }
-    .footer-nav > li:before {
-      color: #9ed7c7;
-      font: bold 10px/20px "Museo", sans-serif;
-      text-decoration: none;
-      text-shadow: none;
-      text-transform: none;
-      content: "\0A\B7\0A"; }
-
-.post {
-  color: #383838;
-  font: normal normal normal 12px/20px "Museo", sans-serif;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  position: relative; }
-  .post:after {
-    content: "\A0";
+  .blog-navigation .prev {
     position: absolute;
-    z-index: -1;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border-bottom: 1px dotted #eeeeee; }
-  .post + .post {
-    margin-top: 20px; }
+    left: 0; }
+    .blog-navigation .prev:before {
+      content: "« "; }
+  .blog-navigation .next {
+    position: absolute;
+    right: 0; }
+    .blog-navigation .next:after {
+      content: " »"; }
+  .blog-navigation .archive {
+    margin: 0 auto;
+    text-align: center;
+    width: 200px; }
 
-.post-header {
-  margin-bottom: 20px; }
-  .post-header > h2 {
-    color: #195073;
-    font: normal normal normal 36px/40px "Cubano", sans-serif;
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none; }
-    .post-header > h2 > a {
-      display: block; }
-
-.post-time {
-  color: #9ed7c7;
-  font: normal normal normal 12px/20px "Museo", sans-serif;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  height: 20px; }
-  .post-time:before {
-    color: #9ed7c7;
-    font: normal normal normal 12px/20px "Font Awesome";
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none;
-    content: "\F017\0A"; }
-
-.post-body {
-  zoom: 1; }
-  .post-body:before, .post-body:after {
-    content: "";
-    display: table; }
-  .post-body:after {
-    clear: both; }
-  .post-body > p {
-    margin-bottom: 20px; }
-
-.post-list > li {
-  zoom: 1;
-  padding: 10px 0; }
-  .post-list > li:before, .post-list > li:after {
-    content: "";
-    display: table; }
-  .post-list > li:after {
-    clear: both; }
-  .post-list > li > a {
-    color: #383838;
-    font: normal normal normal 12px/20px "Museo", sans-serif;
-    text-decoration: underline;
-    text-shadow: none;
-    text-transform: none;
-    float: left; }
-  .post-list > li > .post-time {
-    float: right; }
-
-.archive-link {
-  color: #195073;
+.post-date {
+  color: #888888;
   font: normal normal normal 18px/20px "Cubano", sans-serif;
   text-decoration: none;
   text-shadow: none;
-  text-transform: none;
-  display: block;
-  padding: 20px;
-  text-align: center; }
-  .archive-link:after {
-    content: "\0A\BB"; }
+  text-transform: none; }

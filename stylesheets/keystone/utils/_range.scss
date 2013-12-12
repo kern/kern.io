@@ -1,4 +1,3 @@
-// Implements inclusive and exclusive ranges.
 @function range($first, $last) {
   @return (range, $first, $last);
 }

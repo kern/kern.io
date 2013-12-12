@@ -1,14 +1,10 @@
-// Forces the element to expand to fit any contained floats. It uses Nicolas
-// Gallagher's [Micro clearfix][clearfix].
-//
-// [clearfix]: http://nicolasgallagher.com/micro-clearfix-hack/
 @mixin clearfix {
-  zoom: 1;
-
   &:before, &:after {
     content: "";
     display: table;
   }
 
-  &:after { clear: both; }
+  &:after {
+    clear: both;
+  }
 }
