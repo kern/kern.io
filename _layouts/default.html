@@ -14,8 +14,8 @@
     {% endif %}
   </head>
   <body>
-    <div class="container">
-      <aside class="sidebar">
+    <aside class="sidebar">
+      <div class="inner">
         <header class="header">
           <a href="/">
             <img src="/images/profile.jpg" alt="Alex Kern">
@@ -34,14 +34,13 @@
 
           <p>I am an associate at <a href="http://www.alsop-louie.com/">Alsop-Louie Partners</a>, where I <a href="http://startup.berkeley.edu">connect Berkeley students to the greater entrepreneurial ecosystem</a>. This summer I worked on fraud-detecting machine learning algorithms at <a href="http://apple.com">Apple</a>. Previously, I interned for <a href="http://www.jpl.nasa.gov">NASA's Jet Propulsion Laboratory</a>, developing the <a href="http://mars.jpl.nasa.gov/msl">Mars Science Laboratory</a> and pioneering novel data storage techniques. In my spare time, I hack on open source projects, all of which can be found on <a href="https://github.com/axskern">my GitHub</a>.</p>
         </section>
-      </aside>
+      </div>
+    </aside>
 
-      <main class="main">
-        {{ content }}
-      </main>
-    </div>
-
-    <footer class="footer">&copy; Copyright 2013 Alexander Kern</footer>
+    <main class="main">
+      {{ content }}
+      <footer class="footer">&copy; Copyright 2013 Alexander Kern</footer>
+    </main>
 
     <script>
       var _gaq=[['_setAccount','UA-22930876-1'],['_trackPageview']];

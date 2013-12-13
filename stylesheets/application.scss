@@ -10,6 +10,8 @@ $gray-stone: #383838;
 $gray-cement: #888888;
 $gray-bone: #EEEEEE;
 $green-leaf: #7F8C38;
+$orange: #EE9140;
+$beige: #F2E5BD;
 
 // Font families
 // =============
@@ -21,8 +23,6 @@ $monospace: "Consolas", "Liberation Mono", "Courier", monospace;
 // ======
 body {
   @include font($gray-stone, 12px, $body-font-family);
-  background: url("/images/header-background.png") repeat-x left 21px;
-  background-size: 50px 18px;
 }
 
 em {
@@ -33,17 +33,19 @@ a {
   @include font($blue-moon, 12px, $body-font-family, $decoration: underline);
 }
 
-.container {
-  @include clearfix;
-  width: 960px;
-  margin: 0 auto;
-  min-height: 100%;
-  padding-bottom: lines(4);
-}
-
 .sidebar {
-  @include cell(3);
-  padding-top: lines(4);
+  position: fixed;
+  top: 0;
+  width: 280px;
+  height: 100%;
+  border-right: 5px solid $beige;
+
+  > .inner {
+    width: 100%;
+    height: 100%;
+    padding: lines(2) 20px 0;
+    border-right: 5px solid $orange;
+  }
 }
 
 .header {
@@ -85,13 +87,16 @@ a {
   }
 }
 
-.personal-information p {
-  margin-bottom: lines(1);
+.personal-information {
+  p {
+    @include font($blue-moon, 12px, $body-font-family);
+    margin-bottom: lines(1);
+  }
 }
 
 .main {
-  @include cell(9, $gutters: both);
-  padding-top: lines(4);
+  padding: lines(2) 60px 0 340px;
+  width: 100%;
   background: transparentize(white, 0.25);
 
   h1 {
@@ -111,10 +116,8 @@ a {
 
 .footer {
   @include font($gray-cement, 10px, $body-font-family);
-  height: lines(2);
-  margin-top: lines(-2);
-  padding: lines(0.5) 0;
-  text-align: center;
+  margin-top: lines(1);
+  padding: lines(0.5) 0 lines(0.5) 20px;
   border-top: 1px solid $gray-bone;
 }
 
