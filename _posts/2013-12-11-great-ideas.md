@@ -2,8 +2,6 @@
 layout: post
 title: Great Ideas Piss People Off
 ---
-# Great Ideas Piss People Off
-
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tristique quam a dictum blandit. Aenean at luctus diam. Sed porttitor venenatis nisl. Cras quis fringilla tellus, a fringilla elit. Proin massa orci, pulvinar scelerisque vulputate a, cursus sed neque. Sed ac nunc vel purus pulvinar pellentesque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu tellus sapien. Suspendisse condimentum nisl metus, vel interdum nisi imperdiet in. Phasellus a blandit sem. Nam lorem felis, feugiat nec sem et, volutpat blandit odio.
 
 Aliquam eu luctus turpis, eget porta lacus. Vivamus mollis lacus in lobortis scelerisque. Sed ac ante dapibus, cursus ante nec, gravida ante. Aliquam dapibus scelerisque odio, sit amet rutrum quam aliquam sed. Phasellus nec sollicitudin quam. Cras vitae posuere justo. Proin non porta nisi. Etiam pretium tincidunt ligula nec dignissim. Curabitur vel enim ligula. Etiam mi quam, malesuada sollicitudin tellus quis, consequat auctor turpis. Suspendisse dignissim dictum turpis, in bibendum leo convallis ut. Nunc magna tellus, imperdiet a lacus quis, volutpat accumsan velit.

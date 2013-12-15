@@ -11,4 +11,5 @@
 </nav>
 
 <time datetime="{{ post.date | date_to_xmlschema }}" class="post-date">{{ post.date | date_to_long_string }}</time>
+<h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
 {{ content }}

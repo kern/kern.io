@@ -4,12 +4,11 @@
 // Colors
 // ======
 $white: white;
-$blue-sky: #9ED7C7;
-$blue-moon: #195073;
-$gray-stone: #383838;
-$gray-cement: #888888;
-$gray-bone: #EEEEEE;
-$green-leaf: #7F8C38;
+$blue: #195073;
+$black: #383838;
+$dark-gray: #888888;
+$light-gray: #EEEEEE;
+$green: #7F8C38;
 $orange: #EE9140;
 $beige: #F2E5BD;
 
@@ -21,31 +20,23 @@ $monospace: "Consolas", "Liberation Mono", "Courier", monospace;
 
 // Layout
 // ======
+html {
+  border-top: 5px solid $orange;
+}
+
 body {
-  @include font($gray-stone, 12px, $body-font-family);
-}
-
-em {
-  @include font($green-leaf, 12px, $body-font-family);
-}
-
-a {
-  @include font($blue-moon, 12px, $body-font-family, $decoration: underline);
+  @include font($black, 12px, $body-font-family);
+  border-top: 1px solid $beige;
 }
 
 .sidebar {
+  background: white;
+  border-right: 0px solid $light-gray;
+  height: 100%;
+  padding: lines(2) 20px 0 40px;
   position: fixed;
   top: 0;
-  width: 280px;
-  height: 100%;
-  border-right: 5px solid $beige;
-
-  > .inner {
-    width: 100%;
-    height: 100%;
-    padding: lines(2) 20px 0;
-    border-right: 5px solid $orange;
-  }
+  width: 320px;
 }
 
 .header {
@@ -63,7 +54,7 @@ a {
   }
 
   span {
-    @include font($blue-moon, 24px, $header-font-family);
+    @include font($blue, 24px, $header-font-family);
   }
 }
 
@@ -89,19 +80,34 @@ a {
 
 .personal-information {
   p {
-    @include font($blue-moon, 12px, $body-font-family);
+    @include font($blue, 12px, $body-font-family);
     margin-bottom: lines(1);
+  }
+
+  em {
+    @include font($green, 12px, $body-font-family);
+  }
+
+  a {
+    @include font($blue, 12px, $body-font-family, $decoration: underline);
   }
 }
 
 .main {
-  padding: lines(2) 60px 0 340px;
-  width: 100%;
-  background: transparentize(white, 0.25);
+  padding-left: 320px;
+
+  > .inner {
+    padding: lines(2) 60px 0;
+  }
 
   h1 {
-    @include font($blue-moon, 36px, $header-font-family);
+    @include font($blue, 36px, $header-font-family);
     margin-bottom: lines(1);
+
+    a {
+      font: inherit;
+      text-decoration: inherit;
+    }
   }
 
   p {
@@ -112,27 +118,35 @@ a {
     list-style-type: square;
     list-style-position: inside;
   }
+
+  em {
+    @include font($green, 12px, $body-font-family);
+  }
+
+  a {
+    @include font($blue, 12px, $body-font-family, $decoration: underline);
+  }
 }
 
 .footer {
-  @include font($gray-cement, 10px, $body-font-family);
+  @include font($dark-gray, 10px, $body-font-family);
   margin-top: lines(1);
   padding: lines(0.5) 0 lines(0.5) 20px;
-  border-top: 1px solid $gray-bone;
+  border-top: 1px solid $light-gray;
 }
 
 .blog-navigation {
   position: relative;
   padding: lines(0.5) 0;
   margin-bottom: lines(1);
-  border-bottom: 1px solid $gray-bone;
+  border-bottom: 1px solid $light-gray;
 
   a {
-    @include font($gray-cement, 12px, $body-font-family);
+    @include font($dark-gray, 12px, $body-font-family);
     display: block;
 
     &:hover, &:focus {
-      @include font($gray-cement, 12px, $body-font-family, $decoration: underline);
+      @include font($dark-gray, 12px, $body-font-family, $decoration: underline);
     }
   }
 
@@ -162,5 +176,5 @@ a {
 }
 
 .post-date {
-  @include font($gray-cement, 18px, $header-font-family);
+  @include font($dark-gray, 18px, $header-font-family);
 }

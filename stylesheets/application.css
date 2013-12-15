@@ -78,38 +78,25 @@ table {
   font-weight: 900;
   font-style: normal; }
 
+html {
+  border-top: 5px solid #ee9140; }
+
 body {
   color: #383838;
   font: normal normal normal 12px/20px "Museo", sans-serif;
   text-decoration: none;
   text-shadow: none;
-  text-transform: none; }
-
-em {
-  color: #7f8c38;
-  font: normal normal normal 12px/20px "Museo", sans-serif;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none; }
-
-a {
-  color: #195073;
-  font: normal normal normal 12px/20px "Museo", sans-serif;
-  text-decoration: underline;
-  text-shadow: none;
-  text-transform: none; }
+  text-transform: none;
+  border-top: 1px solid #f2e5bd; }
 
 .sidebar {
+  background: white;
+  border-right: 0px solid #eeeeee;
+  height: 100%;
+  padding: 40px 20px 0 40px;
   position: fixed;
   top: 0;
-  width: 280px;
-  height: 100%;
-  border-right: 5px solid #f2e5bd; }
-  .sidebar > .inner {
-    width: 100%;
-    height: 100%;
-    padding: 40px 20px 0;
-    border-right: 5px solid #ee9140; }
+  width: 320px; }
 
 .header {
   text-align: center;
@@ -154,11 +141,23 @@ a {
   text-shadow: none;
   text-transform: none;
   margin-bottom: 20px; }
+.personal-information em {
+  color: #7f8c38;
+  font: normal normal normal 12px/20px "Museo", sans-serif;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none; }
+.personal-information a {
+  color: #195073;
+  font: normal normal normal 12px/20px "Museo", sans-serif;
+  text-decoration: underline;
+  text-shadow: none;
+  text-transform: none; }
 
 .main {
-  padding: 40px 60px 0 340px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.75); }
+  padding-left: 320px; }
+  .main > .inner {
+    padding: 40px 60px 0; }
   .main h1 {
     color: #195073;
     font: normal normal normal 36px/40px "Cubano", sans-serif;
@@ -166,11 +165,26 @@ a {
     text-shadow: none;
     text-transform: none;
     margin-bottom: 20px; }
+    .main h1 a {
+      font: inherit;
+      text-decoration: inherit; }
   .main p {
     margin-bottom: 20px; }
   .main ul {
     list-style-type: square;
     list-style-position: inside; }
+  .main em {
+    color: #7f8c38;
+    font: normal normal normal 12px/20px "Museo", sans-serif;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none; }
+  .main a {
+    color: #195073;
+    font: normal normal normal 12px/20px "Museo", sans-serif;
+    text-decoration: underline;
+    text-shadow: none;
+    text-transform: none; }
 
 .footer {
   color: #888888;

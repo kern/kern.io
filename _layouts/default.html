@@ -15,31 +15,31 @@
   </head>
   <body>
     <aside class="sidebar">
-      <div class="inner">
-        <header class="header">
-          <a href="/">
-            <img src="/images/profile.jpg" alt="Alex Kern">
-            <span>Alex Kern</span>
-          </a>
-        </header>
+      <header class="header">
+        <a href="/">
+          <img src="/images/profile.jpg" alt="Alex Kern">
+          <span>Alex Kern</span>
+        </a>
+      </header>
 
-        <ul class="social-links">
-          <li><a href="https://github.com/axskern"><img src="/images/github-icon.png" alt="Github" /></a></li>
-          <li><a href="https://twitter.com/axskern"><img src="/images/twitter-icon.png" alt="Twitter" /></a></li>
-          <li><a href="mailto:alex@kern.io"><img src="/images/email-icon.png" alt="Email" /></a></li>
-        </ul>
+      <ul class="social-links">
+        <li><a href="https://github.com/axskern"><img src="/images/github-icon.png" alt="Github" /></a></li>
+        <li><a href="https://twitter.com/axskern"><img src="/images/twitter-icon.png" alt="Twitter" /></a></li>
+        <li><a href="mailto:alex@kern.io"><img src="/images/email-icon.png" alt="Email" /></a></li>
+      </ul>
 
-        <section class="personal-information">
-          <p>I'm <em>Alex Kern</em>, a software developer and computer science student at UC Berkeley. For over 10 years, I've been programming robots and crafting web applications.</p>
+      <section class="personal-information">
+        <p>I'm <em>Alex Kern</em>, a software developer and computer science student at UC Berkeley. For over 10 years, I've been programming robots and crafting web applications.</p>
 
-          <p>I am an associate at <a href="http://www.alsop-louie.com/">Alsop-Louie Partners</a>, where I <a href="http://startup.berkeley.edu">connect Berkeley students to the greater entrepreneurial ecosystem</a>. This summer I worked on fraud-detecting machine learning algorithms at <a href="http://apple.com">Apple</a>. Previously, I interned for <a href="http://www.jpl.nasa.gov">NASA's Jet Propulsion Laboratory</a>, developing the <a href="http://mars.jpl.nasa.gov/msl">Mars Science Laboratory</a> and pioneering novel data storage techniques. In my spare time, I hack on open source projects, all of which can be found on <a href="https://github.com/axskern">my GitHub</a>.</p>
-        </section>
-      </div>
+        <p>I am an associate at <a href="http://www.alsop-louie.com/">Alsop-Louie Partners</a>, where I <a href="http://startup.berkeley.edu">connect Berkeley students to the greater entrepreneurial ecosystem</a>. This summer I worked on fraud-detecting machine learning algorithms at <a href="http://apple.com">Apple</a>. Previously, I interned for <a href="http://www.jpl.nasa.gov">NASA's Jet Propulsion Laboratory</a>, developing the <a href="http://mars.jpl.nasa.gov/msl">Mars Science Laboratory</a> and pioneering novel data storage techniques. In my spare time, I hack on open source projects, all of which can be found on <a href="https://github.com/axskern">my GitHub</a>.</p>
+      </section>
     </aside>
 
     <main class="main">
-      {{ content }}
-      <footer class="footer">&copy; Copyright 2013 Alexander Kern</footer>
+      <div class="inner">
+        {{ content }}
+        <footer class="footer">&copy; Copyright 2013 Alexander Kern</footer>
+      </div>
     </main>
 
     <script>
