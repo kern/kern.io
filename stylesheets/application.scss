@@ -26,7 +26,7 @@ html {
 
 body {
   @include font($black, 12px, $body-font-family);
-  border-top: 1px solid $beige;
+  border-top: 2px solid $beige;
 }
 
 .sidebar {
