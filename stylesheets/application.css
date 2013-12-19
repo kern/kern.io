@@ -155,9 +155,9 @@ body {
   text-transform: none; }
 
 .main {
-  padding-left: 320px; }
-  .main > .inner {
-    padding: 40px 60px 0; }
+  margin-left: 320px;
+  width: 640px;
+  padding: 33px 60px 0; }
   .main h1 {
     color: #195073;
     font: normal normal normal 36px/40px "Cubano", sans-serif;
@@ -185,6 +185,11 @@ body {
     text-decoration: underline;
     text-shadow: none;
     text-transform: none; }
+  .main img {
+    max-width: 100%;
+    border-top: 5px solid #eeeeee;
+    border-bottom: 5px solid #eeeeee;
+    border-radius: 5px; }
 
 .footer {
   color: #888888;

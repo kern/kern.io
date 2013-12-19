@@ -94,11 +94,9 @@ body {
 }
 
 .main {
-  padding-left: 320px;
-
-  > .inner {
-    padding: lines(2) 60px 0;
-  }
+  margin-left: 320px;
+  width: 640px;
+  padding: (lines(2) - 7px) 60px 0;
 
   h1 {
     @include font($blue, 36px, $header-font-family);
@@ -125,6 +123,13 @@ body {
 
   a {
     @include font($blue, 12px, $body-font-family, $decoration: underline);
+  }
+
+  img {
+    max-width: 100%;
+    border-top: 5px solid $light-gray;
+    border-bottom: 5px solid $light-gray;
+    border-radius: 5px;
   }
 }
 
