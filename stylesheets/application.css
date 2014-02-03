@@ -157,6 +157,7 @@ body {
 .main {
   margin-left: 320px;
   width: 640px;
+  min-height: 640px;
   padding: 33px 60px 0; }
   .main h1 {
     color: #195073;
@@ -186,7 +187,7 @@ body {
     text-shadow: none;
     text-transform: none; }
   .main img {
-    max-width: 100%;
+    width: 100%;
     border-top: 5px solid #eeeeee;
     border-bottom: 5px solid #eeeeee;
     border-radius: 5px; }
@@ -240,3 +241,20 @@ body {
   text-decoration: none;
   text-shadow: none;
   text-transform: none; }
+
+@media screen and (max-width: 960px) {
+  .header img {
+    display: none; }
+
+  .sidebar {
+    position: static;
+    width: auto;
+    padding: 20px 20px 0; }
+
+  .personal-information {
+    display: none; }
+
+  .main {
+    margin: 0;
+    padding: 0 20px 20px;
+    width: auto; } }

@@ -96,6 +96,7 @@ body {
 .main {
   margin-left: 320px;
   width: 640px;
+  min-height: 640px;
   padding: (lines(2) - 7px) 60px 0;
 
   h1 {
@@ -126,7 +127,7 @@ body {
   }
 
   img {
-    max-width: 100%;
+    width: 100%;
     border-top: 5px solid $light-gray;
     border-bottom: 5px solid $light-gray;
     border-radius: 5px;
@@ -182,4 +183,26 @@ body {
 
 .post-date {
   @include font($dark-gray, 18px, $header-font-family);
+}
+
+@media screen and (max-width: 960px) {
+  .header img {
+    display: none;
+  }
+
+  .sidebar {
+    position: static;
+    width: auto;
+    padding: lines(1) 20px 0;
+  }
+
+  .personal-information {
+    display: none;
+  }
+
+  .main {
+    margin: 0;
+    padding: 0 20px lines(1);
+    width: auto;
+  }
 }
