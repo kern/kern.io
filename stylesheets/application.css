@@ -1,4 +1,3 @@
-@charset "UTF-8";
 * {
   -webkit-box-sizing: border-box;
   -mox-box-sizing: border-box;
@@ -89,14 +88,10 @@ body {
   text-transform: none;
   border-top: 2px solid #f2e5bd; }
 
-.sidebar {
-  background: white;
-  border-right: 0px solid #eeeeee;
-  height: 100%;
-  padding: 40px 20px 0 40px;
-  position: fixed;
-  top: 0;
-  width: 320px; }
+.main {
+  width: 280px;
+  margin: 0 auto;
+  padding-top: 20px; }
 
 .header {
   text-align: center;
@@ -125,7 +120,7 @@ body {
     float: left;
     left: 0%;
     position: relative;
-    width: 33.33333%; }
+    width: 25%; }
   .social-links img {
     display: block;
     width: 24px;
@@ -135,7 +130,7 @@ body {
     opacity: 0.5; }
 
 .personal-information p {
-  color: #195073;
+  color: #383838;
   font: normal normal normal 12px/20px "Museo", sans-serif;
   text-decoration: none;
   text-shadow: none;
@@ -154,107 +149,8 @@ body {
   text-shadow: none;
   text-transform: none; }
 
-.main {
-  margin-left: 320px;
-  width: 640px;
-  min-height: 640px;
-  padding: 33px 60px 0; }
-  .main h1 {
-    color: #195073;
-    font: normal normal normal 36px/40px "Cubano", sans-serif;
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none;
-    margin-bottom: 20px; }
-    .main h1 a {
-      font: inherit;
-      text-decoration: inherit; }
-  .main p {
-    margin-bottom: 20px; }
-  .main ul {
-    list-style-type: square;
-    list-style-position: inside; }
-  .main em {
-    color: #7f8c38;
-    font: normal normal normal 12px/20px "Museo", sans-serif;
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none; }
-  .main a {
-    color: #195073;
-    font: normal normal normal 12px/20px "Museo", sans-serif;
-    text-decoration: underline;
-    text-shadow: none;
-    text-transform: none; }
-  .main img {
-    width: 100%;
-    border-top: 5px solid #eeeeee;
-    border-bottom: 5px solid #eeeeee;
-    border-radius: 5px; }
-
-.footer {
-  color: #888888;
-  font: normal normal normal 10px/20px "Museo", sans-serif;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  margin-top: 20px;
-  padding: 10px 0 10px 20px;
-  border-top: 1px solid #eeeeee; }
-
-.blog-navigation {
-  position: relative;
-  padding: 10px 0;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #eeeeee; }
-  .blog-navigation a {
-    color: #888888;
-    font: normal normal normal 12px/20px "Museo", sans-serif;
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none;
-    display: block; }
-    .blog-navigation a:hover, .blog-navigation a:focus {
-      color: #888888;
-      font: normal normal normal 12px/20px "Museo", sans-serif;
-      text-decoration: underline;
-      text-shadow: none;
-      text-transform: none; }
-  .blog-navigation .prev {
-    position: absolute;
-    left: 0; }
-    .blog-navigation .prev:before {
-      content: "« "; }
-  .blog-navigation .next {
-    position: absolute;
-    right: 0; }
-    .blog-navigation .next:after {
-      content: " »"; }
-  .blog-navigation .archive {
-    margin: 0 auto;
-    text-align: center;
-    width: 200px; }
-
-.post-date {
-  color: #888888;
-  font: normal normal normal 18px/20px "Cubano", sans-serif;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none; }
-
-@media screen and (max-width: 960px) {
-  .header img {
-    display: none; }
-
-  .sidebar {
-    position: static;
-    width: auto;
-    padding: 20px 20px 0; }
-
-  .personal-information {
-    display: none; }
-
-  .main {
-    margin: 0;
-    padding: 0 20px 20px;
-    width: auto; } }
+.double-dash {
+  border-top: 2px solid #E6E6E6;
+  border-bottom: 2px solid #E6E6E6;
+  height: 10px;
+  margin-bottom: 20px; }

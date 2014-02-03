@@ -1,9 +1,0 @@
----
-layout: default
----
-<h1>Archive</h1>
-<ul>
-  {% for post in site.posts %}
-    <li><em>{{ post.date | date_to_long_string }}</em> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
-  {% endfor %}
-</ul>
