@@ -27,7 +27,8 @@ body {
 }
 
 .main {
-  width: 280px;
+  overflow: hidden;
+  width: 600px;
   margin: 0 auto;
   padding-top: 20px;
 }
@@ -72,6 +73,8 @@ body {
 }
 
 .personal-information {
+  @include cell(6, $gutters: right);
+
   p {
     @include font($black, 12px, $body-font-family);
     margin-bottom: lines(1);
@@ -86,9 +89,36 @@ body {
   }
 }
 
+.tweets {
+  @include cell(6, $gutters: left);
+
+  a {
+    @include font($blue, 12px, $body-font-family, $decoration: underline);
+  }
+}
+
 .double-dash {
+  @include cell(12);
   border-top: 2px solid #E6E6E6;
   border-bottom: 2px solid #E6E6E6;
   height: 10px;
   margin-bottom: 20px;
+}
+
+@media screen and (max-width: 639px) {
+  .main {
+    width: auto;
+    padding: 20px 20px 0;
+  }
+
+  .personal-information, .tweets {
+    width: 100%;
+    padding: 0;
+  }
+
+  .tweets iframe {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
 }
