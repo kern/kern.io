@@ -30,31 +30,32 @@ body {
   overflow: hidden;
   width: 600px;
   margin: 0 auto;
-  padding-top: 20px;
+  padding-top: 40px;
 }
 
 .header {
+  @include cell(10, $push: 1);
+  margin-bottom: 40px;
   text-align: center;
-  margin-bottom: 10px;
 
-  a {
-    text-decoration: none;
-  }
-
-  img {
+  > img {
     display: block;
+    float: left;
     width: 140px;
-    margin: 0 auto;
   }
 
-  span {
-    @include font($blue, 24px, $header-font-family);
+  > a {
+    @include font($blue, 64px, $header-font-family);
+    display: block;
+    float: left;
+    width: calc(100% - 140px);
+    margin-top: 18px;
   }
 }
 
 .social-links {
-  @include clearfix;
-  margin-bottom: 20px;
+  float: right;
+  width: calc(100% - 140px);
 
   li {
     @include cell(3);
@@ -105,10 +106,29 @@ body {
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 639px) {
+@media screen and (max-width: 599px) {
   .main {
     width: auto;
     padding: 20px 20px 0;
+  }
+  
+  .header {
+    > img {
+      float: none;
+      margin: 0 auto;
+    }
+
+    > a {
+      @include font($blue, 24px, $header-font-family);
+      float: none;
+      width: auto;
+      margin-top: 0;
+    }
+  }
+
+  .social-links {
+    float: none;
+    width: auto;
   }
 
   .personal-information, .tweets {

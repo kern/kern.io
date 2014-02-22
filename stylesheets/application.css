@@ -41,42 +41,36 @@ table {
   src: url("/fonts/cubano-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/cubano-regular-webfont.woff") format("woff"), url("/fonts/cubano-regular-webfont.ttf") format("truetype"), url("/fonts/cubano-regular-webfont.svg#CubanoRegular") format("svg");
   font-weight: normal;
   font-style: normal; }
-
 @font-face {
   font-family: "Museo";
   src: url("/fonts/museo100-regular-webfont.eot");
   src: url("/fonts/museo100-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/museo100-regular-webfont.woff") format("woff"), url("/fonts/museo100-regular-webfont.ttf") format("truetype"), url("/fonts/museo100-regular-webfont.svg#Museo100Regular") format("svg");
   font-weight: 100;
   font-style: normal; }
-
 @font-face {
   font-family: "Museo";
   src: url("/fonts/museo300-regular-webfont.eot");
   src: url("/fonts/museo300-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/museo300-regular-webfont.woff") format("woff"), url("/fonts/museo300-regular-webfont.ttf") format("truetype"), url("/fonts/museo300-regular-webfont.svg#Museo100Regular") format("svg");
   font-weight: 300;
   font-style: normal; }
-
 @font-face {
   font-family: "Museo";
   src: url("/fonts/museo500-regular-webfont.eot");
   src: url("/fonts/museo500-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/museo500-regular-webfont.woff") format("woff"), url("/fonts/museo500-regular-webfont.ttf") format("truetype"), url("/fonts/museo500-regular-webfont.svg#Museo500Regular") format("svg");
   font-weight: 500;
   font-style: normal; }
-
 @font-face {
   font-family: "Museo";
   src: url("/fonts/museo700-regular-webfont.eot");
   src: url("/fonts/museo700-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/museo700-regular-webfont.woff") format("woff"), url("/fonts/museo700-regular-webfont.ttf") format("truetype"), url("/fonts/museo700-regular-webfont.svg#Museo700Regular") format("svg");
   font-weight: 700;
   font-style: normal; }
-
 @font-face {
   font-family: "Museo";
   src: url("/fonts/museo900-regular-webfont.eot");
   src: url("/fonts/museo900-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/museo900-regular-webfont.woff") format("woff"), url("/fonts/museo900-regular-webfont.ttf") format("truetype"), url("/fonts/museo900-regular-webfont.svg#Museo900Regular") format("svg");
   font-weight: 900;
   font-style: normal; }
-
 html {
   border-top: 5px solid #ee9140; }
 
@@ -92,31 +86,33 @@ body {
   overflow: hidden;
   width: 600px;
   margin: 0 auto;
-  padding-top: 20px; }
+  padding-top: 40px; }
 
 .header {
-  text-align: center;
-  margin-bottom: 10px; }
-  .header a {
-    text-decoration: none; }
-  .header img {
+  float: left;
+  left: 8.33333%;
+  position: relative;
+  width: 83.33333%;
+  margin-bottom: 40px;
+  text-align: center; }
+  .header > img {
     display: block;
-    width: 140px;
-    margin: 0 auto; }
-  .header span {
+    float: left;
+    width: 140px; }
+  .header > a {
     color: #195073;
-    font: normal normal normal 24px/40px "Cubano", sans-serif;
+    font: normal normal normal 64px/80px "Cubano", sans-serif;
     text-decoration: none;
     text-shadow: none;
-    text-transform: none; }
+    text-transform: none;
+    display: block;
+    float: left;
+    width: calc(100% - 140px);
+    margin-top: 18px; }
 
 .social-links {
-  margin-bottom: 20px; }
-  .social-links:before, .social-links:after {
-    content: "";
-    display: table; }
-  .social-links:after {
-    clear: both; }
+  float: right;
+  width: calc(100% - 140px); }
   .social-links li {
     float: left;
     left: 0%;
@@ -179,10 +175,27 @@ body {
   height: 10px;
   margin-bottom: 20px; }
 
-@media screen and (max-width: 639px) {
+@media screen and (max-width: 599px) {
   .main {
     width: auto;
     padding: 20px 20px 0; }
+
+  .header > img {
+    float: none;
+    margin: 0 auto; }
+  .header > a {
+    color: #195073;
+    font: normal normal normal 24px/40px "Cubano", sans-serif;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    float: none;
+    width: auto;
+    margin-top: 0; }
+
+  .social-links {
+    float: none;
+    width: auto; }
 
   .personal-information, .tweets {
     width: 100%;
