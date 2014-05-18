@@ -1,14 +1,7 @@
-use Rack::Static,
-  :urls => ["/app.css", "favicon.ico", "/files", "/images", "/fonts"],
-  :root => "public"
+require "sinatra"
 
-run lambda { |env|
-  [
-    200,
-    {
-      'Content-Type'  => 'text/html',
-      'Cache-Control' => 'public, max-age=86400'
-    },
-    File.open('public/index.html', File::RDONLY)
-  ]
-}
+get "/" do
+  send_file File.join(settings.public_folder, "index.html")
+end
+
+run Sinatra::Application

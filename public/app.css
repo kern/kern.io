@@ -1,40 +1,79 @@
+html .header {
+  zoom: 1; }
+  html .header:before {
+    content: "\0020";
+    display: block;
+    height: 0;
+    overflow: hidden; }
+  html .header:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both; }
+
 * {
-  -webkit-box-sizing: border-box;
-  -mox-box-sizing: border-box;
   box-sizing: border-box; }
 
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
   margin: 0;
   padding: 0;
   border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-family: inherit;
   font-size: 100%;
-  font: inherit;
   vertical-align: baseline; }
 
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-  display: block; }
-
 body {
-  line-height: 1; }
+  color: black;
+  background: white; }
 
 ol, ul {
   list-style: none; }
 
-blockquote, q {
-  quotes: none; }
-
-blockquote:before, blockquote:after {
-  content: "";
-  content: none; }
-
-q:before, q:after {
-  content: "";
-  content: none; }
-
 table {
-  border-collapse: collapse;
-  border-spacing: 0; }
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle; }
 
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle; }
+
+a {
+  color: inherit;
+  text-decoration: inherit; }
+  a img {
+    border: none; }
+
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, main {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  display: block; }
+
+audio, canvas, video {
+  display: inline-block; }
+
+audio:not([controls]), [hidden] {
+  display: none; }
+
+html body {
+  color: black;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: 20px;
+  text-decoration: none;
+  text-transform: none; }
+html .personal-information a, html .tweets a {
+  text-decoration: underline; }
 @font-face {
   font-family: "Cubano";
   src: url("/fonts/cubano-regular-webfont.eot");
@@ -71,110 +110,71 @@ table {
   src: url("/fonts/museo900-regular-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/museo900-regular-webfont.woff") format("woff"), url("/fonts/museo900-regular-webfont.ttf") format("truetype"), url("/fonts/museo900-regular-webfont.svg#Museo900Regular") format("svg");
   font-weight: 900;
   font-style: normal; }
+html body {
+  color: #383838;
+  font-family: "Museo", sans-serif; }
+html .header > a, html .personal-information a, html .tweets a {
+  color: #195073; }
+html .personal-information em {
+  color: #7f8c38; }
+html .header > a {
+  font-size: 64px;
+  line-height: 80px; }
+html .header > a {
+  font-family: "Cubano", sans-serif; }
 html {
   border-top: 5px solid #ee9140; }
-
-body {
-  color: #383838;
-  font: normal normal normal 12px/20px "Museo", sans-serif;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  border-top: 2px solid #f2e5bd; }
-
-.main {
+  html body {
+    border-top: 2px solid #f2e5bd; }
+html .main {
   overflow: hidden;
   width: 600px;
   margin: 0 auto;
   padding-top: 40px; }
-
-.header {
-  float: left;
-  left: 8.33333%;
-  position: relative;
-  width: 83.33333%;
+  html .main_double-dash, html .main > ._double-dash, html .main.__double-dash ._double-dash, html .main.__ ._double-dash {
+    float: left;
+    width: 600px;
+    border-top: 2px solid #E6E6E6;
+    border-bottom: 2px solid #E6E6E6;
+    height: 10px;
+    margin-bottom: 20px; }
+html .header {
+  margin: 0 auto;
+  width: 500px;
   margin-bottom: 40px;
   text-align: center; }
-  .header > img {
+  html .header > img {
     display: block;
     float: left;
     width: 140px; }
-  .header > a {
-    color: #195073;
-    font: normal normal normal 64px/80px "Cubano", sans-serif;
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none;
+  html .header > a {
     display: block;
     float: left;
-    width: calc(100% - 140px);
+    width: 360px;
     margin-top: 18px; }
-
-.social-links {
-  float: right;
-  width: calc(100% - 140px); }
-  .social-links li {
-    float: left;
-    left: 0%;
-    position: relative;
-    width: 25%; }
-  .social-links img {
-    display: block;
-    width: 24px;
-    height: 24px;
-    margin: 0 auto; }
-  .social-links img:hover, .social-links img:focus {
-    opacity: 0.5; }
-
-.personal-information {
+  html .header_social-links, html .header > ._social-links, html .header.__social-links ._social-links, html .header.__ ._social-links {
+    float: right;
+    width: 360px; }
+    html .header_social-links li, html .header > ._social-links li, html .header.__social-links ._social-links li, html .header.__ ._social-links li {
+      float: left;
+      width: 25%; }
+    html .header_social-links img, html .header > ._social-links img, html .header.__social-links ._social-links img, html .header.__ ._social-links img {
+      display: block;
+      width: 24px;
+      height: 24px;
+      margin: 0 auto; }
+    html .header_social-links img:hover, html .header > ._social-links img:hover, html .header.__social-links ._social-links img:hover, html .header.__ ._social-links img:hover, html .header_social-links img:focus, html .header > ._social-links img:focus, html .header.__social-links ._social-links img:focus, html .header.__ ._social-links img:focus {
+      opacity: 0.5; }
+html .personal-information {
   float: left;
-  left: 0%;
-  position: relative;
-  width: 50%;
+  width: 300px;
   padding-right: 20px; }
-  .personal-information p {
-    color: #383838;
-    font: normal normal normal 12px/20px "Museo", sans-serif;
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none;
+  html .personal-information p {
     margin-bottom: 20px; }
-  .personal-information em {
-    color: #7f8c38;
-    font: normal normal normal 12px/20px "Museo", sans-serif;
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none; }
-  .personal-information a {
-    color: #195073;
-    font: normal normal normal 12px/20px "Museo", sans-serif;
-    text-decoration: underline;
-    text-shadow: none;
-    text-transform: none; }
-
-.tweets {
+html .tweets {
   float: left;
-  left: 0%;
-  position: relative;
-  width: 50%;
+  width: 300px;
   padding-left: 20px; }
-  .tweets a {
-    color: #195073;
-    font: normal normal normal 12px/20px "Museo", sans-serif;
-    text-decoration: underline;
-    text-shadow: none;
-    text-transform: none; }
-
-.double-dash {
-  float: left;
-  left: 0%;
-  position: relative;
-  width: 100%;
-  border-top: 2px solid #E6E6E6;
-  border-bottom: 2px solid #E6E6E6;
-  height: 10px;
-  margin-bottom: 20px; }
-
 @media screen and (max-width: 599px) {
   .main {
     width: auto;
@@ -184,11 +184,8 @@ body {
     float: none;
     margin: 0 auto; }
   .header > a {
-    color: #195073;
-    font: normal normal normal 24px/40px "Cubano", sans-serif;
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none;
+    font-size: 24px;
+    line-height: 40px;
     float: none;
     width: auto;
     margin-top: 0; }

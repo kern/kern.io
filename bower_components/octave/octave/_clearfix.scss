@@ -1,0 +1,22 @@
+%clearfix {
+	zoom: 1;
+
+	&:before {
+		content: "\0020";
+		display: block;
+		height: 0;
+		overflow: hidden;
+	}
+
+	&:after {
+		content: "\0020";
+		display: block;
+		height: 0;
+		overflow: hidden;
+		clear: both;
+	}
+}
+
+@mixin clearfix {
+	@extend %clearfix;
+}

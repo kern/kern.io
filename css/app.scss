@@ -1,40 +1,63 @@
-@import "keystone";
+@import "../bower_components/octave/octave";
+@import "palette";
 @import "font-faces";
 
-// Colors
-// ======
-$beige: #F2E5BD;
-$black: #383838;
-$blue: #195073;
-$green: #7F8C38;
-$orange: #EE9140;
+@include def-font(default) {
+    color: $black;
+    font-family: "Museo", sans-serif;
+}
 
-// Font families
-// =============
-$body-font-family: "Museo", sans-serif;
-$header-font-family: "Cubano", sans-serif;
-$monospace: "Consolas", "Liberation Mono", "Courier", monospace;
+@include def-font(blue) {
+    color: $blue;
+}
 
-// Layout
-// ======
-html {
+@include def-font(green) {
+    color: $green;
+}
+
+@include def-font(huge) {
+    font-size: 64px;
+    line-height: 80px;
+}
+
+@include def-font(large) {
+    font-size: 24px;
+    line-height: 40px;
+}
+
+@include def-font(header) {
+    font-family: "Cubano", sans-serif;
+}
+
+@include def-module(root) {
   border-top: 5px solid $orange;
+  
+  body {
+    @include font(default);
+    border-top: 2px solid $beige;
+  }
 }
 
-body {
-  @include font($black, 12px, $body-font-family);
-  border-top: 2px solid $beige;
-}
-
-.main {
+@include def-module(main) {
   overflow: hidden;
   width: 600px;
   margin: 0 auto;
   padding-top: 40px;
+
+  @include def-module(double-dash) {
+    float: left;
+    width: 600px;
+    border-top: 2px solid #E6E6E6;
+    border-bottom: 2px solid #E6E6E6;
+    height: 10px;
+    margin-bottom: 20px;
+  }
 }
 
-.header {
-  @include cell(10, $push: 1);
+@include def-module(header) {
+  @include clearfix;
+  margin: 0 auto;
+  width: 500px;
   margin-bottom: 40px;
   text-align: center;
 
@@ -45,65 +68,69 @@ body {
   }
 
   > a {
-    @include font($blue, 64px, $header-font-family);
+    @include font(blue huge header);
     display: block;
     float: left;
-    width: calc(100% - 140px);
+    width: 360px;
     margin-top: 18px;
   }
+
+  @include def-module(social-links) {
+    float: right;
+    width: 360px;
+    
+    li {
+        float: left;
+        width: 25%;
+    }
+    
+    img {
+        display: block;
+        width: 24px;
+        height: 24px;
+        margin: 0 auto;
+    }
+    
+    img:hover, img:focus {
+        opacity: 0.5;
+    }
+  }
 }
 
-.social-links {
-  float: right;
-  width: calc(100% - 140px);
-
-  li {
-    @include cell(3);
-  }
-
-  img {
-    display: block;
-    width: 24px;
-    height: 24px;
-    margin: 0 auto;
-  }
-
-  img:hover, img:focus {
-    opacity: 0.5;
-  }
-}
-
-.personal-information {
-  @include cell(6, $gutters: right);
+@include def-module(personal-information) {
+  float: left;
+  width: 300px;
+  padding-right: 20px;
 
   p {
-    @include font($black, 12px, $body-font-family);
-    margin-bottom: lines(1);
+    margin-bottom: 20px;
   }
 
   em {
-    @include font($green, 12px, $body-font-family);
+    @include font(green);
   }
 
   a {
-    @include font($blue, 12px, $body-font-family, $decoration: underline);
+    @include font(blue underline);
   }
 }
 
-.tweets {
-  @include cell(6, $gutters: left);
+@include def-module(tweets) {
+  float: left;
+  width: 300px;
+  padding-left: 20px;
 
   a {
-    @include font($blue, 12px, $body-font-family, $decoration: underline);
+    @include font(blue underline);
   }
 }
 
-.double-dash {
-  @include cell(12);
-  border-top: 2px solid #E6E6E6;
-  border-bottom: 2px solid #E6E6E6;
-  height: 10px;
-  margin-bottom: 20px;
+html {
+    @include module-inline(root);
+    @include module-tree(main);
+    @include module-tree(header);
+    @include module-tree(personal-information);
+    @include module-tree(tweets);
 }
 
 @media screen and (max-width: 599px) {
@@ -119,7 +146,8 @@ body {
     }
 
     > a {
-      @include font($blue, 24px, $header-font-family);
+      font-size: 24px;
+      line-height: 40px;
       float: none;
       width: auto;
       margin-top: 0;

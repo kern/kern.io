@@ -1,0 +1,95 @@
+@function list($lists...) {
+	$result: ();
+	@each $list in $lists {
+		$type: type-of($list);
+		@if not ($type == list or $type == arglist) {
+			$list: append((), $list);
+		}
+
+		@each $item in $list {
+			$result: append($result, $item);
+		}
+	}
+
+	@return $result;
+}
+
+@function head($list) {
+	@return nth($list, 1);
+}
+
+@function tail($list) {
+	$result: ();
+
+	$i: 2;
+	@while $i <= length($list) {
+		$result: append($result, nth($list, $i));
+		$i: $i + 1;
+	}
+	@return $result;
+}
+
+@function prepend($list, $value) {
+	$result: list($value);
+
+	@each $item in $list {
+		$result: append($result, $item);
+	}
+
+	@return $result;
+}
+
+@function remove-nth($list, $n) {
+	@if $n <= 0 or $n > length($list) {
+		@warn "Index out of bounds.";
+	}
+
+	$result: ();
+	$i: 1;
+	@each $item in $list {
+		@if $i != $n {
+			$result: append($result, nth($list, $i));
+		}
+
+		$i: $i + 1;
+	}
+
+	@return $result;
+}
+
+@function unique($list) {
+	$result: ();
+	@each $item in $list {
+		@if not index($result, $item) {
+			$result: append($result, $item);
+		}
+	}
+	@return $result;
+}
+
+@function concat($list, $separator) {
+	$result: "";
+	$i: 1;
+
+	@each $item in $list {
+		@if $i == 1 {
+			$result: $item;
+		} @else {
+			$result: $result + $separator + $item;
+		}
+
+		$i: $i + 1;
+	}
+
+	@return $result;
+}
+
+@function reverse($list) {
+    $result: ();
+
+    @each $item in $list {
+        $result: prepend($list, $item);
+    }
+
+    @return $result;
+}

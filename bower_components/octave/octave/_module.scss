@@ -1,0 +1,95 @@
+$module-class-selector-enabled: true !default;
+$module-child-selector-enabled: true !default;
+$module-import-selector-enabled: true !default;
+$module-import-all-selector-enabled: true !default;
+
+$modules: ();
+$current-module: ();
+
+@function module-selectors($module) {
+    $module-depth: length($module);
+    @if $module-depth == 0 {
+        @return ();
+    } @else {
+        $selectors: list(".#{head($module)}");
+
+        $i: 2;
+        @while $i <= $module-depth {
+            $segment: nth($module, $i);
+            $new-selectors: ();
+
+            @each $parent in $selectors {
+                @if $module-class-selector-enabled {
+                    $class-selector: "#{$parent}_#{$segment}";
+                    $new-selectors: append($new-selectors, $class-selector);
+                }
+
+                @if $module-child-selector-enabled {
+                    $child-selector: "#{$parent} > ._#{$segment}";
+                    $new-selectors: append($new-selectors, $child-selector);
+                }
+
+                @if $module-import-selector-enabled {
+                    $import-selector: "#{$parent}.__#{$segment} ._#{$segment}";
+                    $new-selectors: append($new-selectors, $import-selector);
+                }
+
+                @if $module-import-all-selector-enabled {
+                    $import-all-selector: "#{$parent}.__ ._#{$segment}";
+                    $new-selectors: append($new-selectors, $import-all-selector);
+                }
+            }
+
+            $selectors: $new-selectors;
+            $i: $i + 1;
+        }
+
+        @return $selectors;
+    }
+}
+
+@mixin def-module($name...) {
+	$name: list($name);
+
+	$parent-module: $current-module;
+	$current-module: join($current-module, $name) !global;
+	$modules: tree-add($modules, $current-module) !global;
+
+	@include def-resource(module, without-selectors, $current-module) {
+		@content;
+	}
+
+	@include def-resource(module, with-selectors, $current-module) {
+		@each $selector in module-selectors($current-module) {
+			#{$selector} {
+				@include resource(module, without-selectors, $current-module);
+			}
+		}
+	}
+
+	$current-module: $parent-module !global;
+}
+
+@mixin module($name...) {
+	@include resource(module, with-selectors, list($name));
+}
+
+@mixin module-inline($name...) {
+	@include resource(module, without-selectors, list($name));
+}
+
+@mixin module-tree($name...) {
+	@if $name != () {
+		$name: list($name);
+		@include resource(module, with-selectors, $name);
+
+		$temp-modules: $modules;
+		@each $segment in $name {
+			$temp-modules: map-get($temp-modules, $segment)
+		}
+
+		@each $segment, $_ in $temp-modules {
+			@include module-tree(append($name, $segment)...);
+		}
+	}
+}

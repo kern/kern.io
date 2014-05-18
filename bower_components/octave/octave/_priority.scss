@@ -1,0 +1,15 @@
+@function priority-selector($n) {
+	$selector: '';
+	$i: 1;
+	@while $i <= $n {
+		$selector: "#{$selector}:not(#_#{$i})";
+		$i: $i + 1;
+	}
+	@return $selector;
+}
+
+@mixin priority($n) {
+	&#{priority-selector($n)} {
+		@content;
+	}
+}

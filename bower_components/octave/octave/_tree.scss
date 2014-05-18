@@ -1,0 +1,17 @@
+@function tree-add($tree, $path) {
+	@if $path == () {
+		@return ();
+	} @else {
+		$head: head($path);
+		$tail: tail($path);
+
+		$subtree: ();
+		@if map-has-key($tree, $head) {
+			$subtree: map-get($tree, $head);
+		}
+
+		$subtree: tree-add($subtree, $tail);
+		$tree: map-merge($tree, ($head: $subtree));
+		@return $tree;
+	}
+}

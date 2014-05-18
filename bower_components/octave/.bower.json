@@ -1,0 +1,17 @@
+{
+  "name": "octave",
+  "main": "octave.scss",
+  "ignore": [
+    "**/.*"
+  ],
+  "homepage": "https://github.com/kern/octave",
+  "_release": "9772c1f54f",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "9772c1f54f357185832cbbc48dd7197b9a35e58c"
+  },
+  "_source": "git://github.com/kern/octave.git",
+  "_target": "*",
+  "_originalSource": "octave"
+}

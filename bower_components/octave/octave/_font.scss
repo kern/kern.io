@@ -1,0 +1,19 @@
+$fonts: ();
+$current-font: ();
+
+@mixin def-font($type) {
+	$parent-font: $current-font;
+	$current-font: $type !global;
+
+	@include def-resource(font, $current-font) {
+		@content;
+	}
+
+	$current-font: $parent-font !global;
+}
+
+@mixin font($types) {
+    @each $type in reverse($types) {
+	    @include resource(font, $type);
+    }
+}

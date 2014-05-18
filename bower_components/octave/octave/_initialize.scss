@@ -1,0 +1,29 @@
+@include reset;
+
+@include def-font(default) {
+    color: black;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 20px;
+    text-decoration: none;
+    text-transform: none;
+}
+
+@include def-font(bold) {
+    font-weight: bold;
+}
+
+@include def-font(italic) {
+    font-style: italic;
+}
+
+@include def-font(uppercase) {
+    text-transform: uppercase;
+}
+
+@include def-font(underline) {
+    text-decoration: underline;
+}
