@@ -157,7 +157,7 @@ html .header {
     width: 360px; }
     html .header_social-links li, html .header > ._social-links li, html .header.__social-links ._social-links li, html .header.__ ._social-links li {
       float: left;
-      width: 25%; }
+      width: 20%; }
     html .header_social-links img, html .header > ._social-links img, html .header.__social-links ._social-links img, html .header.__ ._social-links img {
       display: block;
       width: 24px;
