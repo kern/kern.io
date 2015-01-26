@@ -13,25 +13,27 @@
 }
 
 @include def-module(root) {
-  background: url('/images/background.jpg') no-repeat top center;
-  background-size: cover;
-  height: 100%;
-
   body {
     @include font(default);
-    background: transparent;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: $green;
   }
 }
 
 @include def-module(main) {
-  padding: 20px;
-  margin: 40px auto;
-  max-width: 640px;
+    padding: 20px;
+    margin: 0 auto;
+    border: 5px inset darken($green, 10%);
+    background: $black;
 }
 
 @include def-module(header) {
   @include clearfix;
-  margin-bottom: 20px;
+  margin: 0 auto;
+  width: 500px;
+  margin-bottom: 40px;
 
   > a {
     @include font(bold);
@@ -53,6 +55,9 @@
 }
 
 @include def-module(personal-information) {
+  width: 300px;
+  padding-right: 20px;
+
   p {
     margin-bottom: 20px;
   }
@@ -62,7 +67,17 @@
   }
 
   a {
-    @include font(underline);
+    @include font(blue underline);
+  }
+}
+
+@include def-module(tweets) {
+  float: left;
+  width: 300px;
+  padding-left: 20px;
+
+  a {
+    @include font(blue underline);
   }
 }
 
@@ -71,10 +86,43 @@ html {
     @include module-tree(main);
     @include module-tree(header);
     @include module-tree(personal-information);
+    @include module-tree(tweets);
 }
 
-@media screen and (max-width: 639px) {
+@media screen and (max-width: 599px) {
   .main {
-    margin-top: 0 !important;
+    width: auto;
+    padding: 20px 20px 0;
+  }
+  
+  .header {
+    > img {
+      float: none;
+      margin: 0 auto;
+    }
+
+    > a {
+      font-size: 24px;
+      line-height: 40px;
+      float: none;
+      width: auto;
+      margin-top: 0;
+    }
+  }
+
+  .social-links {
+    float: none;
+    width: auto;
+  }
+
+  .personal-information, .tweets {
+    width: 100%;
+    padding: 0;
+  }
+
+  .tweets iframe {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 20px;
   }
 }

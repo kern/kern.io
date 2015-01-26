@@ -72,7 +72,11 @@ html body {
   line-height: 20px;
   text-decoration: none;
   text-transform: none; }
-html .personal-information a, html .tweets a {
+html .header > a {
+  font-weight: bold; }
+html .personal-information em {
+  font-style: italic; }
+html .header_social-links a, html .header > ._social-links a, html .header.__social-links ._social-links a, html .header.__ ._social-links a, html .personal-information a {
   text-decoration: underline; }
 @font-face {
   font-family: "Cubano";
@@ -111,94 +115,28 @@ html .personal-information a, html .tweets a {
   font-weight: 900;
   font-style: normal; }
 html body {
-  color: #383838;
-  font-family: "Museo", sans-serif; }
-html .header > a, html .personal-information a, html .tweets a {
-  color: #195073; }
-html .personal-information em {
-  color: #7f8c38; }
-html .header > a {
-  font-size: 64px;
-  line-height: 80px; }
-html .header > a {
-  font-family: "Cubano", sans-serif; }
+  color: white;
+  font-family: "Consolas", "Courier", monospace; }
 html {
-  border-top: 5px solid #ee9140; }
+  background: url("/images/background.jpg") no-repeat top center;
+  background-size: cover;
+  height: 100%; }
   html body {
-    border-top: 2px solid #f2e5bd; }
+    background: transparent; }
 html .main {
-  overflow: hidden;
-  width: 600px;
-  margin: 0 auto;
-  padding-top: 40px; }
-  html .main_double-dash, html .main > ._double-dash, html .main.__double-dash ._double-dash, html .main.__ ._double-dash {
-    float: left;
-    width: 600px;
-    border-top: 2px solid #E6E6E6;
-    border-bottom: 2px solid #E6E6E6;
-    height: 10px;
-    margin-bottom: 20px; }
+  padding: 20px;
+  margin: 40px auto;
+  max-width: 640px; }
 html .header {
-  margin: 0 auto;
-  width: 500px;
-  margin-bottom: 40px;
-  text-align: center; }
-  html .header > img {
-    display: block;
-    float: left;
-    width: 140px; }
+  margin-bottom: 20px; }
   html .header > a {
-    display: block;
-    float: left;
-    width: 360px;
-    margin-top: 18px; }
-  html .header_social-links, html .header > ._social-links, html .header.__social-links ._social-links, html .header.__ ._social-links {
-    float: right;
-    width: 360px; }
-    html .header_social-links li, html .header > ._social-links li, html .header.__social-links ._social-links li, html .header.__ ._social-links li {
-      float: left;
-      width: 20%; }
-    html .header_social-links img, html .header > ._social-links img, html .header.__social-links ._social-links img, html .header.__ ._social-links img {
-      display: block;
-      width: 24px;
-      height: 24px;
-      margin: 0 auto; }
-    html .header_social-links img:hover, html .header > ._social-links img:hover, html .header.__social-links ._social-links img:hover, html .header.__ ._social-links img:hover, html .header_social-links img:focus, html .header > ._social-links img:focus, html .header.__social-links ._social-links img:focus, html .header.__ ._social-links img:focus {
-      opacity: 0.5; }
-html .personal-information {
-  float: left;
-  width: 300px;
-  padding-right: 20px; }
-  html .personal-information p {
-    margin-bottom: 20px; }
-html .tweets {
-  float: left;
-  width: 300px;
-  padding-left: 20px; }
-@media screen and (max-width: 599px) {
+    display: block; }
+  html .header_social-links li, html .header > ._social-links li, html .header.__social-links ._social-links li, html .header.__ ._social-links li {
+    float: left; }
+    html .header_social-links li:after, html .header > ._social-links li:after, html .header.__social-links ._social-links li:after, html .header.__ ._social-links li:after {
+      content: '\00a0\00a0\00a0\00a0'; }
+html .personal-information p {
+  margin-bottom: 20px; }
+@media screen and (max-width: 639px) {
   .main {
-    width: auto;
-    padding: 20px 20px 0; }
-
-  .header > img {
-    float: none;
-    margin: 0 auto; }
-  .header > a {
-    font-size: 24px;
-    line-height: 40px;
-    float: none;
-    width: auto;
-    margin-top: 0; }
-
-  .social-links {
-    float: none;
-    width: auto; }
-
-  .personal-information, .tweets {
-    width: 100%;
-    padding: 0; }
-
-  .tweets iframe {
-    display: block;
-    margin: 0 auto;
-    margin-bottom: 20px; } }
+    margin-top: 0 !important; } }
