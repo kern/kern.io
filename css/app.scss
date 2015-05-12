@@ -3,6 +3,7 @@
 @import "font-faces";
 
 @include def-font(default) {
+    font-size: 14px;
     color: $white;
     font-family: "Consolas", "Courier", monospace;
 }

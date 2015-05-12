@@ -115,6 +115,7 @@ html .header_social-links a, html .header > ._social-links a, html .header.__soc
   font-weight: 900;
   font-style: normal; }
 html body {
+  font-size: 14px;
   color: white;
   font-family: "Consolas", "Courier", monospace; }
 html {
