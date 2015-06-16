@@ -1,7 +1,0 @@
-@function record-type($record) {
-	@return nth($record, 1);
-}
-
-@function record-nth($record, $n) {
-	@return nth($record, $n + 1);
-}

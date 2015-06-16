@@ -1,0 +1,24 @@
+{
+  "name": "kern",
+  "version": "1.0.0",
+  "description": "My personal site's source code.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kern/kern.io.git"
+  },
+  "author": "Alex Kern <alex@kern.io> (http://www.kern.io)",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/kern/kern.io/issues"
+  },
+  "homepage": "https://github.com/kern/kern.io#readme",
+  "dependencies": {
+    "express": "^4.12.4",
+    "nib": "^1.1.0",
+    "stylus": "^0.51.1"
+  }
+}
