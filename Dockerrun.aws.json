@@ -1,0 +1,9 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+        "Name": "ubuntu:12.04"
+    },
+    "Ports": [{ 
+        "ContainerPort": "80"
+    }]
+}
