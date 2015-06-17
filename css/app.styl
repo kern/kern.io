@@ -22,6 +22,16 @@ default-font = 'Cubano', sans-serif
     font-weight normal
     font-style normal
 
+//========
+// Mixins
+
+link-color(c)
+    color c
+    transition color .25s
+
+    &:focus, &:hover
+        color lighten(c, 25%)
+
 //=======
 // Reset
 
@@ -38,7 +48,7 @@ body
     color asphalt
 
 a
-    color red
+    link-color red
 
 .logo
     margin 60px 0 40px 20%
@@ -75,7 +85,7 @@ h1
 
 section
     overflow hidden
-    margin-bottom: 40px
+    margin-bottom 20px
 
     h2
         float left
@@ -100,22 +110,22 @@ section
 //===============
 // Link Coloring
 
-.github    { color: #333333 }
-.facebook  { color: #3B5998 }
-.twitter   { color: #55ACEE }
-.medium    { color: #333333 }
-.email     { color: #DF4A32 }
-.filepizza { color: #B3190B }
-.hackbot   { color: #34703D }
-.puddin    { color: #D99517 }
-.berkeley  { color: #162279 }
-.hh        { color: #19A84C }
-.stab      { color: #F6B100 }
-.calhacks  { color: #F8A700 }
-.kairos    { color: #DC260A }
-.apple     { color: #231F20 }
-.jpl       { color: #FF281E }
-.alp       { color: #E58C2C }
+.github    { link-color: #333333 }
+.facebook  { link-color: #3B5998 }
+.twitter   { link-color: #55ACEE }
+.medium    { link-color: #333333 }
+.email     { link-color: #DF4A32 }
+.filepizza { link-color: #B3190B }
+.hackbot   { link-color: #34703D }
+.puddin    { link-color: #D99517 }
+.berkeley  { link-color: #162279 }
+.hh        { link-color: #19A84C }
+.stab      { link-color: #F6B100 }
+.calhacks  { link-color: #F8A700 }
+.kairos    { link-color: #DC260A }
+.apple     { link-color: #231F20 }
+.jpl       { link-color: #FF281E }
+.alp       { link-color: #E58C2C }
 
 //===============
 // Media Queries
