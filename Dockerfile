@@ -1,4 +1,4 @@
-FROM node:5.11
+FROM mhart/alpine-node:5.11
 MAINTAINER Alex Kern <alex@pavlovml.com>
 
 # install
