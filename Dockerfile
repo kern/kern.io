@@ -11,7 +11,7 @@ COPY . .
 # build
 ENV NODE_ENV=production PORT=80
 RUN ./node_modules/.bin/stylus -C css static -c -u nib --import nib && \
-    rm -rf src && \
+    rm -rf css && \
     npm prune
 
 # run

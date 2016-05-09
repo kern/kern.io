@@ -1,4 +1,6 @@
 var express = require('express')
+var favicon = require('serve-favicon')
+var morgan = require('morgan')
 
 var app = express()
 
@@ -17,6 +19,8 @@ if (process.env.NODE_ENV !== 'production') {
   }))
 }
 
+app.use(morgan('dev'))
+app.use(favicon(__dirname + '/static/favicon.ico'))
 app.use(express.static(__dirname + '/static'))
 
 var port = process.env.PORT ? parseInt(process.env.PORT, 10): 3000

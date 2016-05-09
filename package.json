@@ -18,6 +18,10 @@
   "homepage": "https://github.com/kern/kern.io#readme",
   "dependencies": {
     "express": "^4.12.4",
+    "morgan": "^1.7.0",
+    "serve-favicon": "^2.3.0"
+  },
+  "devDependencies": {
     "nib": "^1.1.0",
     "stylus": "^0.51.1"
   }
