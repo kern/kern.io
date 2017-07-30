@@ -32,4 +32,4 @@ node_modules
 !.elasticbeanstalk/*.global.yml
 
 # stylus
-*.css
+build

@@ -1,16 +1,28 @@
 .PHONY: build run install
 
-TAG ?= latest
+export AWS_PROFILE ?= kern.io
+
+CLOUDFRONT_DIST ?= E2GNMYUUEM9F93
+INVALIDATE_PATHS ?= /index.html
+S3_BUCKET ?= kern.io
 PREFIX ?= kern/io
 
-build: | node_modules
-	docker build -t $(PREFIX):$(TAG) .
-
 run: | node_modules
-	@ node index.js
+	@ nps start
 
-install:
-	@ npm install
+clean:
+	@ rm -rf build
+
+build: clean | node_modules
+	@ ./node_modules/.bin/webpack -p --output-path=build
+
+push: build
+	@ aws s3 cp --recursive \
+			build s3://$(S3_BUCKET)
+	@ aws configure set preview.cloudfront true
+	@ aws cloudfront create-invalidation \
+			--distribution-id $(CLOUDFRONT_DIST) \
+			--paths $(INVALIDATE_PATHS)
 
 node_modules:
 	@ npm install
