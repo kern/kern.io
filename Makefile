@@ -1,10 +1,10 @@
-.PHONY: build run install
+.PHONY: run clean build push
 
 export AWS_PROFILE ?= kern.io
 
 CLOUDFRONT_DIST ?= E2GNMYUUEM9F93
-INVALIDATE_PATHS ?= /index.html
 S3_BUCKET ?= kern.io
+INVALIDATE_PATHS ?= / /index.html
 PREFIX ?= kern/io
 
 run: | node_modules
