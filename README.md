@@ -13,4 +13,4 @@ My personal site's source code.
 
 ## License
 
-BSD
+BSD 3-Clause
