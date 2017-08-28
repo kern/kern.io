@@ -8,7 +8,7 @@ INVALIDATE_PATHS ?= / /index.html
 PREFIX ?= kern/io
 
 run: | node_modules
-	@ nps start
+	@ npm start
 
 clean:
 	@ rm -rf build
