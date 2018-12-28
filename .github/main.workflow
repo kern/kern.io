@@ -1,9 +1,15 @@
 workflow "Build and push" {
   on = "push"
-  resolves = ["GitHub Action for Google Cloud SDK auth"]
+  resolves = ["Setup Google Cloud"]
 }
 
-action "GitHub Action for Google Cloud SDK auth" {
-  uses = "actions/gcloud/auth@8ec8bfa"
-  runs = "make push"
+action "Setup Google Cloud" {
+  uses = "docker://github/gcloud-auth"
+  secrets = ["GCLOUD_AUTH"]
+}
+
+action "Load credentials" {
+  needs = ["Setup Google Cloud"]
+  uses = "docker://github/gcloud"
+  args = "container clusters get-credentials example-project --zone us-central1-a --project data-services-engineering"
 }
