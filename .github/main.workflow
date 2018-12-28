@@ -1,4 +1,4 @@
-workflow "New workflow" {
+workflow "Build and push" {
   on = "push"
   resolves = ["GitHub Action for Google Cloud SDK auth"]
 }
