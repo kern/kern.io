@@ -23,5 +23,5 @@ action "Deploy" {
   uses = "docker://google/cloud-sdk:latest"
   secrets = ["GCLOUD_AUTH"]
   needs = ["Build"]
-  args = "ls"
+  args = "gsutil cp -R build/* gs://kern.io"
 }
