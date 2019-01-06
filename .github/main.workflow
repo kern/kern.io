@@ -11,4 +11,5 @@ action "Load credentials" {
 action "GitHub Action for Google Cloud" {
   uses = "actions/gcloud/cli@8ec8bfa"
   secrets = ["GCLOUD_AUTH"]
+  runs = "make deploy"
 }
