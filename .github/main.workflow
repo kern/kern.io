@@ -21,8 +21,7 @@ action "Build" {
 
 action "Deploy" {
   uses = "actions/gcloud/cli@8ec8bfa"
-  runs = "gsutil"
-  args = "cp -R 'build/*' gs://kern.io"
+  args = "gsutil cp -R 'build/*' gs://kern.io"
   secrets = ["GCLOUD_AUTH"]
   needs = ["Build"]
 }
