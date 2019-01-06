@@ -1,6 +1,6 @@
 workflow "Build and push" {
   on = "push"
-  resolves = ["GitHub Action for Google Cloud"]
+  resolves = ["Deploy"]
 }
 
 action "Load credentials" {
@@ -13,17 +13,17 @@ action "Install" {
   args = "npm install"
 }
 
-action "GitHub Action for npm-1" {
-  uses = "actions/npm@e7aaefe"
+action "Build" {
+  uses = "docker://node:latest"
   args = "-p --output-path=build"
-  runs = "webpack"
+  runs = "./node_modules/.bin/webpack"
   needs = ["Install"]
 }
 
-action "GitHub Action for Google Cloud" {
+action "Deploy" {
   uses = "actions/gcloud/cli@8ec8bfa"
-  needs = ["GitHub Action for npm-1"]
   runs = "gsutil"
   args = "cp -R 'build/*' gs://kern.io"
   secrets = ["GCLOUD_AUTH"]
+  needs = ["Build"]
 }
