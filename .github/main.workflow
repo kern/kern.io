@@ -15,8 +15,7 @@ action "Install" {
 
 action "Build" {
   uses = "docker://node:latest"
-  args = "-p --output-path=build"
-  runs = "./node_modules/.bin/webpack"
+  args = "./node_modules/.bin/webpack -p --output-path=build"
   needs = ["Install"]
 }
 
