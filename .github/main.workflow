@@ -24,4 +24,5 @@ action "Deploy" {
   args = "gsutil cp -R 'build/*' gs://kern.io"
   secrets = ["GCLOUD_AUTH"]
   needs = ["Build"]
+  runs = "sh -c"
 }
