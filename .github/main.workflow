@@ -24,4 +24,5 @@ action "Deploy" {
   secrets = ["GCLOUD_AUTH"]
   needs = ["Build"]
   args = "echo \"$GCLOUD_AUTH\" > ~/.gcloud-auth.json && gsutil cp -R build/* gs://kern.io"
+  runs = "/bin/bash -c"
 }
