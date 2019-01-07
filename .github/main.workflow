@@ -23,7 +23,7 @@ action "Build" {
 }
 
 action "GitHub Action for Google Cloud" {
-  uses = "actions/gcloud/cli@8ec8bfa"
+  uses = "actions/gcloud/auth@8ec8bfa"
   needs = ["Build"]
   args = "version && gsutil cp -R build/* gs://kern.io"
   secrets = ["GCLOUD_AUTH"]
