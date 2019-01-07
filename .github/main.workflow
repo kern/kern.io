@@ -33,6 +33,6 @@ action "Deploy" {
 action "GitHub Action for Google Cloud" {
   uses = "actions/gcloud/cli@8ec8bfa"
   needs = ["Build"]
-  args = "ls && ls"
+  args = "info && ls"
   secrets = ["GCLOUD_AUTH"]
 }
