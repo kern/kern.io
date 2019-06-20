@@ -6,6 +6,7 @@
 asphalt = #777777
 black = #333333
 blue = #3B5998
+coinbase-cyan = #00649A
 cyan = #55ACEE
 gray = #BEBEC0
 green = #19A84C
@@ -87,12 +88,9 @@ h1
         width 80%
         color red
 
-.note
-    font-size 20px
-
 .container
-    width 960px
-    margin 0 auto
+  width 900px
+  margin 0 auto
 
 section
     overflow hidden
@@ -112,6 +110,21 @@ section
     li
         padding-left 20px
         text-indent -20px
+        margin-bottom 20px
+
+.note
+  font-size 20px
+  line-height 32px
+  padding-top 8px
+
+#more
+  cursor pointer
+  font-size 20px
+  color gray
+  link-color gray
+
+#disclosure
+  display none
 
 .footer
     margin 40px 20px 20px
@@ -139,7 +152,7 @@ section
 .puddin     { link-color: orange }
 .stab       { link-color: yellow }
 .twitter    { link-color: cyan }
-.coinbase   { link-color: cyan }
+.coinbase   { link-color: coinbase-cyan }
 
 //===============
 // Media Queries
