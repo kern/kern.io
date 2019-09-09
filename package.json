@@ -35,7 +35,7 @@
     "stylus-loader": "^3.0.1",
     "url-loader": "^0.5.9",
     "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.6.1"
+    "webpack-dev-server": "^3.1.11"
   },
   "devDependencies": {
     "ignore-assets-webpack-plugin": "^2.0.0"
