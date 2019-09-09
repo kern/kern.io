@@ -22,9 +22,15 @@ action "Build" {
   needs = ["Install"]
 }
 
+action "Master" {
+  uses = "actions/bin/filter@master"
+  needs = ["Build"]
+  args = "branch master"
+}
+
 action "GitHub Action for Google Cloud" {
   uses = "actions/gcloud/auth@8ec8bfa"
-  needs = ["Build"]
+  needs = ["Master"]
   args = "&& gsutil cp -R build/* gs://kern.io"
   secrets = ["GCLOUD_AUTH"]
 }
