@@ -14,46 +14,55 @@
     <div class="container">
       <header class="header">
         <div class="instapipe">
-          <div id="story-available">
+          <div id="story-available" class="story-available">
             <img 
               src="https://graph.facebook.com/594899401/picture?type=large"
-              id="storyProfilePicture"
+              alt="@alexskern profile picture"
+              id="story-profile-picture"
               onclick="showStories()"
-              />
+            />
           </div>
 
-          <div id="storyViewer">
-            <div id="storyViewerDimmedBackground" onclick="dismissStories()"></div>
-            <div id="storyContent">
-              <div id="storyHeader">
-                <img 
-                  id="storyHeaderProfilePicture"
+          <div id="story-viewer" class="story-viewer">
+            <div class="overlay" onclick="dismissStories()"></div>
+            <div class="content">
+              <div class="story-viewer-header">
+                <img
+                  src=""
+                  alt="@alexskern profile picture"
+                  id="story-viewer-profile-picture"
                   onclick="window.open('https://instagram.com/alexskern', '_blank')"
-                  />
-                <div class="story-header-info">
-                  <div id="storyUserlink">
+                />
+                <div class="info">
+                  <div class="user-link">
                     <a href="https://instagram.com/alexskern" target="_blank">@alexskern</a>
                   </div>
-                  <div id="storyTimestamp"></div>
+                  <div id="story-timestamp" class="timestamp"></div>
                 </div>
-                <div id="poweredByInstapipe">
-                  <a href="https://instapipe.net" target="_blank">instapipe.net</a>
+                <div class="powered-by-instapipe">
+                  <a href="https://instapipe.net" target="_blank">
+                    instapipe.net
+                  </a>
                 </div>
               </div>
-              <div id="storyProgressBar"></div>
-              <div id="storyBackButton" class="storyButton" onclick="userDidClickPreviousStory()">
+              <div id="story-progress-bar" class="story-viewer-progress-bar"></div>
+              <div class="story-viewer-button prev" onclick="userDidClickPreviousStory()">
                 &laquo;
               </div>
-              <div id="storyNextButton" class="storyButton" onclick="userDidClickNextStory()">
+              <div class="story-viewer-button next" onclick="userDidClickNextStory()">
                 &raquo;
               </div>
-
-              <video autoplay playsinline muted id="storyVideoViewer">
-              </video>
-              <div id="storyPhotoViewer" onclick="userDidClickNextStory()">
+              <div class="story-viewer-media">
+                <video id="story-viewer-video" autoplay playsinline muted></video>
+                <div id="story-viewer-photo" onclick="userDidClickNextStory()"></div>
               </div>
             </div>
-            <img src="" id="fakeContentToPreloadImages" />
+            <img
+              src=""
+              alt="loading..."
+              id="story-viewer-dummy-content"
+              class="story-viewer-dummy-content"
+            />
           </div>
 
           <script type='text/javascript'>
@@ -80,11 +89,11 @@
                   if (storiesContent.length == 0) {
                     // Default it's shown, as it looks nicer
                     // and I post stories most days :joy:
-                    document.getElementById("story-available").className += "story-not-available"
+                    document.getElementById("story-available").className += "not-available"
                   } else {
                     // preload the first story if it's a picture
                     if (!storiesContent[0]["is_video"]) {
-                      document.getElementById("fakeContentToPreloadImages").src = storiesContent[0]["signed_url"]
+                      document.getElementById("story-viewer-dummy-content").src = storiesContent[0]["signed_url"]
                     }
                   }
                 }
@@ -102,13 +111,13 @@
               // Copy the profile picture URL to the story header, to only have to define it once
               // we only do that once everything is loaded, as depending on the website
               // the image node might not be acccessible yet
-              let profileImageURL = document.getElementById("storyProfilePicture").src
-              document.getElementById("storyHeaderProfilePicture").src = profileImageURL;
+              let profileImageURL = document.getElementById("story-profile-picture").src
+              document.getElementById("story-viewer-profile-picture").src = profileImageURL;
 
               storiesToShow = []
               progressBars = []
 
-              document.getElementById("storyViewer").style.display = "flex"
+              document.getElementById("story-viewer").style.display = "flex"
 
               for (let storyIndex in storiesContent) {
                 let currentStory = storiesContent[storyIndex]
@@ -120,15 +129,15 @@
 
                 // Append the progress items
                 var progressBarBackground = document.createElement("div")
-                progressBarBackground.className = "storyProgressBarItemBg"
+                progressBarBackground.className = "item-bg"
                 progressBarBackground.style.width = "calc(" + (1.0 / storiesToShow.length) * 100 + "%" + " - " + progressPadding * 2 + "px)"
                 progressBarBackground.style.marginRight = progressPadding + "px"
                 progressBarBackground.style.marginLeft = progressPadding + "px"
-                document.getElementById("storyProgressBar").appendChild(progressBarBackground)
+                document.getElementById("story-progress-bar").appendChild(progressBarBackground)
 
                 var progressBarForeground = document.createElement("div")
                 progressBarForeground.style.width = "0%"
-                progressBarForeground.className = "storyProgressBarItemFg"
+                progressBarForeground.className = "item-fg"
                 progressBarBackground.appendChild(progressBarForeground)
 
                 progressBars.push(progressBarForeground)
@@ -156,11 +165,11 @@
               }
 
               // Show image/video
-              let videoViewer = document.getElementById("storyVideoViewer")
-              let photoViewer = document.getElementById("storyPhotoViewer")
+              let videoViewer = document.getElementById("story-viewer-video")
+              let photoViewer = document.getElementById("story-viewer-photo")
               let progressBarContent = progressBars[currentIndex]
 
-              document.getElementById("storyTimestamp").textContent = currentStory["formatted_time_diff"]
+              document.getElementById("story-timestamp").textContent = currentStory["formatted_time_diff"]
 
               if (currentStory["is_video"]) {
                 videoViewer.src = currentStory["signed_url"]
@@ -205,13 +214,13 @@
               {
                 setTimeout(function() {
                   // Poor person's pre-loading of images, with a slight delay
-                  document.getElementById("fakeContentToPreloadImages").src = storiesToShow[currentIndex + 1]["signed_url"]
+                  document.getElementById("story-viewer-dummy-content").src = storiesToShow[currentIndex + 1]["signed_url"]
                 }, timeOutForPhotos / 3.0 * 1000)
               }
             }
 
             function animateProgressBar(progressBar, duration) {
-              progressBar.style.animationName = "storyViewProgress";
+              progressBar.style.animationName = "story-viewer-progress";
               progressBar.style.animationDuration = duration + "s";
             }
 
@@ -246,8 +255,8 @@
             }
 
             function dismissStories() {
-              document.getElementById("storyViewer").style.display = "none"
-              document.getElementById("storyProgressBar").innerHTML = ""
+              document.getElementById("story-viewer").style.display = "none"
+              document.getElementById("story-progress-bar").innerHTML = ""
               stopAllAnimations()
             }
 
@@ -265,7 +274,6 @@
             }, false);
 
             preloadStoriesIndex();
-
           </script>
         </div>
         <h1>

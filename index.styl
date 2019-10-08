@@ -158,31 +158,26 @@ section
 //==========
 // Instapipe
 
-#storyProfilePicture {
-  box-sizing: content-box;
-  width 100px
-  height 100px
-  border-radius: 70px;
-  margin-left: 3px;
-  margin-top: 3px;
-  cursor: pointer;
-  border: 4px solid white;
-}
+.story-available
+  background-image linear-gradient(rgb(186, 62, 138), #fba051)
+  size 114px 114px
+  z-index -10
+  border-radius 70px
+  margin-left -57px
 
-#story-available {
-  background-image: linear-gradient(rgb(186, 62, 138), #fba051);
-  height: 114px;
-  width: 114px;
-  z-index: -10;
-  border-radius: 70px;
-  margin-left: -57px;
-}
+  &.not-available
+    background-image none !important
 
-#story-available.story-not-available {
-  background-image: none !important;
-}
+  > img
+    box-sizing content-box
+    size 100px 100px
+    border-radius 70px
+    margin-left 3px
+    margin-top 3px
+    cursor pointer
+    border 4px solid white
 
-#storyViewer
+.story-viewer
   width 100%
   height 100%
   position fixed
@@ -193,127 +188,116 @@ section
   font 18px/24px default-font
   justify-content center
 
-  #storyViewerDimmedBackground
-    /* This is a separate div to allow onclick events */
+  > .overlay
     background-color rgba(0, 0, 0, 0.8)
     width 100%
     height 100%
     z-index -1
     position absolute
 
-  #storyContent
+  > .content
     position relative
-    width: 512px;
-    max-width: 80%; /* for mobile devices */
-    margin-top: 30px;
+    width 512px
+    max-width 80% // for mobile devices
+    margin-top 30px
 
-    /* 
-      To get the right aspect ratio, while still having a dynamic content size
-      https://stackoverflow.com/questions/1495407/maintain-the-aspect-ratio-of-a-div-with-css
-      IG content: 910px height to 512px width = ~178%
-      So the `padding-bottom` sets the height of the content
-    */
-    // padding-bottom: 178%;
+.story-viewer-media
+  position absolute
+  top 80px
+  left 0
+  right 0
+  bottom 40px
+  display flex
+  align-items center
+  justify-content center
 
-    .storyButton
-      position fixed
-      top calc(50vh - 10px)
-      background-color rgba(200, 200, 200, 0.88)
-      padding 10px
-      color black
-      border-radius 20px
-      width 40px
-      height 40px
-      display block
-      font 18px/20px default-font
-      text-align center
-      cursor pointer
+  > div
+    background-size contain
+    background-repeat no-repeat
+    background-position 50% 50%
+    size 100% 100%
 
-    #storyBackButton
-      left 50px
+  > video
+    max-width 100%
+    max-height 100%
 
-    #storyNextButton
-      right 50px
+.story-viewer-progress-bar
+  height 3px
+  margin 10px 0
+  display flex
 
-    #storyPhotoViewer
-      background-size contain
-      background-repeat no-repeat
-      background-position 50% 50%
-      position absolute
-      top 80px
-      left 0
-      right 0
-      bottom 40px
+  .item-bg
+    border-radius 6px
+    background-color rgba(187, 187, 187, 0.6)
+    height 100%
+    display block
 
-    #storyVideoViewer
-      width 100%
+  .item-fg
+    background-color white
+    height 100%
+    border-radius 3px
+    animation-timing-function linear
 
-#storyViewer > #storyContent > #storyProgressBar
-  width: calc(100% + 4px);
-  margin-left: -2px;
-  height: 3px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-
-  .storyProgressBarItemBg
-    border-radius: 6px;
-    background-color: rgba(187, 187, 187, 0.6);
-    height: 100%;
-    display: inline-block;
-    float: left;
-
-.storyProgressBarItemFg {
-  background-color: #FFF;
-  height: 100%;
-  border-radius: 3px;
-  animation-timing-function: linear;
-}
-
-#fakeContentToPreloadImages {
-  height: 0;
-  width: 0;
-  opacity: 0;
-}
-
-@keyframes storyViewProgress {
-  from { width: 0%; }
-  to { width: 100%; }
-}
-
-#storyHeader
+.story-viewer-header
   height 50px
   display flex
   align-items center
 
-  #storyHeaderProfilePicture
+  > img
     display block
-    width 50px
-    height 50px
+    size 50px 50px
     border-radius 25px
     cursor pointer
     box-sizing border-box
     margin-right 10px
     border 3px solid white
 
-  .story-header-info
+  > .info
     flex auto
 
-  #storyUserlink
-    a
+    > .user-link a
       link-color white
       text-decoration none
 
-  #storyTimestamp
-    color asphalt
-    font-size 16px
+    > .timestamp
+      color asphalt
+      font-size 16px
 
-  #poweredByInstapipe
+  > .powered-by-instapipe
     text-align right
     font-size 16px
 
     a
       link-color asphalt
       text-decoration none
+
+.story-viewer-button
+  position fixed
+  top calc(50vh - 10px)
+  background-color rgba(200, 200, 200, 0.88)
+  padding 10px
+  color black
+  border-radius 20px
+  width 40px
+  height 40px
+  display block
+  font 18px/20px default-font
+  text-align center
+  cursor pointer
+
+  &.prev
+    left 50px
+
+  &.next
+    right 50px
+
+.story-viewer-dummy-content
+  size 0 0
+  opacity 0
+
+@keyframes story-viewer-progress
+  from { width: 0%; }
+  to { width: 100%; }
 
 //===============
 // Media Queries
