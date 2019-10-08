@@ -246,7 +246,7 @@
 
             function stopAllAnimations() {
               clearTimeout(nextStoryTimeout)
-              document.getElementById("storyVideoViewer").onended = null
+              document.getElementById("story-viewer-video").onended = null
 
               for (let index in progressBars) {
                 let currentProgressBar = progressBars[index]
