@@ -21,12 +21,9 @@ jobs:
       run: npm install
     - name: Build
       run: ./node_modules/.bin/webpack -p --output-path=build
-    - name: Set up Google Cloud SDK
-      run: |
-        mkdir -p ~/.config/gcloud
-        echo "$GCLOUD_AUTH" > ~/.config/gcloud/credentials.json
-        gcloud auth activate-service-account --key-file=$HOME/.config/gcloud/credentials.json
+    - name: Deploy
+      uses: actions/gcloud/auth@master
       env:
         GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH }}
-    - name: Deploy
-      run: gsutil cp -R build/* gs://kern.io
+      with:
+        args: '&& gsutil cp -R build/* gs://kern.io'
