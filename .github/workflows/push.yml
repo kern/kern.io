@@ -18,11 +18,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install
-      run:
-        args: npm install
+      run: npm install
     - name: Build
-      run:
-        args: ./node_modules/.bin/webpack -p --output-path=build
+      run: ./node_modules/.bin/webpack -p --output-path=build
     - name: GitHub Action for Google Cloud
       uses: actions/gcloud/auth@8ec8bfa
       env:
