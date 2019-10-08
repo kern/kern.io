@@ -21,9 +21,8 @@ jobs:
       run: npm install
     - name: Build
       run: ./node_modules/.bin/webpack -p --output-path=build
-    - name: GitHub Action for Google Cloud
-      uses: actions/gcloud/auth@8ec8bfa
+    - name: Deploy
+      uses: actions/gcloud/auth@master
       env:
         GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH }}
-      with:
-        args: '&& gsutil cp -R build/* gs://kern.io'
+      run: gsutil cp -R build/* gs://kern.io
