@@ -105,7 +105,8 @@
 
             function showStories() {
               if (storiesContent == null || storiesContent.length == 0) {
-                return;
+                window.open('https://instagram.com/alexskern', '_blank')
+                return
               }
 
               // Copy the profile picture URL to the story header, to only have to define it once
@@ -288,12 +289,7 @@
         <section id="currently">
           <h2>Currently</h2>
           <ul>
-            <li>
-              <a href="https://coinbase.com/" class="coinbase">Coinbase</a>, Blockchain Tech Lead
-            </li>
-            <li>
-              Forbes 30 <span class="note">Under</span> 30
-            </li>
+            <li>Building something...</li>
           </ul>
         </section>
 
@@ -303,7 +299,13 @@
           </h2>
           <ul>
             <li>
-              <a href="https://distributedsystems.com/" class="dsys">Distributed Systems</a>, CTO &amp; Cofounder <div class="note">acquired by <a href="https://coinbase.com" class="coinbase">Coinbase</a></div>
+              <a href="https://coinbase.com/" class="coinbase">Coinbase</a>, Blockchain Tech Lead
+            </li>
+            <li>
+              Forbes 30 <span class="sub">Under</span> 30
+            </li>
+            <li>
+              <a href="https://distributedsystems.com/" class="dsys">Distributed Systems</a>, CTO &amp; Cofounder <div class="sup">acquired by <a href="https://coinbase.com" class="coinbase">Coinbase</a></div>
             </li>
             <li>
               <a href="http://calhacks.io" class="calhacks">Cal Hacks</a>, Founder
