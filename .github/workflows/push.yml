@@ -30,8 +30,4 @@ jobs:
         service_account_key: ${{ secrets.GCP_SA_KEY }}
     - run: |
       gsutil cp -R build/* gs://kern.io
-      gsutil setmeta \
-        -h "Content-Type:text/html" \
-        -h "Cache-Control:public, max-age=3600" \
-        -h "Content-Disposition" \
-        gs://kern.io/dashboard
+      gsutil setmeta -h "Content-Type:text/html" -h "Cache-Control:public, max-age=3600" -h "Content-Disposition" gs://kern.io/dashboard
