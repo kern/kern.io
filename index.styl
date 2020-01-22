@@ -161,8 +161,19 @@ section
 .twitter       { link-color: cyan }
 .siliconvalley { link-color: red }
 .coinbase      { link-color: coinbase-cyan }
-.zebraiq       { link-color: zebra-pink }
 .dashboard     { link-color: black }
+
+.zebraiq
+  background radial-gradient(149.1% 149.1% at 6.12% 94.71%, #ff44cb 0, #9682e1 49.48%, #0dd3ff 80.21%), #fff
+  color transparent
+  text-decoration underline
+  background-clip text
+  -webkit-background-clip text !important
+  transition all .25s
+
+  &:focus, &:hover
+    color transparent
+    background radial-gradient(149.1% 149.1% at 6.12% 94.71%, lighten(#ff44cb, 20%) 0, lighten(#9682e1, 25%) 49.48%, lighten(#0dd3ff, 25%) 80.21%), #fff
 
 //==========
 // Instapipe
