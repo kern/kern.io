@@ -28,4 +28,6 @@ jobs:
         version: '275.0.0'
         service_account_email: ${{ secrets.GCP_SA_EMAIL }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}
-    - run: 'gsutil cp -R build/* gs://kern.io'
+    - run: |
+      gsutil cp -R build/* gs://kern.io
+      gsutil setmeta -h "Content-Type:text/html" gs://kern.io/dashboard
