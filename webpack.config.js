@@ -62,7 +62,10 @@ module.exports = {
     }),
     new ExtractTextWebpackPlugin("index.css"),
     new StyleExtHTMLWebpackPlugin({ minify: true }),
-    new CopyWebpackPlugin([{ from: "files", to: "files" }]),
+    new CopyWebpackPlugin([
+      { from: "files", to: "files" },
+      { from: "images", to: "images" }
+    ]),
     new FaviconsWebpackPlugin({ logo: FAVICON_PATH, prefix: "icons/[hash]/" }),
     new IgnoreAssetsWebpackPlugin({
       ignore: "bundle.js"
