@@ -164,16 +164,26 @@ section
 .dashboard     { link-color: black }
 
 .zebraiq
-  background radial-gradient(149.1% 149.1% at 6.12% 94.71%, #ff44cb 0, #9682e1 49.48%, #0dd3ff 80.21%), #fff
+  position relative
+  background linear-gradient(190deg, rgb(255, 94, 210), rgb(255, 119, 111), rgb(255, 182, 72)), zebra-pink
   color transparent
-  text-decoration underline
   background-clip text
   -webkit-background-clip text !important
   transition all .25s
 
   &:focus, &:hover
     color transparent
-    background radial-gradient(149.1% 149.1% at 6.12% 94.71%, lighten(#ff44cb, 20%) 0, lighten(#9682e1, 25%) 49.48%, lighten(#0dd3ff, 25%) 80.21%), #fff
+    background linear-gradient(190deg, lighten(rgb(255, 94, 210), 20%), lighten(rgb(255, 119, 111), 20%), lighten(rgb(255, 182, 72), 20%)), zebra-pink
+    .underline
+      background linear-gradient(190deg, lighten(rgb(255, 94, 210), 20%), lighten(rgb(255, 119, 111), 20%), lighten(rgb(255, 182, 72), 20%)), zebra-pink
+
+  .underline
+    position absolute
+    bottom 1px
+    left 0
+    right 0
+    height 3px
+    background linear-gradient(190deg, rgb(255, 94, 210), rgb(255, 119, 111), rgb(255, 182, 72)), zebra-pink
 
 //==========
 // Instapipe
