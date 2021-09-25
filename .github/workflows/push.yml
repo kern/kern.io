@@ -23,7 +23,7 @@ jobs:
       run: |
         ./node_modules/.bin/webpack -p --output-path=build
         cp dashboard.html build/dashboard
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+    - uses: google-github-actions/setup-gcloud@master
       with:
         version: '275.0.0'
         service_account_email: ${{ secrets.GCP_SA_EMAIL }}
