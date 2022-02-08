@@ -10,7 +10,6 @@ clean:
 
 build: clean | node_modules
 	@ ./node_modules/.bin/webpack -p --output-path=build
-	@ cp dashboard.html build/dashboard
 
 push: build
 	@ gsutil cp -R 'build/*' gs://$(S3_BUCKET)
