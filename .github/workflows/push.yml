@@ -22,7 +22,6 @@ jobs:
     - name: Build
       run: |
         ./node_modules/.bin/webpack -p --output-path=build
-        cp dashboard.html build/dashboard
     - uses: google-github-actions/setup-gcloud@master
       with:
         version: '275.0.0'
