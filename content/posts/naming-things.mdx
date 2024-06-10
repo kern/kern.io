@@ -1,0 +1,38 @@
+---
+title: Naming Things
+description: Why naming things well is important and rules-of-thumb for doing so
+date: "2024-05-12"
+---
+
+It seems like the most important skill you develop over time as an engineer is to **name things well**. It's one of the [two hard problems](https://martinfowler.com/bliki/TwoHardThings.html): giving a variable, data structure, function, type, or service/subsystem the appropriate name affects its current and future use.
+
+When all the names of different parts of your system work together, you've finally understood the problem space you're operating in. I often begin new projects by naming as many things as I can and filling in their implementations. Abstract processes take shape when you [reify](<https://en.wikipedia.org/wiki/Reification_(computer_science)>) them with a name.
+
+Names are important to get right at the beginning. They are sticky. The name persists in the codebase in hard-to-find or hard-to-modify corners. Service names, column names, and API fields all have a tendency toward permanance.
+
+But beyond that, once a few of your teammates start calling a concept that half-baked name you used in some early brainstorming meeting, it's active effort on your part to dislodge the problematic name from the team lexicon. It's a meme now. You'll really never finish the migration.
+
+Here are a few of my opinionated rules of thumb for naming things well:
+
+## Variables, types, classes, and other data structures
+
+- They should be nouns.
+- They should have more specific names when they could be confused with other similar names.
+- Single letter variable names are only acceptable for small inline lambda parameters.
+
+## Functions and methods
+
+- They all start with present imperative verbs.
+- They should be shorter and more generic if the more frequently they are used in the codebase.
+- If a function primarily computes a value in-memory, begin with `get` or `compute`.
+- If a function constructs a new object or data structure, begin with `build`.
+- If a function fetches a value from a remote host, begin with `fetch` or `load`.
+- If a function returns a boolean value, begin with the prefix `is`, `has`, or another present indicative verb.
+
+## Services and subsystems
+
+As a codebase grows, it seems that most programmers prefer **literal names** that succinctly describes the purpose for each subsystems or service.
+
+Literal naming is in contrast to the cute "codenames" or "pet names" used for alpha-stage experimentation that I often see lurking in the legacy parts of larger codebases. I think teams grow out of this pattern because it doesn't scale. Many engineers have been burned in the past trying to explain what a service's responsibility is to a new teammate, only to realize how much other internal jargon one must memorize to ramp up. It's fun at first, but codenames eventually get in the way. Or perhaps I've just worked on one too many projects named "nova".
+
+The primary disadvantage of literal service names is that every so often their purpose changes. You'll decide to make a name change, and embark on the find-and-replace mega-PR. What was once a `email_notifications` service evolved into a more powerful `notifications` service when the time comes to implement push notifications as well. In this instance, I still maintain that a meaningful service name you have to change is preferable over a meaningless one. With a bit for foresight, you can avoid these changes in the first place.
