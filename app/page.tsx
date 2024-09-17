@@ -20,7 +20,7 @@ export default function HomePage() {
           <List>
             <ListItem>
               <ExternalLink href="https://figma.com/">Figma</ExternalLink>,
-              Engineering
+              New Products
             </ListItem>
           </List>
         </SectionBody>
@@ -56,7 +56,7 @@ export default function HomePage() {
               , Crypto Tech Lead
             </ListItem>
             <ListItem>
-              <ExternalLink href="http://calhacks.io">Cal Hacks</ExternalLink>,
+              <ExternalLink href="https://calhacks.io">Cal Hacks</ExternalLink>,
               Founder
             </ListItem>
             <ListItem>
@@ -70,38 +70,39 @@ export default function HomePage() {
             </ListItem>
             <Disclosure>
               <ListItem>
-                <ExternalLink href="https://zebraiq.com/">
-                  Zebra IQ
-                </ExternalLink>
-                , CTO &amp; Cofounder
+                Zebra IQ, CTO &amp; Cofounder
               </ListItem>
               <ListItem>
-                <ExternalLink href="http://www.alsop-louie.com/">
+                <ExternalLink href="https://www.alsop-louie.com/">
                   Alsop-Louie Partners
                 </ExternalLink>
                 , Associate
               </ListItem>
               <ListItem>
-                <ExternalLink href="http://apple.com">Apple</ExternalLink>,
+                <ExternalLink href="https://apple.com">Apple</ExternalLink>,
                 Applied Machine Learning
               </ListItem>
               <ListItem>
-                <ExternalLink href="http://mars.jpl.nasa.gov/msl/">
+                <ExternalLink href="https://mars.jpl.nasa.gov/msl/">
                   NASA JPL
                 </ExternalLink>
                 , Software Engineering
               </ListItem>
               <ListItem>
-                <ExternalLink href="http://kairossociety.com/northern-california">
-                  Kairos Society
-                </ExternalLink>
-                , Regional President
-              </ListItem>
-              <ListItem>
-                <ExternalLink href="http://www.berkeley.edu/">
+                <ExternalLink href="https://www.berkeley.edu/">
                   UC Berkeley
                 </ExternalLink>
                 , Computer Science
+              </ListItem>
+              <ListItem>
+                Kairos Society, Regional President
+              </ListItem>
+              <ListItem>
+                FRC Team 1515 <ExternalLink href="https://www.team1515.com/">Mortorq</ExternalLink>
+                , Team Captain
+              </ListItem>
+              <ListItem>
+                <ExternalLink href="https://www.planetbravo.com/">PlanetBravo Techno-Tainment Camp</ExternalLink>, CIT
               </ListItem>
             </Disclosure>
           </List>
@@ -111,7 +112,7 @@ export default function HomePage() {
       <Section id="links">
         <SectionHeader>Links</SectionHeader>
         <SectionBody>
-          <ExternalLink href="https://twitter.com/kernio">Twitter</ExternalLink>
+          <ExternalLink href="https://x.com/kernio">X / Twitter</ExternalLink>
           , <ExternalLink href="https://github.com/kern">GitHub</ExternalLink>,{" "}
           <ExternalLink href="https://www.linkedin.com/in/alexanderskern/">
             LinkedIn

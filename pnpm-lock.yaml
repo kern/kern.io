@@ -130,7 +130,7 @@ packages:
       camel-case: 4.1.2
       comment-json: 4.2.3
       esbuild: 0.21.2
-      gray-matter: 4.0.3
+      stone-matter: 4.0.3
       mdx-bundler: 9.2.1(esbuild@0.21.2)
       rehype-stringify: 9.0.3
       remark-frontmatter: 4.0.1
@@ -155,7 +155,7 @@ packages:
       "@contentlayer/utils": 0.3.2(typescript@5.0.4)
       chokidar: 3.5.3
       fast-glob: 3.2.12
-      gray-matter: 4.0.3
+      stone-matter: 4.0.3
       imagescript: 1.2.16
       micromatch: 4.0.5
       ts-pattern: 4.2.3
@@ -3377,7 +3377,7 @@ packages:
       }
     dev: false
 
-  /gray-matter@4.0.3:
+  /stone-matter@4.0.3:
     resolution:
       {
         integrity: sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q==,
@@ -4477,7 +4477,7 @@ packages:
       "@fal-works/esbuild-plugin-global-externals": 2.1.2
       "@mdx-js/esbuild": 2.3.0(esbuild@0.21.2)
       esbuild: 0.21.2
-      gray-matter: 4.0.3
+      stone-matter: 4.0.3
       remark-frontmatter: 4.0.1
       remark-mdx-frontmatter: 1.1.1
       uuid: 8.3.2

@@ -8,7 +8,7 @@ import Link from "next/link";
 export function PageNav() {
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const isBlog = pathname.startsWith("/p");
+  const isWriting = pathname.startsWith("/p");
   const logoTranslate = isHome ? "md:translate-x-28" : "md:translate-x-0";
 
   return (
@@ -29,8 +29,8 @@ export function PageNav() {
           </NavLink>
         </li>
         <li>
-          <NavLink href="/p" isSelected={isBlog}>
-            Blog
+          <NavLink href="/p" isSelected={isWriting}>
+            Writing
           </NavLink>
         </li>
       </ul>
