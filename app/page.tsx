@@ -68,45 +68,47 @@ export default function HomePage() {
             <ListItem>
               Forbes 30 <Sub>under</Sub> 30
             </ListItem>
-            <Disclosure>
-              <ListItem>Zebra IQ, CTO &amp; Cofounder</ListItem>
-              <ListItem>
-                <ExternalLink href="https://www.alsop-louie.com/">
-                  Alsop-Louie Partners
-                </ExternalLink>
-                , Associate
-              </ListItem>
-              <ListItem>
-                <ExternalLink href="https://apple.com">Apple</ExternalLink>,
-                Applied Machine Learning
-              </ListItem>
-              <ListItem>
-                <ExternalLink href="https://mars.jpl.nasa.gov/msl/">
-                  NASA JPL
-                </ExternalLink>
-                , Software Engineering
-              </ListItem>
-              <ListItem>
-                <ExternalLink href="https://www.berkeley.edu/">
-                  UC Berkeley
-                </ExternalLink>
-                , Computer Science
-              </ListItem>
-              <ListItem>Kairos Society, Regional President</ListItem>
-              <ListItem>
-                FRC Team 1515{" "}
-                <ExternalLink href="https://www.team1515.com/">
-                  Mortorq
-                </ExternalLink>
-                , Team Captain
-              </ListItem>
-              <ListItem>
-                <ExternalLink href="https://www.planetbravo.com/">
-                  PlanetBravo Techno-Tainment Camp
-                </ExternalLink>
-                , CIT
-              </ListItem>
-            </Disclosure>
+            <ListItem>
+              <Disclosure>
+                <ListItem>Zebra IQ, CTO &amp; Cofounder</ListItem>
+                <ListItem>
+                  <ExternalLink href="https://www.alsop-louie.com/">
+                    Alsop-Louie Partners
+                  </ExternalLink>
+                  , Associate
+                </ListItem>
+                <ListItem>
+                  <ExternalLink href="https://apple.com">Apple</ExternalLink>,
+                  Applied Machine Learning
+                </ListItem>
+                <ListItem>
+                  <ExternalLink href="https://mars.jpl.nasa.gov/msl/">
+                    NASA JPL
+                  </ExternalLink>
+                  , Software Engineering
+                </ListItem>
+                <ListItem>
+                  <ExternalLink href="https://www.berkeley.edu/">
+                    UC Berkeley
+                  </ExternalLink>
+                  , Computer Science
+                </ListItem>
+                <ListItem>Kairos Society, Regional President</ListItem>
+                <ListItem>
+                  FRC Team 1515{" "}
+                  <ExternalLink href="https://www.team1515.com/">
+                    Mortorq
+                  </ExternalLink>
+                  , Team Captain
+                </ListItem>
+                <ListItem>
+                  <ExternalLink href="https://www.planetbravo.com/">
+                    PlanetBravo Techno-Tainment Camp
+                  </ExternalLink>
+                  , CIT
+                </ListItem>
+              </Disclosure>
+            </ListItem>
           </List>
         </SectionBody>
       </Section>

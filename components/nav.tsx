@@ -13,7 +13,7 @@ export function PageNav() {
   return (
     <nav className="flex justify-between pb-2 md:pb-4">
       <div className={`flex-none transition-transform ${logoTranslate}`}>
-        <Link href="/">
+        <Link href="/" title="Kern.io logo">
           <Logo />
         </Link>
       </div>
