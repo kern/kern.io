@@ -96,16 +96,19 @@ export default async function PostPage({ params }: PostProps) {
   );
 }
 
-function PostNavigation({ post, direction }: {
+function PostNavigation({
+  post,
+  direction,
+}: {
   post: any;
-  direction: 'prev' | 'next';
+  direction: "prev" | "next";
 }) {
   if (!post) {
     return <div className="w-[50%]" />;
   }
 
-  const label = direction === 'prev' ? '« Newer' : 'Older »';
-  const textAlign = direction === 'prev' ? 'text-left' : 'text-right';
+  const label = direction === "prev" ? "« Newer" : "Older »";
+  const textAlign = direction === "prev" ? "text-left" : "text-right";
 
   return (
     <Link
@@ -120,4 +123,4 @@ function PostNavigation({ post, direction }: {
       </div>
     </Link>
   );
-};
+}

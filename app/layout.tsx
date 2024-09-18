@@ -60,8 +60,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <main>{children}</main>
             <footer className="mx-auto mt-12 mb-4 flex items-center justify-center text-xs">
               <div>
-                Released under the{" "}
-                <ExternalLink href="https://github.com/kern/kern.io/blob/master/LICENSE">
+                &copy; 2015-{new Date().getFullYear()} &middot;{" "}
+                <ExternalLink href="https://github.com/kern/kern.io/blob/main/LICENSE">
                   BSD 3-Clause license
                 </ExternalLink>{" "}
                 &middot;{" "}
