@@ -19,8 +19,8 @@ export default function HomePage() {
         <SectionBody>
           <List>
             <ListItem>
-              <ExternalLink href="https://figma.com/">Figma</ExternalLink>,
-              New Products
+              <ExternalLink href="https://figma.com/">Figma</ExternalLink>, New
+              Products
             </ListItem>
           </List>
         </SectionBody>
@@ -69,9 +69,7 @@ export default function HomePage() {
               Forbes 30 <Sub>under</Sub> 30
             </ListItem>
             <Disclosure>
-              <ListItem>
-                Zebra IQ, CTO &amp; Cofounder
-              </ListItem>
+              <ListItem>Zebra IQ, CTO &amp; Cofounder</ListItem>
               <ListItem>
                 <ExternalLink href="https://www.alsop-louie.com/">
                   Alsop-Louie Partners
@@ -94,15 +92,19 @@ export default function HomePage() {
                 </ExternalLink>
                 , Computer Science
               </ListItem>
+              <ListItem>Kairos Society, Regional President</ListItem>
               <ListItem>
-                Kairos Society, Regional President
-              </ListItem>
-              <ListItem>
-                FRC Team 1515 <ExternalLink href="https://www.team1515.com/">Mortorq</ExternalLink>
+                FRC Team 1515{" "}
+                <ExternalLink href="https://www.team1515.com/">
+                  Mortorq
+                </ExternalLink>
                 , Team Captain
               </ListItem>
               <ListItem>
-                <ExternalLink href="https://www.planetbravo.com/">PlanetBravo Techno-Tainment Camp</ExternalLink>, CIT
+                <ExternalLink href="https://www.planetbravo.com/">
+                  PlanetBravo Techno-Tainment Camp
+                </ExternalLink>
+                , CIT
               </ListItem>
             </Disclosure>
           </List>
@@ -112,8 +114,8 @@ export default function HomePage() {
       <Section id="links">
         <SectionHeader>Links</SectionHeader>
         <SectionBody>
-          <ExternalLink href="https://x.com/kernio">X / Twitter</ExternalLink>
-          , <ExternalLink href="https://github.com/kern">GitHub</ExternalLink>,{" "}
+          <ExternalLink href="https://x.com/kernio">X / Twitter</ExternalLink>,{" "}
+          <ExternalLink href="https://github.com/kern">GitHub</ExternalLink>,{" "}
           <ExternalLink href="https://www.linkedin.com/in/alexanderskern/">
             LinkedIn
           </ExternalLink>

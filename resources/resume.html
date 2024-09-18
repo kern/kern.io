@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -7,10 +7,11 @@
       @font-face {
         font-family: "Hoefler Text";
         src: url("/fonts/HoeflerText-Roman.eot");
-        src: url("/fonts/HoeflerText-Roman.eot?#iefix") format("embedded-opentype"),
-             url("/fonts/HoeflerText-Roman.woff") format("woff"),
-             url("/fonts/HoeflerText-Roman.ttf")  format("truetype"),
-             url("/fonts/HoeflerText-Roman.svg#svgFontName") format("svg");
+        src:
+          url("/fonts/HoeflerText-Roman.eot?#iefix") format("embedded-opentype"),
+          url("/fonts/HoeflerText-Roman.woff") format("woff"),
+          url("/fonts/HoeflerText-Roman.ttf") format("truetype"),
+          url("/fonts/HoeflerText-Roman.svg#svgFontName") format("svg");
         font-weight: normal;
         font-style: normal;
       }
@@ -18,10 +19,11 @@
       @font-face {
         font-family: "Hoefler Text";
         src: url("/fonts/HoeflerText-Bold.eot");
-        src: url("/fonts/HoeflerText-Bold.eot?#iefix") format("embedded-opentype"),
-             url("/fonts/HoeflerText-Bold.woff") format("woff"),
-             url("/fonts/HoeflerText-Bold.ttf")  format("truetype"),
-             url("/fonts/HoeflerText-Bold.svg#svgFontName") format("svg");
+        src:
+          url("/fonts/HoeflerText-Bold.eot?#iefix") format("embedded-opentype"),
+          url("/fonts/HoeflerText-Bold.woff") format("woff"),
+          url("/fonts/HoeflerText-Bold.ttf") format("truetype"),
+          url("/fonts/HoeflerText-Bold.svg#svgFontName") format("svg");
         font-weight: bold;
         font-style: normal;
       }
@@ -29,10 +31,12 @@
       @font-face {
         font-family: "Hoefler Text";
         src: url("/fonts/HoeflerText-BoldSC.eot");
-        src: url("/fonts/HoeflerText-BoldSC.eot?#iefix") format("embedded-opentype"),
-             url("/fonts/HoeflerText-BoldSC.woff") format("woff"),
-             url("/fonts/HoeflerText-BoldSC.ttf")  format("truetype"),
-             url("/fonts/HoeflerText-BoldSC.svg#svgFontName") format("svg");
+        src:
+          url("/fonts/HoeflerText-BoldSC.eot?#iefix")
+            format("embedded-opentype"),
+          url("/fonts/HoeflerText-BoldSC.woff") format("woff"),
+          url("/fonts/HoeflerText-BoldSC.ttf") format("truetype"),
+          url("/fonts/HoeflerText-BoldSC.svg#svgFontName") format("svg");
         font-weight: bold;
         font-style: normal;
         font-variant: small-caps;
@@ -41,10 +45,12 @@
       @font-face {
         font-family: "Hoefler Text";
         src: url("/fonts/HoeflerText-RegularItalic.eot");
-        src: url("/fonts/HoeflerText-RegularItalic.eot?#iefix") format("embedded-opentype"),
-             url("/fonts/HoeflerText-RegularItalic.woff") format("woff"),
-             url("/fonts/HoeflerText-RegularItalic.ttf")  format("truetype"),
-             url("/fonts/HoeflerText-RegularItalic.svg#svgFontName") format("svg");
+        src:
+          url("/fonts/HoeflerText-RegularItalic.eot?#iefix")
+            format("embedded-opentype"),
+          url("/fonts/HoeflerText-RegularItalic.woff") format("woff"),
+          url("/fonts/HoeflerText-RegularItalic.ttf") format("truetype"),
+          url("/fonts/HoeflerText-RegularItalic.svg#svgFontName") format("svg");
         font-weight: normal;
         font-style: italic;
       }
@@ -55,53 +61,103 @@
         color: #333;
       }
 
-      h1, h2, h3, ul, p {
+      h1,
+      h2,
+      h3,
+      ul,
+      p {
         border: 0;
         margin: 0;
         padding: 0;
       }
 
-      a { color: blue; }
+      a {
+        color: blue;
+      }
 
       .header > h1 {
-        font: 18pt/20pt "Hoefler Text", serif;
+        font:
+          18pt/20pt "Hoefler Text",
+          serif;
         text-align: center;
         text-transform: uppercase;
       }
 
       .contact-information {
-        font: 8pt/15pt "Hoefler Text", serif;
+        font:
+          8pt/15pt "Hoefler Text",
+          serif;
         list-style-type: none;
         margin: 0 auto;
         text-align: center;
       }
 
-      .contact-information > li { display: inline; }
+      .contact-information > li {
+        display: inline;
+      }
       .contact-information > li + li:before {
         content: "\2022\0A";
       }
 
       .section-header {
-        border-bottom: 1px solid #DDD;
-        font: 12pt/14pt "Hoefler Text", serif;
+        border-bottom: 1px solid #ddd;
+        font:
+          12pt/14pt "Hoefler Text",
+          serif;
         margin-top: 10pt;
         text-transform: uppercase;
       }
 
-      .education, .job-header { overflow: auto; }
-      .education > .left, .job-header > .left { float: left; }
-      .education > .right, .job-header > .right { float: right; }
-      .school-name, .job-name { font: small-caps bold 12pt/15pt "Hoefler Text", serif; }
-      .school-major, .job-position { font: italic 12pt/15pt "Hoefler Text", serif; }
-      .school-location, .school-duration, .job-location, .job-duration {
-        font: 10pt/15pt "Hoefler Text", serif;
+      .education,
+      .job-header {
+        overflow: auto;
+      }
+      .education > .left,
+      .job-header > .left {
+        float: left;
+      }
+      .education > .right,
+      .job-header > .right {
+        float: right;
+      }
+      .school-name,
+      .job-name {
+        font:
+          small-caps bold 12pt/15pt "Hoefler Text",
+          serif;
+      }
+      .school-major,
+      .job-position {
+        font:
+          italic 12pt/15pt "Hoefler Text",
+          serif;
+      }
+      .school-location,
+      .school-duration,
+      .job-location,
+      .job-duration {
+        font:
+          10pt/15pt "Hoefler Text",
+          serif;
         text-align: right;
       }
 
-      .job, .skills, .activities-and-interests > p { font: 10pt/13pt "Hoefler Text", serif; }
-      .job { margin-bottom: 5pt; }
-      .job > ul { margin-left: 0.25in; }
-      .skills > ul { list-style-type: none; }
+      .job,
+      .skills,
+      .activities-and-interests > p {
+        font:
+          10pt/13pt "Hoefler Text",
+          serif;
+      }
+      .job {
+        margin-bottom: 5pt;
+      }
+      .job > ul {
+        margin-left: 0.25in;
+      }
+      .skills > ul {
+        list-style-type: none;
+      }
     </style>
   </head>
   <body>
@@ -136,7 +192,9 @@
       <div class="job">
         <div class="job-header">
           <div class="left">
-            <h3 class="job-name"><a href="http://www.calhacks.io">Cal Hacks</a></h3>
+            <h3 class="job-name">
+              <a href="http://www.calhacks.io">Cal Hacks</a>
+            </h3>
             <div class="job-position">Director</div>
           </div>
 
@@ -147,8 +205,14 @@
         </div>
 
         <ul>
-          <li>Organized and fundraised the first major collegiate hackathon in the Bay Area</li>
-          <li>Over 1,500 hackers participated making Cal Hacks the largest hackathon ever held</li>
+          <li>
+            Organized and fundraised the first major collegiate hackathon in the
+            Bay Area
+          </li>
+          <li>
+            Over 1,500 hackers participated making Cal Hacks the largest
+            hackathon ever held
+          </li>
         </ul>
       </div>
 
@@ -166,7 +230,11 @@
         </div>
 
         <ul>
-          <li>Sought out new investment opportunities for the firm by connecting entrepreneurs to each other and the greater entrepreneurial ecosystem</li>
+          <li>
+            Sought out new investment opportunities for the firm by connecting
+            entrepreneurs to each other and the greater entrepreneurial
+            ecosystem
+          </li>
         </ul>
       </div>
 
@@ -174,7 +242,9 @@
         <div class="job-header">
           <div class="left">
             <h3 class="job-name">Apple Inc.</h3>
-            <div class="job-position">Information Systems &amp; Technology Software Engineering Intern</div>
+            <div class="job-position">
+              Information Systems &amp; Technology Software Engineering Intern
+            </div>
           </div>
 
           <div class="right">
@@ -184,8 +254,15 @@
         </div>
 
         <ul>
-          <li>Worked on machine learning algorithms for automated fraud detection by developing end-to-end software for structured web data retrieval, aggregation, and analysis</li>
-          <li>Developed highly distributed algorithms for determining the cardinality of extremely large sets</li>
+          <li>
+            Worked on machine learning algorithms for automated fraud detection
+            by developing end-to-end software for structured web data retrieval,
+            aggregation, and analysis
+          </li>
+          <li>
+            Developed highly distributed algorithms for determining the
+            cardinality of extremely large sets
+          </li>
         </ul>
       </div>
 
@@ -203,13 +280,25 @@
         </div>
 
         <ul>
-          <li>Developed highly-available backup software to enable durable cloud storage for Jet Propulsion Laboratory's (JPL) satellites and Mars rovers</li>
-          <li>Coauthored an IEEE paper and gave presentations about cloud data storage strategies at JPL and EO Alchemy (<a href="http://eoalchemy.com">eoalchemy.com</a>), one of Los Angeles's largest entrepreneurial conferences</li>
+          <li>
+            Developed highly-available backup software to enable durable cloud
+            storage for Jet Propulsion Laboratory's (JPL) satellites and Mars
+            rovers
+          </li>
+          <li>
+            Coauthored an IEEE paper and gave presentations about cloud data
+            storage strategies at JPL and EO Alchemy (<a
+              href="http://eoalchemy.com"
+              >eoalchemy.com</a
+            >), one of Los Angeles's largest entrepreneurial conferences
+          </li>
         </ul>
 
         <div class="job-header">
           <div class="left">
-            <div class="job-position">Motor Testing Software Engineering Intern</div>
+            <div class="job-position">
+              Motor Testing Software Engineering Intern
+            </div>
           </div>
 
           <div class="right">
@@ -218,8 +307,14 @@
         </div>
 
         <ul>
-          <li>Helped test the motor controller of the Curiosity Mars Rover by automating unit testing workflows</li>
-          <li>Presented to JPL computer scientists on domain-specific languages and their applications in testing</li>
+          <li>
+            Helped test the motor controller of the Curiosity Mars Rover by
+            automating unit testing workflows
+          </li>
+          <li>
+            Presented to JPL computer scientists on domain-specific languages
+            and their applications in testing
+          </li>
         </ul>
       </div>
 
@@ -237,9 +332,18 @@
         </div>
 
         <ul>
-          <li>Lead developer of mobile application Check2 designed to provide frequent restaurant-goers with deals</li>
-          <li>Developed back-end Ruby on Rails application along with front-end iPhone, Android, and web apps</li>
-          <li>Managed local and international development team of 7 people over the course of 2 years</li>
+          <li>
+            Lead developer of mobile application Check2 designed to provide
+            frequent restaurant-goers with deals
+          </li>
+          <li>
+            Developed back-end Ruby on Rails application along with front-end
+            iPhone, Android, and web apps
+          </li>
+          <li>
+            Managed local and international development team of 7 people over
+            the course of 2 years
+          </li>
         </ul>
       </div>
 
@@ -257,8 +361,14 @@
         </div>
 
         <ul>
-          <li>Designed and developed over 20 websites for clients including photographers and interior designers</li>
-          <li>Responsible for the entire design from wireframe to completion, including interactive animations</li>
+          <li>
+            Designed and developed over 20 websites for clients including
+            photographers and interior designers
+          </li>
+          <li>
+            Responsible for the entire design from wireframe to completion,
+            including interactive animations
+          </li>
         </ul>
       </div>
     </div>
@@ -267,17 +377,35 @@
       <h2 class="section-header">Skills</h2>
 
       <ul>
-        <li>10 years of experience using client-side web technologies (HTML/CSS/JavaScript)</li>
-        <li>8 years of software development in Node.js, Objective-C, Ruby, Java, PHP, Python, Clojure, C, and C++</li>
-        <li>Proficient in database management of PostgreSQL, Redis, MongoDB, CouchDB, and Riak</li>
+        <li>
+          10 years of experience using client-side web technologies
+          (HTML/CSS/JavaScript)
+        </li>
+        <li>
+          8 years of software development in Node.js, Objective-C, Ruby, Java,
+          PHP, Python, Clojure, C, and C++
+        </li>
+        <li>
+          Proficient in database management of PostgreSQL, Redis, MongoDB,
+          CouchDB, and Riak
+        </li>
       </ul>
     </div>
 
     <div class="activities-and-interests">
       <h2 class="section-header">Activities &amp; Interests</h2>
 
-      <p><strong>Activities:</strong> President of <a href="http://startup.berkeley.edu">Startup@Berkeley</a> &amp; <a href="http://www.kairossociety.org/regions/north-california/">Kairos Society Nor Cal</a>, Mentor for the <a href="http://team1515.org/">BHHS Robotics Team</a></p>
-      <p><strong>Interests:</strong> International travel, music production, cycling, typography, and modern art</p>
+      <p>
+        <strong>Activities:</strong> President of
+        <a href="http://startup.berkeley.edu">Startup@Berkeley</a> &amp;
+        <a href="http://www.kairossociety.org/regions/north-california/"
+          >Kairos Society Nor Cal</a
+        >, Mentor for the <a href="http://team1515.org/">BHHS Robotics Team</a>
+      </p>
+      <p>
+        <strong>Interests:</strong> International travel, music production,
+        cycling, typography, and modern art
+      </p>
     </div>
   </body>
 </html>

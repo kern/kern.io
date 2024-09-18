@@ -21,18 +21,25 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const sortedPosts = allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const sortedPosts = allPosts.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
   return (
     <div className="flex flex-wrap justify-center gap-4">
       {sortedPosts.map((post) => (
-        <div key={post._id} className="w-full rounded bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-sm hover:shadow-lg active:shadow-inset transition-shadow duration-300">
+        <div
+          key={post._id}
+          className="w-full rounded bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-sm hover:shadow-lg active:shadow-inset transition-shadow duration-300"
+        >
           <Link href={post.slug}>
             <div className="px-6 py-4 flex flex-col justify-between">
               <div>
                 <h2 className="font-bold text-xl mb-2">{post.title}</h2>
-                {post.description && <p className="text-stone-700 dark:text-stone-200 text-base">
-                  {post.description}
-                </p>}
+                {post.description && (
+                  <p className="text-stone-700 dark:text-stone-200 text-base">
+                    {post.description}
+                  </p>
+                )}
               </div>
             </div>
           </Link>
