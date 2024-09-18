@@ -88,38 +88,36 @@ export default async function PostPage({ params }: PostProps) {
       )}
       <hr className="my-4" />
       <Mdx code={post.body.code} />
-      <div className="flex justify-between w-full gap-4 mt-8">
-        {post.prev ? (
-          <Link
-            href={post.prev.slug}
-            className="block no-underline w-[50%] self-stretch"
-          >
-            <div className="h-full rounded bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-sm hover:shadow-md active:shadow-inset transition-shadow duration-300 px-6 py-4">
-              <p className="text-sm text-stone-600 m-0">&laquo; Newer</p>
-              <h3 className="my-0 text-lg font-semibold leading-tight">
-                {post.prev.title}
-              </h3>
-            </div>
-          </Link>
-        ) : (
-          <div className="w-[50%]" />
-        )}
-        {post.next ? (
-          <Link
-            href={post.next.slug}
-            className="block no-underline w-[50%] self-stretch text-right"
-          >
-            <div className="h-full rounded bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-sm hover:shadow-md active:shadow-inset transition-shadow duration-300 px-6 py-4">
-              <p className="text-sm text-stone-600 m-0">Older &raquo;</p>
-              <h3 className="my-0 text-lg font-semibold leading-tight">
-                {post.next.title}
-              </h3>
-            </div>
-          </Link>
-        ) : (
-          <div className="w-[50%]" />
-        )}
+      <div className="flex justify-between w-full gap-4 mt-16">
+        <PostNavigation post={post.prev} direction="prev" />
+        <PostNavigation post={post.next} direction="next" />
       </div>
     </article>
   );
 }
+
+function PostNavigation({ post, direction }: {
+  post: any;
+  direction: 'prev' | 'next';
+}) {
+  if (!post) {
+    return <div className="w-[50%]" />;
+  }
+
+  const label = direction === 'prev' ? '« Newer' : 'Older »';
+  const textAlign = direction === 'prev' ? 'text-left' : 'text-right';
+
+  return (
+    <Link
+      href={post.slug}
+      className={`block no-underline w-[50%] self-stretch ${textAlign}`}
+    >
+      <div className="h-full rounded bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-sm hover:shadow-md active:shadow-inset transition-shadow duration-300 px-4 py-4">
+        <p className="text-sm text-stone-600 m-0">{label}</p>
+        <h3 className="my-0 text-lg font-semibold leading-tight">
+          {post.title}
+        </h3>
+      </div>
+    </Link>
+  );
+};
