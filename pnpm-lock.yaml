@@ -234,8 +234,8 @@ packages:
       "@effect-ts/system": 0.57.5
     dev: false
 
-  ? /@effect-ts/otel-exporter-trace-otlp-grpc@0.14.1(@effect-ts/core@0.60.5)(@opentelemetry/api@1.4.1)(@opentelemetry/core@1.12.0)(@opentelemetry/exporter-trace-otlp-grpc@0.31.0)(@opentelemetry/sdk-trace-base@1.12.0)
-  : resolution:
+  /@effect-ts/otel-exporter-trace-otlp-grpc@0.14.1(@effect-ts/core@0.60.5)(@opentelemetry/api@1.4.1)(@opentelemetry/core@1.12.0)(@opentelemetry/exporter-trace-otlp-grpc@0.31.0)(@opentelemetry/sdk-trace-base@1.12.0):
+    resolution:
       {
         integrity: sha512-eb6dJhVKnjS1v8afdPm+wuZ3JeX2Gt3GJA9Vw5D2aESE7wa3mrpElsNNbDXn6rhgyjZq3VWYY/NXVtLAFOQIbQ==,
       }
@@ -254,8 +254,8 @@ packages:
       "@opentelemetry/sdk-trace-base": 1.12.0(@opentelemetry/api@1.4.1)
     dev: false
 
-  ? /@effect-ts/otel-sdk-trace-node@0.14.1(@effect-ts/core@0.60.5)(@opentelemetry/api@1.4.1)(@opentelemetry/core@1.12.0)(@opentelemetry/sdk-trace-base@1.12.0)(@opentelemetry/sdk-trace-node@1.12.0)
-  : resolution:
+  /@effect-ts/otel-sdk-trace-node@0.14.1(@effect-ts/core@0.60.5)(@opentelemetry/api@1.4.1)(@opentelemetry/core@1.12.0)(@opentelemetry/sdk-trace-base@1.12.0)(@opentelemetry/sdk-trace-node@1.12.0):
+    resolution:
       {
         integrity: sha512-j5ynRvd0H+Fp9aH/5NOtBd1ogNMpNB3r7uiXOKRPlfKUOtdx4KsCt2cPBjChMvyLstj8dkjtWE4loLSTYkWPuA==,
       }
@@ -274,8 +274,8 @@ packages:
       "@opentelemetry/sdk-trace-node": 1.12.0(@opentelemetry/api@1.4.1)
     dev: false
 
-  ? /@effect-ts/otel@0.14.1(@effect-ts/core@0.60.5)(@opentelemetry/api@1.4.1)(@opentelemetry/core@1.12.0)(@opentelemetry/sdk-trace-base@1.12.0)
-  : resolution:
+  /@effect-ts/otel@0.14.1(@effect-ts/core@0.60.5)(@opentelemetry/api@1.4.1)(@opentelemetry/core@1.12.0)(@opentelemetry/sdk-trace-base@1.12.0):
+    resolution:
       {
         integrity: sha512-WtkxdoM1M8bl7F1mrSwBZQJAIaUXcupePrllL7iZnvSfUVhYXV98gRTV6EiVT+prX7rzCW4wPkF/XsyWbtMDtA==,
       }
@@ -2581,8 +2581,8 @@ packages:
       - supports-color
     dev: false
 
-  ? /eslint-import-resolver-typescript@3.5.5(@typescript-eslint/parser@5.59.2)(eslint-import-resolver-node@0.3.7)(eslint-plugin-import@2.27.5)(eslint@8.39.0)
-  : resolution:
+  /eslint-import-resolver-typescript@3.5.5(@typescript-eslint/parser@5.59.2)(eslint-import-resolver-node@0.3.7)(eslint-plugin-import@2.27.5)(eslint@8.39.0):
+    resolution:
       {
         integrity: sha512-TdJqPHs2lW5J9Zpe17DZNQuDnox4xo2o+0tE7Pggain9Rbc19ik8kFtXdxZ250FVx2kF4vlt2RSf4qlUpG7bhw==,
       }
@@ -2608,8 +2608,8 @@ packages:
       - supports-color
     dev: false
 
-  ? /eslint-module-utils@2.8.0(@typescript-eslint/parser@5.59.2)(eslint-import-resolver-node@0.3.7)(eslint-import-resolver-typescript@3.5.5)(eslint@8.39.0)
-  : resolution:
+  /eslint-module-utils@2.8.0(@typescript-eslint/parser@5.59.2)(eslint-import-resolver-node@0.3.7)(eslint-import-resolver-typescript@3.5.5)(eslint@8.39.0):
+    resolution:
       {
         integrity: sha512-aWajIYfsqCKRDgUfjEXNN/JlrzauMuSEy5sbd7WXbtW3EH6A6MpwEh42c7qD+MqQo9QMJ6fWLAeIJynx0g6OAw==,
       }
@@ -2641,8 +2641,8 @@ packages:
       - supports-color
     dev: false
 
-  ? /eslint-plugin-import@2.27.5(@typescript-eslint/parser@5.59.2)(eslint-import-resolver-typescript@3.5.5)(eslint@8.39.0)
-  : resolution:
+  /eslint-plugin-import@2.27.5(@typescript-eslint/parser@5.59.2)(eslint-import-resolver-typescript@3.5.5)(eslint@8.39.0):
+    resolution:
       {
         integrity: sha512-LmEt3GVofgiGuiE+ORpnvP+kAm3h6MLZJ4Q5HCyHADofsb4VzXFsRiWj3c0OFiV+3DWFh0qg3v9gcPlfc3zRow==,
       }
@@ -4958,8 +4958,8 @@ packages:
       }
     dev: false
 
-  ? /next-contentlayer@0.3.2(esbuild@0.21.2)(next@13.4.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
-  : resolution:
+  /next-contentlayer@0.3.2(esbuild@0.21.2)(next@13.4.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4):
+    resolution:
       {
         integrity: sha512-pihb/VtBq30eV+WpaWakWVtA1DWKzfXeaL7l/vR4MvrTO8UtZaX9H6wY0oSOqrmy674BRjXiQ03PbEOE5D6/iA==,
       }

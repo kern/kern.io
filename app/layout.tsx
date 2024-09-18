@@ -50,7 +50,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`antialiased min-h-screen bg-white text-stone-900 dark:text-stone-50 dark:bg-stone-950 ${outfit.className}`}
       >
