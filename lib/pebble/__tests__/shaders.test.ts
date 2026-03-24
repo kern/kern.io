@@ -87,6 +87,12 @@ describe('CLUSTER_LOD_SHADER', () => {
     expect(CLUSTER_LOD_SHADER).toContain('childCount == 0u');
     expect(CLUSTER_LOD_SHADER).toContain('parentIdx');
   });
+
+  it('writes per-cluster visibility flags (not compacted list)', () => {
+    expect(CLUSTER_LOD_SHADER).toContain('clusterVisibility');
+    expect(CLUSTER_LOD_SHADER).toContain('clusterVisibility[clusterIdx] = 1u');
+    expect(CLUSTER_LOD_SHADER).toContain('clusterVisibility[clusterIdx] = 0u');
+  });
 });
 
 describe('BUILD_INDIRECT_SHADER', () => {
@@ -122,6 +128,15 @@ describe('VERTEX_PULL_SHADER', () => {
     expect(VERTEX_PULL_SHADER).toContain('normal');
     expect(VERTEX_PULL_SHADER).toContain('uv');
     expect(VERTEX_PULL_SHADER).toContain('clusterId');
+  });
+
+  it('checks per-cluster visibility flag', () => {
+    expect(VERTEX_PULL_SHADER).toContain('clusterVisibility');
+    expect(VERTEX_PULL_SHADER).toContain('isVisible == 0u');
+  });
+
+  it('uses instanceIndex directly as cluster ID', () => {
+    expect(VERTEX_PULL_SHADER).toContain('let clusterIdx = instanceIndex');
   });
 
   it('has debug LOD coloring', () => {

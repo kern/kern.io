@@ -53,7 +53,7 @@ export class PebbleRenderer {
   private uniformBuffer!: GPUBuffer;
   private visibleInstanceBuffer!: GPUBuffer;
   private visibleInstanceCountBuffer!: GPUBuffer;
-  private visibleClusterBuffer!: GPUBuffer;
+  private clusterVisibilityBuffer!: GPUBuffer;
   private visibleClusterCountBuffer!: GPUBuffer;
   private statsReadBuffer!: GPUBuffer;
 
@@ -187,9 +187,9 @@ export class PebbleRenderer {
       usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
     });
 
-    // Visible cluster list
+    // Per-cluster visibility flags (1 u32 per cluster: 0=hidden, 1=visible)
     const maxClusters = Math.max(scene.clusters.length, 1);
-    this.visibleClusterBuffer = this.device.createBuffer({
+    this.clusterVisibilityBuffer = this.device.createBuffer({
       size: maxClusters * 4,
       usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
     });
@@ -383,12 +383,12 @@ export class PebbleRenderer {
       entries: [
         { binding: 0, resource: { buffer: this.uniformBuffer } },
         { binding: 1, resource: { buffer: this.clusterBuffer } },
-        { binding: 2, resource: { buffer: this.visibleClusterBuffer } },
+        { binding: 2, resource: { buffer: this.clusterVisibilityBuffer } },
         { binding: 3, resource: { buffer: this.visibleClusterCountBuffer } },
       ],
     });
 
-    // Main render
+    // Main render (uses per-cluster visibility flags, no compacted list)
     this.mainRenderBG = this.device.createBindGroup({
       layout: this.mainRenderPipeline.getBindGroupLayout(0),
       entries: [
@@ -396,8 +396,7 @@ export class PebbleRenderer {
         { binding: 1, resource: { buffer: this.vertexBuffer } },
         { binding: 2, resource: { buffer: this.indexBuffer } },
         { binding: 3, resource: { buffer: this.clusterBuffer } },
-        { binding: 4, resource: { buffer: this.visibleClusterBuffer } },
-        { binding: 5, resource: { buffer: this.visibleClusterCountBuffer } },
+        { binding: 4, resource: { buffer: this.clusterVisibilityBuffer } },
       ],
     });
 
@@ -409,8 +408,7 @@ export class PebbleRenderer {
         { binding: 1, resource: { buffer: this.vertexBuffer } },
         { binding: 2, resource: { buffer: this.indexBuffer } },
         { binding: 3, resource: { buffer: this.clusterBuffer } },
-        { binding: 4, resource: { buffer: this.visibleClusterBuffer } },
-        { binding: 5, resource: { buffer: this.visibleClusterCountBuffer } },
+        { binding: 4, resource: { buffer: this.clusterVisibilityBuffer } },
       ],
     });
   }
@@ -548,29 +546,9 @@ export class PebbleRenderer {
       pass.setPipeline(this.mainRenderPipeline);
       pass.setBindGroup(0, this.mainRenderBG);
 
-      // Draw each cluster. Since we can't use indirect draw easily with
-      // vertex pulling from storage buffers, we'll draw all visible clusters
-      // by iterating on CPU and issuing draws per cluster.
-      // In a production system, you'd use indirect draws.
-      for (let i = 0; i < this.scene.clusters.length; i++) {
-        const c = this.scene.clusters[i];
-        // We draw every cluster and let the vertex shader handle visibility
-        // via the visible cluster list. For the initial implementation,
-        // draw ALL clusters and let the LOD shader results determine visibility.
-        // This is the CPU-fallback path.
-      }
-
-      // For now, draw all clusters as individual draw calls
-      // Each cluster becomes one "instance" where instanceIndex = cluster index
-      // The vertex shader reads from the visibleClusters buffer
-      // We need to know how many visible clusters there are...
-      // Since we can't readback the count synchronously, we'll draw the max
-      // and have the vertex shader discard invisible ones.
-
-      // Better approach: draw all clusters, each as an instanced draw
-      // where the vertex shader checks the visible clusters list.
-
-      // Simplest correct approach: one draw per cluster, max index count
+      // One draw per cluster. instanceIndex = cluster ID.
+      // The vertex shader checks the per-cluster visibility flag written
+      // by the compute pass and emits degenerate triangles for hidden clusters.
       for (let ci = 0; ci < this.scene.clusters.length; ci++) {
         const c = this.scene.clusters[ci];
         if (c.indexCount > 0) {
@@ -638,7 +616,7 @@ export class PebbleRenderer {
     this.uniformBuffer?.destroy();
     this.visibleInstanceBuffer?.destroy();
     this.visibleInstanceCountBuffer?.destroy();
-    this.visibleClusterBuffer?.destroy();
+    this.clusterVisibilityBuffer?.destroy();
     this.visibleClusterCountBuffer?.destroy();
     this.statsReadBuffer?.destroy();
     this.depthTexture?.destroy();

@@ -183,15 +183,20 @@ ${SHARED_STRUCTS}
 
 @group(0) @binding(0) var<uniform> uniforms: Uniforms;
 @group(0) @binding(1) var<storage, read> clusters: ClusterData;
-@group(0) @binding(2) var<storage, read_write> visibleClusters: array<u32>;
+@group(0) @binding(2) var<storage, read_write> clusterVisibility: array<u32>;
 @group(0) @binding(3) var<storage, read_write> visibleClusterCount: array<atomic<u32>>;
 
-// Simple flat traversal: evaluate every cluster
-// A production system would do top-down tree traversal
+// Per-cluster visibility flag approach:
+// Write 1 (visible) or 0 (hidden) at clusterVisibility[clusterIdx].
+// The vertex shader reads this flag and emits degenerate triangles for hidden clusters.
+// This avoids the indirection mismatch that causes flashing.
 @compute @workgroup_size(64)
 fn main(@builtin(global_invocation_id) gid: vec3u) {
   let clusterIdx = gid.x;
   if (clusterIdx >= uniforms.totalClusters) { return; }
+
+  // Default: not visible
+  clusterVisibility[clusterIdx] = 0u;
 
   let bs = readClusterBoundingSphere(clusterIdx);
   let center = bs.xyz;
@@ -212,10 +217,9 @@ fn main(@builtin(global_invocation_id) gid: vec3u) {
     if (length(coneDir) > 0.01) {
       let viewDir = normalize(center - uniforms.cameraPos.xyz);
       let d = dot(viewDir, coneDir);
-      // If all normals face away from camera
-      if (d > -coneCos) {
-        // This is a conservative backface test
-        // Skip if entire cone faces away
+      // If entire cone faces away from camera, cull
+      if (coneCos > 0.0 && d > coneCos) {
+        return;
       }
     }
   }
@@ -254,8 +258,8 @@ fn main(@builtin(global_invocation_id) gid: vec3u) {
   }
 
   if (shouldRender) {
-    let idx = atomicAdd(&visibleClusterCount[0], 1u);
-    visibleClusters[idx] = clusterIdx;
+    clusterVisibility[clusterIdx] = 1u;
+    atomicAdd(&visibleClusterCount[0], 1u);
   }
 }
 `;
@@ -332,11 +336,11 @@ struct VertexOutput {
 @group(0) @binding(1) var<storage, read> vertices: array<f32>;
 @group(0) @binding(2) var<storage, read> indices: array<u32>;
 @group(0) @binding(3) var<storage, read> clusterData: array<u32>;
-@group(0) @binding(4) var<storage, read> visibleClusters: array<u32>;
-@group(0) @binding(5) var<storage, read> visibleClusterCount: array<u32>;
+@group(0) @binding(4) var<storage, read> clusterVisibility: array<u32>;
 
-// Vertex pulling: we use @builtin(vertex_index) and @builtin(instance_index)
-// instance_index encodes which visible cluster we're drawing
+// Vertex pulling: instance_index = cluster ID directly.
+// The compute pass writes a per-cluster visibility flag (1=visible, 0=hidden).
+// Hidden clusters get degenerate triangles (all vertices at origin behind clip).
 
 @vertex
 fn vs_main(
@@ -345,9 +349,22 @@ fn vs_main(
 ) -> VertexOutput {
   var out: VertexOutput;
 
-  // Get the cluster ID from the visible clusters list
-  let clusterIdx = visibleClusters[instanceIndex];
+  // instanceIndex IS the cluster ID — no indirection
+  let clusterIdx = instanceIndex;
   let clusterBase = clusterIdx * 16u;
+
+  // Check visibility flag from compute pass
+  let isVisible = clusterVisibility[clusterIdx];
+  if (isVisible == 0u) {
+    // Emit degenerate triangle — all verts at clip origin, will be clipped
+    out.position = vec4f(0.0, 0.0, 2.0, 1.0); // behind far plane
+    out.worldPos = vec3f(0.0);
+    out.normal = vec3f(0.0, 1.0, 0.0);
+    out.uv = vec2f(0.0);
+    out.clusterId = clusterIdx;
+    out.lodLevel = 0u;
+    return out;
+  }
 
   let vertexOffset = clusterData[clusterBase + 12u];
   let indexOffset = clusterData[clusterBase + 14u];
@@ -367,13 +384,12 @@ fn vs_main(
   out.uv = uv;
   out.clusterId = clusterIdx;
 
-  // Read LOD level from cluster data - we encode it in the lodError field area
-  // Actually derive it from the parent chain depth
+  // Derive LOD level from child count
   let childCount = clusterData[clusterBase + 11u];
   if (childCount == 0u) {
     out.lodLevel = 0u;
   } else {
-    out.lodLevel = 1u + childCount; // rough approximation
+    out.lodLevel = 1u + childCount;
   }
 
   return out;
@@ -440,8 +456,7 @@ struct Uniforms {
 @group(0) @binding(1) var<storage, read> vertices: array<f32>;
 @group(0) @binding(2) var<storage, read> indices: array<u32>;
 @group(0) @binding(3) var<storage, read> clusterData: array<u32>;
-@group(0) @binding(4) var<storage, read> visibleClusters: array<u32>;
-@group(0) @binding(5) var<storage, read> visibleClusterCount: array<u32>;
+@group(0) @binding(4) var<storage, read> clusterVisibility: array<u32>;
 
 struct VertexOutput {
   @builtin(position) position: vec4f,
@@ -454,7 +469,14 @@ fn vs_main(
 ) -> VertexOutput {
   var out: VertexOutput;
 
-  let clusterIdx = visibleClusters[instanceIndex];
+  let clusterIdx = instanceIndex;
+
+  // Check visibility flag
+  if (clusterVisibility[clusterIdx] == 0u) {
+    out.position = vec4f(0.0, 0.0, 2.0, 1.0);
+    return out;
+  }
+
   let clusterBase = clusterIdx * 16u;
   let vertexOffset = clusterData[clusterBase + 12u];
   let indexOffset = clusterData[clusterBase + 14u];
