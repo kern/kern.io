@@ -8,6 +8,7 @@ export function PageNav() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isWriting = pathname.startsWith("/p");
+  const isPebble = pathname.startsWith("/pebble");
   const logoTranslate = isHome ? "md:translate-x-28" : "md:translate-x-0";
 
   return (
@@ -27,6 +28,11 @@ export function PageNav() {
         <li>
           <NavLink href="/p" isSelected={isWriting}>
             Writing
+          </NavLink>
+        </li>
+        <li>
+          <NavLink href="/pebble" isSelected={isPebble}>
+            Pebble
           </NavLink>
         </li>
       </ul>
