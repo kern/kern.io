@@ -4,7 +4,7 @@
  */
 
 import type { RawMesh } from './cluster-builder';
-import { v3normalize, Vec3 } from './math';
+import { v3normalize, v3cross, Vec3 } from './math';
 
 /** Generate a UV sphere. */
 export function generateSphere(
