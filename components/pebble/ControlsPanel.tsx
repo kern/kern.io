@@ -14,7 +14,13 @@ const SCENES = [
   { id: 'sphere-hd', label: 'HD Sphere (32K tris)' },
   { id: 'terrain', label: 'Terrain (32K tris)' },
   { id: 'torus', label: 'Torus (4.6K tris)' },
+  { id: 'knot', label: 'Trefoil Knot (16K tris)' },
   { id: 'multi', label: 'Multi-Object (25 spheres)' },
+  { id: 'lod-field', label: 'LOD Field (61 toruses)' },
+  { id: 'landscape', label: 'Landscape + Spheres (500K+ tris)' },
+  { id: 'ocean', label: 'Ocean (130K tris)' },
+  { id: 'forest', label: 'Forest — 200 trees (800K+ tris)' },
+  { id: 'mountains', label: 'Mountains (700K+ tris)' },
   { id: 'massive', label: 'Massive (250K+ tris)' },
 ];
 

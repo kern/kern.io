@@ -12,6 +12,10 @@ export {
   generatePlane,
   generateTerrain,
   generateTorus,
+  generateTrefoilKnot,
+  generateOcean,
+  generateTree,
+  generateMountains,
   generateMassiveScene,
 } from './mesh-generator';
 export type {

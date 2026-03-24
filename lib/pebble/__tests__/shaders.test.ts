@@ -93,6 +93,29 @@ describe('CLUSTER_LOD_SHADER', () => {
     expect(CLUSTER_LOD_SHADER).toContain('clusterVisibility[clusterIdx] = 1u');
     expect(CLUSTER_LOD_SHADER).toContain('clusterVisibility[clusterIdx] = 0u');
   });
+
+  // Bug fix: backface cone cull used wrong threshold (coneCos instead of sin(halfAngle))
+  it('uses correct backface cone cull formula: d > sqrt(1 - coneCos²)', () => {
+    expect(CLUSTER_LOD_SHADER).toContain('sqrt(1.0 - coneCos * coneCos)');
+    // Must NOT use the broken form where the threshold equals coneCos itself
+    expect(CLUSTER_LOD_SHADER).not.toContain('d > coneCos');
+  });
+
+  it('only applies backface cone cull when cone is valid (coneCos > 0)', () => {
+    // When coneCos <= 0 the half-angle >= 90° — cone spans a hemisphere or more,
+    // so no direction is guaranteed to be fully backfacing.
+    expect(CLUSTER_LOD_SHADER).toContain('coneCos > 0.0');
+  });
+
+  // Bug fix: LOD parent check must use child's distance, not parent sphere center distance.
+  // Using the parent's own bounding sphere center can produce a much larger distance,
+  // making projectedScreenError smaller and incorrectly suppressing the child cluster.
+  it('evaluates parent screen error at child cluster distance, not parent sphere center', () => {
+    // The parent error projection should reuse `dist` (the child's distance), not
+    // compute a separate parentDist from the parent bounding sphere.
+    expect(CLUSTER_LOD_SHADER).not.toContain('parentDist');
+    expect(CLUSTER_LOD_SHADER).toContain('projectedScreenError(parentError, dist)');
+  });
 });
 
 describe('BUILD_INDIRECT_SHADER', () => {

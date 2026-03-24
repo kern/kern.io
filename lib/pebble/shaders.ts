@@ -214,11 +214,12 @@ fn main(@builtin(global_invocation_id) gid: vec3u) {
     let nc = readClusterNormalCone(clusterIdx);
     let coneDir = nc.xyz;
     let coneCos = nc.w;
-    if (length(coneDir) > 0.01) {
+    if (length(coneDir) > 0.01 && coneCos > 0.0) {
       let viewDir = normalize(center - uniforms.cameraPos.xyz);
       let d = dot(viewDir, coneDir);
-      // If entire cone faces away from camera, cull
-      if (coneCos > 0.0 && d > coneCos) {
+      // All normals backfacing when dot(viewDir, coneDir) > sin(halfAngle)
+      // sin(halfAngle) = sqrt(1 - coneCos²)
+      if (d > sqrt(1.0 - coneCos * coneCos)) {
         return;
       }
     }
@@ -246,11 +247,12 @@ fn main(@builtin(global_invocation_id) gid: vec3u) {
 
   // But only render if parent WOULD refine to us
   // (i.e., parent's error is above threshold)
+  // Use the child's distance for parent error projection so both are evaluated
+  // at the same distance — avoids incorrectly suppressing children when the
+  // parent bounding sphere center is far from the child cluster.
   if (shouldRender && parentIdx != 0xFFFFFFFFu && parentIdx < uniforms.totalClusters) {
     let parentError = readClusterLodError(parentIdx);
-    let parentBs = readClusterBoundingSphere(parentIdx);
-    let parentDist = length(parentBs.xyz - uniforms.cameraPos.xyz);
-    let parentScreenErr = projectedScreenError(parentError, parentDist);
+    let parentScreenErr = projectedScreenError(parentError, dist);
     if (parentScreenErr < uniforms.lodErrorThreshold) {
       // Parent error is also small — parent will render itself, skip this child
       shouldRender = false;

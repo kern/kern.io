@@ -8,12 +8,12 @@ import { ControlsPanel } from './ControlsPanel';
 
 // Dynamic imports to avoid SSR issues with WebGPU
 async function loadPebble() {
-  const { PebbleRenderer, buildScene, generateSphere, generateTerrain, generateTorus, generateMassiveScene, mat4Identity, mat4Translation } = await import('@/lib/pebble');
-  return { PebbleRenderer, buildScene, generateSphere, generateTerrain, generateTorus, generateMassiveScene, mat4Identity, mat4Translation };
+  const { PebbleRenderer, buildScene, generateSphere, generateTerrain, generateTorus, generateTrefoilKnot, generateOcean, generateTree, generateMountains, generateMassiveScene, mat4Identity, mat4Translation, mat4RotationY, mat4Multiply, mat4Scale } = await import('@/lib/pebble');
+  return { PebbleRenderer, buildScene, generateSphere, generateTerrain, generateTorus, generateTrefoilKnot, generateOcean, generateTree, generateMountains, generateMassiveScene, mat4Identity, mat4Translation, mat4RotationY, mat4Multiply, mat4Scale };
 }
 
 function createScene(sceneId: string, modules: Awaited<ReturnType<typeof loadPebble>>): BuiltScene {
-  const { buildScene, generateSphere, generateTerrain, generateTorus, generateMassiveScene, mat4Identity, mat4Translation } = modules;
+  const { buildScene, generateSphere, generateTerrain, generateTorus, generateTrefoilKnot, generateOcean, generateTree, generateMountains, generateMassiveScene, mat4Identity, mat4Translation, mat4RotationY, mat4Multiply, mat4Scale } = modules;
 
   switch (sceneId) {
     case 'sphere':
@@ -64,6 +64,134 @@ function createScene(sceneId: string, modules: Awaited<ReturnType<typeof loadPeb
         raw: generateMassiveScene(5, 16),
         instances: [mat4Identity()],
       }]);
+
+    case 'knot':
+      return buildScene([{
+        name: 'knot',
+        raw: generateTrefoilKnot(0.3, 2, 256, 32),
+        instances: [mat4Identity()],
+      }]);
+
+    // Many torus instances scattered at varying distances — LOD transitions are
+    // clearly visible as you zoom in/out: distant rings collapse to low-detail
+    // clusters while close ones stay fully detailed.
+    case 'lod-field': {
+      const instances = [];
+      const rings = [
+        { count: 1,  radius: 0,  y: 0 },
+        { count: 6,  radius: 5,  y: 0 },
+        { count: 12, radius: 11, y: 0.5 },
+        { count: 18, radius: 18, y: 1.5 },
+        { count: 24, radius: 26, y: 3 },
+      ];
+      for (const ring of rings) {
+        for (let i = 0; i < ring.count; i++) {
+          const angle = (i / Math.max(ring.count, 1)) * Math.PI * 2;
+          const x = Math.cos(angle) * ring.radius;
+          const z = Math.sin(angle) * ring.radius;
+          instances.push(mat4Multiply(
+            mat4Translation(x, ring.y, z),
+            mat4RotationY(angle),
+          ));
+        }
+      }
+      return buildScene([{
+        name: 'torus',
+        raw: generateTorus(1, 0.35, 48, 24),
+        instances,
+      }]);
+    }
+
+    // High-detail terrain + a grid of spheres above it at varying heights.
+    // Tests LOD on both a large continuous surface and many discrete objects.
+    case 'landscape': {
+      const sphereInstances = [];
+      for (let x = -3; x <= 3; x++) {
+        for (let z = -3; z <= 3; z++) {
+          const h = Math.sin(x * 0.8) * Math.cos(z * 0.8) * 2 + 3;
+          sphereInstances.push(mat4Multiply(
+            mat4Translation(x * 5, h, z * 5),
+            mat4Scale(0.6, 0.6, 0.6),
+          ));
+        }
+      }
+      return buildScene([
+        {
+          name: 'terrain',
+          raw: generateTerrain(60, 60, 256, 256, 4, 0.3),
+          instances: [mat4Identity()],
+        },
+        {
+          name: 'sphere',
+          raw: generateSphere(1, 32, 64),
+          instances: sphereInstances,
+        },
+      ]);
+    }
+
+    // Ocean: high-res Gerstner wave surface — tests LOD on a large uniform mesh
+    case 'ocean':
+      return buildScene([{
+        name: 'ocean',
+        raw: generateOcean(120, 256, 1.5),
+        instances: [mat4Identity()],
+      }]);
+
+    // Forest: a terrain base with hundreds of tree instances scattered across it.
+    // LOD effect is dramatic — zoom out to see trees collapse to single clusters.
+    case 'forest': {
+      const treeInstances = [];
+      const rng = { v: 42 };
+      const rand = () => { rng.v = (rng.v * 1664525 + 1013904223) & 0xffffffff; return (rng.v >>> 0) / 0xffffffff; };
+      for (let i = 0; i < 200; i++) {
+        const angle = rand() * Math.PI * 2;
+        const r = rand() * 35 + 3;
+        const x = Math.cos(angle) * r;
+        const z = Math.sin(angle) * r;
+        const scale = 0.6 + rand() * 0.8;
+        treeInstances.push(mat4Multiply(
+          mat4Translation(x, 0, z),
+          mat4Multiply(mat4RotationY(rand() * Math.PI * 2), mat4Scale(scale, scale, scale)),
+        ));
+      }
+      return buildScene([
+        {
+          name: 'ground',
+          raw: generateTerrain(80, 80, 192, 192, 1.5, 0.2),
+          instances: [mat4Identity()],
+        },
+        {
+          name: 'tree',
+          raw: generateTree(0.15, 1.2, 0.9, 3.5, 12, 3),
+          instances: treeInstances,
+        },
+      ]);
+    }
+
+    // Mountain vista: dramatic rocky peaks with snow-cap spheres and distant rings.
+    case 'mountains': {
+      const decorInstances = [];
+      for (let i = 0; i < 30; i++) {
+        const angle = (i / 30) * Math.PI * 2;
+        const r = 28 + Math.sin(i * 7.3) * 8;
+        decorInstances.push(mat4Multiply(
+          mat4Translation(Math.cos(angle) * r, 2, Math.sin(angle) * r),
+          mat4Scale(0.5, 0.5, 0.5),
+        ));
+      }
+      return buildScene([
+        {
+          name: 'mountains',
+          raw: generateMountains(80, 192, 22),
+          instances: [mat4Identity()],
+        },
+        {
+          name: 'rock',
+          raw: generateSphere(1, 16, 32),
+          instances: decorInstances,
+        },
+      ]);
+    }
 
     default:
       return buildScene([{
