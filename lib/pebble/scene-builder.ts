@@ -43,6 +43,8 @@ export function buildScene(entries: SceneMeshEntry[]): BuiltScene {
       clusterResult.vertexData,
       clusterResult.indexData,
       globalClusterOffset,
+      globalVertexFloatOffset,
+      globalIndexOffset,
     );
 
     // Update mesh descriptor
