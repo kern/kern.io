@@ -86,6 +86,26 @@ function clusterTriangles(
   const assigned = new Uint8Array(triCount);
   const clusters: number[][] = [];
 
+  // Pre-mark degenerate (zero-area) triangles so they are excluded from all
+  // clusters.  A triangle is degenerate when two vertices share the same
+  // position (e.g. the polar fan triangles of a UV sphere), making the cross
+  // product of its edges near-zero.  These triangles contribute nothing to the
+  // rendered image, and their zero-length face normals would corrupt the normal
+  // cone computation, disabling backface culling for the cluster.
+  for (let t = 0; t < triCount; t++) {
+    const i0 = indices[t * 3], i1 = indices[t * 3 + 1], i2 = indices[t * 3 + 2];
+    const e1x = positions[i1 * 3] - positions[i0 * 3];
+    const e1y = positions[i1 * 3 + 1] - positions[i0 * 3 + 1];
+    const e1z = positions[i1 * 3 + 2] - positions[i0 * 3 + 2];
+    const e2x = positions[i2 * 3] - positions[i0 * 3];
+    const e2y = positions[i2 * 3 + 1] - positions[i0 * 3 + 1];
+    const e2z = positions[i2 * 3 + 2] - positions[i0 * 3 + 2];
+    const cx = e1y * e2z - e1z * e2y;
+    const cy = e1z * e2x - e1x * e2z;
+    const cz = e1x * e2y - e1y * e2x;
+    if (cx * cx + cy * cy + cz * cz < 1e-14) assigned[t] = 1;
+  }
+
   // Compute triangle centroids
   const centroids = new Float32Array(triCount * 3);
   for (let t = 0; t < triCount; t++) {
@@ -193,7 +213,7 @@ function computeNormalCone(
 ): Float32Array {
   if (triIndices.length === 0) return new Float32Array([0, 0, 1, 1]);
 
-  // Compute average normal
+  // Compute average normal — skip degenerate triangles (zero-area, zero cross product)
   let avg: Vec3 = [0, 0, 0];
   for (const t of triIndices) {
     const i0 = indices[t * 3], i1 = indices[t * 3 + 1], i2 = indices[t * 3 + 2];
@@ -201,12 +221,13 @@ function computeNormalCone(
     const v1: Vec3 = [positions[i1 * 3], positions[i1 * 3 + 1], positions[i1 * 3 + 2]];
     const v2: Vec3 = [positions[i2 * 3], positions[i2 * 3 + 1], positions[i2 * 3 + 2]];
     const n = v3normalize(v3cross(v3sub(v1, v0), v3sub(v2, v0)));
+    if (v3len(n) < 0.5) continue; // degenerate triangle — cross product is near-zero
     avg = v3add(avg, n);
   }
   avg = v3normalize(avg);
   if (v3len(avg) < 0.001) return new Float32Array([0, 0, 1, -1]); // degenerate → no culling
 
-  // Find max deviation
+  // Find max deviation — skip degenerate triangles for the same reason
   let minCos = 1.0;
   for (const t of triIndices) {
     const i0 = indices[t * 3], i1 = indices[t * 3 + 1], i2 = indices[t * 3 + 2];
@@ -214,6 +235,7 @@ function computeNormalCone(
     const v1: Vec3 = [positions[i1 * 3], positions[i1 * 3 + 1], positions[i1 * 3 + 2]];
     const v2: Vec3 = [positions[i2 * 3], positions[i2 * 3 + 1], positions[i2 * 3 + 2]];
     const n = v3normalize(v3cross(v3sub(v1, v0), v3sub(v2, v0)));
+    if (v3len(n) < 0.5) continue; // degenerate triangle
     const d = v3dot(n, avg);
     if (d < minCos) minCos = d;
   }

@@ -41,8 +41,8 @@ export function generateSphere(
     for (let lon = 0; lon < lonSegments; lon++) {
       const a = lat * (lonSegments + 1) + lon;
       const b = a + lonSegments + 1;
-      indices.push(a, b, a + 1);
-      indices.push(b, b + 1, a + 1);
+      indices.push(a, a + 1, b);
+      indices.push(b, a + 1, b + 1);
     }
   }
 
@@ -196,8 +196,8 @@ export function generateTorus(
     for (let j = 0; j < minorSegments; j++) {
       const a = i * (minorSegments + 1) + j;
       const b = a + minorSegments + 1;
-      indices.push(a, b, a + 1);
-      indices.push(b, b + 1, a + 1);
+      indices.push(a, a + 1, b);
+      indices.push(b, a + 1, b + 1);
     }
   }
 
@@ -269,8 +269,8 @@ export function generateTrefoilKnot(
     for (let j = 0; j < tubeSegments; j++) {
       const a = i * (tubeSegments + 1) + j;
       const b = a + tubeSegments + 1;
-      indices.push(a, b, a + 1);
-      indices.push(b, b + 1, a + 1);
+      indices.push(a, a + 1, b);
+      indices.push(b, a + 1, b + 1);
     }
   }
 

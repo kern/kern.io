@@ -63,22 +63,28 @@ describe('buildHierarchy', () => {
     const built = buildClusters(raw, 0, 'sphere', 0, 0, 0);
     const result = buildHierarchy(built.clusters, built.pages, built.vertexData, built.indexData);
 
-    for (const c of result.clusters) {
-      if (c.childCount > 0 && c.childOffset >= 0) {
-        const pbs = c.boundingSphere;
-        for (let i = 0; i < c.childCount; i++) {
-          const childIdx = c.childOffset + i;
-          if (childIdx < result.clusters.length) {
-            const cbs = result.clusters[childIdx].boundingSphere;
-            // Child center + radius should be within parent radius (with tolerance)
-            const dx = cbs[0] - pbs[0];
-            const dy = cbs[1] - pbs[1];
-            const dz = cbs[2] - pbs[2];
-            const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-            // Allow tolerance since sphere merging is approximate
-            expect(dist + cbs[3]).toBeLessThanOrEqual(pbs[3] * 1.5 + 0.5);
-          }
-        }
+    // Build a parent→children map using parentIndex (children are not
+    // necessarily stored at contiguous indices after childOffset).
+    const childrenOf = new Map<number, number[]>();
+    for (let i = 0; i < result.clusters.length; i++) {
+      const p = result.clusters[i].parentIndex;
+      if (p >= 0) {
+        if (!childrenOf.has(p)) childrenOf.set(p, []);
+        childrenOf.get(p)!.push(i);
+      }
+    }
+
+    for (const [parentIdx, childIndices] of childrenOf) {
+      const pbs = result.clusters[parentIdx].boundingSphere;
+      for (const childIdx of childIndices) {
+        const cbs = result.clusters[childIdx].boundingSphere;
+        // Child center + radius should be within parent radius (with tolerance)
+        const dx = cbs[0] - pbs[0];
+        const dy = cbs[1] - pbs[1];
+        const dz = cbs[2] - pbs[2];
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        // Allow tolerance since sphere merging is approximate
+        expect(dist + cbs[3]).toBeLessThanOrEqual(pbs[3] * 1.5 + 0.5);
       }
     }
   });
