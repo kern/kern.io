@@ -82,10 +82,13 @@ describe('buildScene', () => {
     }]);
 
     expect(scene.instances.length).toBe(10);
-    // All instances share the same mesh clusters
+    // Each instance has its own cluster set baked with its transform
+    let prevEnd = 0;
     for (const inst of scene.instances) {
       expect(inst.meshId).toBe(0);
-      expect(inst.clusterOffset).toBe(0);
+      expect(inst.clusterOffset).toBeGreaterThanOrEqual(prevEnd);
+      expect(inst.clusterCount).toBeGreaterThan(0);
+      prevEnd = inst.clusterOffset + inst.clusterCount;
     }
   });
 });
