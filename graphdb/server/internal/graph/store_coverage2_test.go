@@ -206,6 +206,42 @@ func TestCascadeDeleteNodeWithEdges(t *testing.T) {
 	}
 }
 
+func TestCascadeDeleteNodeWithInAndOutEdges(t *testing.T) {
+	s := NewStore("r1")
+
+	// Create nodes
+	root, _ := s.InsertNode("folder", nil, nil)
+	child1, _ := s.InsertNode("file", &root, nil)
+	child2, _ := s.InsertNode("file", &root, nil)
+	external, _ := s.InsertNode("ext", nil, nil)
+
+	// Outgoing edge from child1
+	s.InsertEdge("out-link", child1, external, nil)
+	// Incoming edge to child1
+	s.InsertEdge("in-link", external, child1, nil)
+	// Edge between children
+	s.InsertEdge("sibling", child1, child2, nil)
+	// Incoming edge to root
+	s.InsertEdge("points-to", external, root, nil)
+
+	err := s.CascadeDeleteNode(root)
+	if err != nil {
+		t.Fatalf("CascadeDeleteNode: %v", err)
+	}
+
+	// root, child1, child2 deleted; external survives
+	all := s.AllNodes()
+	if len(all) != 1 {
+		t.Errorf("expected 1 node (external), got %d", len(all))
+	}
+
+	// All edges should be deleted (edges involving deleted nodes)
+	edges := s.AllEdges()
+	if len(edges) != 0 {
+		t.Errorf("expected 0 edges, got %d", len(edges))
+	}
+}
+
 func TestCascadeDeleteNodeLeaf(t *testing.T) {
 	s := NewStore("r1")
 	id, _ := s.InsertNode("item", nil, map[string]interface{}{"name": "leaf"})
@@ -534,6 +570,106 @@ func TestGetNodeNotFound(t *testing.T) {
 // ---------------------------------------------------------------------------
 // store.go: Traverse with empty edge type (all edges)
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// store.go: ExecuteBatch — BatchInsertEdge, BatchDeleteEdge, BatchReorderNode,
+// BatchRestoreNode success with real data, and BatchCascadeDelete with deep tree + edges
+// ---------------------------------------------------------------------------
+
+func TestExecuteBatchInsertEdgeSuccess(t *testing.T) {
+	s := NewStore("r1")
+	id1, _ := s.InsertNode("a", nil, nil)
+	id2, _ := s.InsertNode("b", nil, nil)
+
+	result, err := s.ExecuteBatch([]BatchOp{
+		{Type: BatchInsertEdge, EdgeType: "link", FromID: id1, ToID: id2, Properties: map[string]interface{}{"w": 1}},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.Results[0].ResultID == uuid.Nil {
+		t.Error("should have edge ID")
+	}
+}
+
+func TestExecuteBatchDeleteEdgeSuccess(t *testing.T) {
+	s := NewStore("r1")
+	id1, _ := s.InsertNode("a", nil, nil)
+	id2, _ := s.InsertNode("b", nil, nil)
+	eid, _ := s.InsertEdge("link", id1, id2, nil)
+
+	_, err := s.ExecuteBatch([]BatchOp{
+		{Type: BatchDeleteEdge, EdgeID: eid},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestExecuteBatchCascadeDeleteDeep(t *testing.T) {
+	s := NewStore("r1")
+	p, _ := s.InsertNode("folder", nil, nil)
+	c1, _ := s.InsertNode("file", &p, nil)
+	c2, _ := s.InsertNode("file", &c1, nil)
+	ext, _ := s.InsertNode("ext", nil, nil)
+
+	// Edges in both directions
+	s.InsertEdge("out", c1, ext, nil)
+	s.InsertEdge("in", ext, c2, nil)
+
+	_, err := s.ExecuteBatch([]BatchOp{
+		{Type: BatchCascadeDelete, NodeID: p},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(s.AllNodes()) != 1 {
+		t.Errorf("expected 1 node (ext), got %d", len(s.AllNodes()))
+	}
+}
+
+func TestExecuteBatchMoveNodeCycleError(t *testing.T) {
+	s := NewStore("r1")
+	p, _ := s.InsertNode("folder", nil, nil)
+	c, _ := s.InsertNode("file", &p, nil)
+
+	_, err := s.ExecuteBatch([]BatchOp{
+		{Type: BatchMoveNode, NodeID: p, ParentID: &c},
+	})
+	if err == nil {
+		t.Error("expected cycle error in batch move")
+	}
+}
+
+func TestExecuteBatchInsertNodeSuccess(t *testing.T) {
+	s := NewStore("r1")
+	result, err := s.ExecuteBatch([]BatchOp{
+		{Type: BatchInsertNode, NodeType: "item", Properties: map[string]interface{}{"x": 1}},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.Results[0].ResultID == uuid.Nil {
+		t.Error("should have node ID")
+	}
+}
+
+// ---------------------------------------------------------------------------
+// schema.go: ValidateHierarchy — parent type defined with empty AllowedChildren
+// ---------------------------------------------------------------------------
+
+func TestValidateHierarchyEmptyAllowedChildren(t *testing.T) {
+	schema := NewSchema()
+	schema.DefineNode(&NodeTypeDef{
+		Name:            "parent",
+		AllowedChildren: []string{}, // empty = allow anything
+	})
+	err := schema.ValidateHierarchy("parent", "anything")
+	if err != nil {
+		t.Errorf("empty AllowedChildren should allow anything: %v", err)
+	}
+}
 
 func TestTraverseAllEdgeTypes(t *testing.T) {
 	s := NewStore("r1")
