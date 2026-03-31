@@ -37,6 +37,10 @@ type EGWalker struct {
 
 	// Dirty flag: if true, materialized state needs recompute
 	dirty bool
+
+	// Post-apply listeners called after the walker lock is released.
+	// Used by derived store and other components that read back from the walker.
+	postApplyListeners []func(*Operation)
 }
 
 // MaterializedNode is the computed state of a node after walking the event graph.
@@ -95,6 +99,22 @@ func NewEGWalker(replicaID string) *EGWalker {
 	return w
 }
 
+// AddPostApplyListener registers a callback invoked after each operation is
+// applied and the walker lock has been released. Safe for callbacks that need
+// to read from the walker (e.g., derived store).
+func (w *EGWalker) AddPostApplyListener(fn func(*Operation)) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	w.postApplyListeners = append(w.postApplyListeners, fn)
+}
+
+// notifyPostApply fires post-apply listeners. Must be called without holding w.mu.
+func (w *EGWalker) notifyPostApply(op *Operation) {
+	for _, fn := range w.postApplyListeners {
+		fn(op)
+	}
+}
+
 // Graph returns the underlying event graph.
 func (w *EGWalker) Graph() *EventGraph {
 	return w.graph
@@ -118,10 +138,20 @@ func (w *EGWalker) newOp(opType OpType) *Operation {
 	}
 }
 
+// lockedApply applies an op under the walker lock, then releases the lock and
+// fires post-apply listeners. The caller must NOT use defer w.mu.Unlock().
+func (w *EGWalker) lockedApply(op *Operation) error {
+	err := w.graph.Apply(op)
+	w.mu.Unlock()
+	if err == nil {
+		w.notifyPostApply(op)
+	}
+	return err
+}
+
 // InsertNode creates a new node in the graph.
 func (w *EGWalker) InsertNode(nodeType string, parentID *uuid.UUID, properties map[string]interface{}) (uuid.UUID, *Operation, error) {
 	w.mu.Lock()
-	defer w.mu.Unlock()
 
 	id := uuid.New()
 	op := w.newOp(OpInsertNode)
@@ -130,7 +160,7 @@ func (w *EGWalker) InsertNode(nodeType string, parentID *uuid.UUID, properties m
 	op.ParentRef = parentID
 	op.Value = properties
 
-	if err := w.graph.Apply(op); err != nil {
+	if err := w.lockedApply(op); err != nil {
 		return uuid.Nil, nil, err
 	}
 
@@ -140,12 +170,11 @@ func (w *EGWalker) InsertNode(nodeType string, parentID *uuid.UUID, properties m
 // DeleteNode marks a node as deleted.
 func (w *EGWalker) DeleteNode(id uuid.UUID) (*Operation, error) {
 	w.mu.Lock()
-	defer w.mu.Unlock()
 
 	op := w.newOp(OpDeleteNode)
 	op.TargetID = id
 
-	if err := w.graph.Apply(op); err != nil {
+	if err := w.lockedApply(op); err != nil {
 		return nil, err
 	}
 
@@ -155,14 +184,13 @@ func (w *EGWalker) DeleteNode(id uuid.UUID) (*Operation, error) {
 // SetProperty sets a property on a node.
 func (w *EGWalker) SetProperty(nodeID uuid.UUID, key string, value interface{}) (*Operation, error) {
 	w.mu.Lock()
-	defer w.mu.Unlock()
 
 	op := w.newOp(OpSetProperty)
 	op.TargetID = nodeID
 	op.Key = key
 	op.Value = value
 
-	if err := w.graph.Apply(op); err != nil {
+	if err := w.lockedApply(op); err != nil {
 		return nil, err
 	}
 
@@ -172,13 +200,12 @@ func (w *EGWalker) SetProperty(nodeID uuid.UUID, key string, value interface{}) 
 // DeleteProperty removes a property from a node.
 func (w *EGWalker) DeleteProperty(nodeID uuid.UUID, key string) (*Operation, error) {
 	w.mu.Lock()
-	defer w.mu.Unlock()
 
 	op := w.newOp(OpDeleteProperty)
 	op.TargetID = nodeID
 	op.Key = key
 
-	if err := w.graph.Apply(op); err != nil {
+	if err := w.lockedApply(op); err != nil {
 		return nil, err
 	}
 
@@ -188,7 +215,6 @@ func (w *EGWalker) DeleteProperty(nodeID uuid.UUID, key string) (*Operation, err
 // InsertEdge creates an edge between two nodes.
 func (w *EGWalker) InsertEdge(edgeType string, fromID, toID uuid.UUID, properties map[string]interface{}) (uuid.UUID, *Operation, error) {
 	w.mu.Lock()
-	defer w.mu.Unlock()
 
 	id := uuid.New()
 	op := w.newOp(OpInsertEdge)
@@ -198,7 +224,7 @@ func (w *EGWalker) InsertEdge(edgeType string, fromID, toID uuid.UUID, propertie
 	op.EdgeTo = toID
 	op.Value = properties
 
-	if err := w.graph.Apply(op); err != nil {
+	if err := w.lockedApply(op); err != nil {
 		return uuid.Nil, nil, err
 	}
 
@@ -208,12 +234,11 @@ func (w *EGWalker) InsertEdge(edgeType string, fromID, toID uuid.UUID, propertie
 // DeleteEdge marks an edge as deleted.
 func (w *EGWalker) DeleteEdge(id uuid.UUID) (*Operation, error) {
 	w.mu.Lock()
-	defer w.mu.Unlock()
 
 	op := w.newOp(OpDeleteEdge)
 	op.TargetID = id
 
-	if err := w.graph.Apply(op); err != nil {
+	if err := w.lockedApply(op); err != nil {
 		return nil, err
 	}
 
@@ -223,11 +248,11 @@ func (w *EGWalker) DeleteEdge(id uuid.UUID) (*Operation, error) {
 // MoveNode re-parents a node in the hierarchy.
 func (w *EGWalker) MoveNode(nodeID uuid.UUID, newParentID *uuid.UUID) (*Operation, error) {
 	w.mu.Lock()
-	defer w.mu.Unlock()
 
 	// Cycle detection: walk up from newParentID, make sure we don't hit nodeID
 	if newParentID != nil {
 		if w.wouldCreateCycle(nodeID, *newParentID) {
+			w.mu.Unlock()
 			return nil, fmt.Errorf("moving node %s under %s would create a cycle", nodeID, *newParentID)
 		}
 	}
@@ -236,7 +261,7 @@ func (w *EGWalker) MoveNode(nodeID uuid.UUID, newParentID *uuid.UUID) (*Operatio
 	op.TargetID = nodeID
 	op.ParentRef = newParentID
 
-	if err := w.graph.Apply(op); err != nil {
+	if err := w.lockedApply(op); err != nil {
 		return nil, err
 	}
 
@@ -246,13 +271,12 @@ func (w *EGWalker) MoveNode(nodeID uuid.UUID, newParentID *uuid.UUID) (*Operatio
 // ReorderNode changes a node's fractional index position among its siblings.
 func (w *EGWalker) ReorderNode(nodeID uuid.UUID, position string) (*Operation, error) {
 	w.mu.Lock()
-	defer w.mu.Unlock()
 
 	op := w.newOp(OpReorderNode)
 	op.TargetID = nodeID
 	op.Value = position
 
-	if err := w.graph.Apply(op); err != nil {
+	if err := w.lockedApply(op); err != nil {
 		return nil, err
 	}
 
@@ -262,12 +286,11 @@ func (w *EGWalker) ReorderNode(nodeID uuid.UUID, position string) (*Operation, e
 // RestoreNode un-deletes a soft-deleted node.
 func (w *EGWalker) RestoreNode(id uuid.UUID) (*Operation, error) {
 	w.mu.Lock()
-	defer w.mu.Unlock()
 
 	op := w.newOp(OpRestoreNode)
 	op.TargetID = id
 
-	if err := w.graph.Apply(op); err != nil {
+	if err := w.lockedApply(op); err != nil {
 		return nil, err
 	}
 
@@ -277,12 +300,11 @@ func (w *EGWalker) RestoreNode(id uuid.UUID) (*Operation, error) {
 // RestoreEdge un-deletes a soft-deleted edge.
 func (w *EGWalker) RestoreEdge(id uuid.UUID) (*Operation, error) {
 	w.mu.Lock()
-	defer w.mu.Unlock()
 
 	op := w.newOp(OpRestoreEdge)
 	op.TargetID = id
 
-	if err := w.graph.Apply(op); err != nil {
+	if err := w.lockedApply(op); err != nil {
 		return nil, err
 	}
 
@@ -341,8 +363,7 @@ func sortByPosition(nodes []*MaterializedNode) {
 // ApplyRemote applies an operation from a remote replica.
 func (w *EGWalker) ApplyRemote(op *Operation) error {
 	w.mu.Lock()
-	defer w.mu.Unlock()
-	return w.graph.Apply(op)
+	return w.lockedApply(op)
 }
 
 // wouldCreateCycle checks if re-parenting would create a cycle.

@@ -24,8 +24,11 @@ type EventGraph struct {
 	// Per-replica sequence counters
 	seqCounters map[string]uint64
 
-	// Listeners for new events
+	// Internal listeners called under lock (e.g., EGWalker.applyOp)
 	listeners []func(*Operation)
+
+	// External listeners called after lock release (e.g., derived store)
+	postListeners []func(*Operation)
 }
 
 // NewEventGraph creates a new empty event graph.
@@ -38,61 +41,87 @@ func NewEventGraph() *EventGraph {
 	}
 }
 
-// AddListener registers a callback for new events.
+// AddListener registers a callback for new events (called under lock).
 func (eg *EventGraph) AddListener(fn func(*Operation)) {
 	eg.mu.Lock()
 	defer eg.mu.Unlock()
 	eg.listeners = append(eg.listeners, fn)
 }
 
+// AddPostListener registers a callback invoked after the event graph lock
+// is released. Use this for callbacks that need to read back from the walker
+// (e.g., derived store) to avoid deadlocks.
+func (eg *EventGraph) AddPostListener(fn func(*Operation)) {
+	eg.mu.Lock()
+	defer eg.mu.Unlock()
+	eg.postListeners = append(eg.postListeners, fn)
+}
+
 // Apply adds an operation to the event graph.
 // It validates causal ordering and updates the frontier.
 func (eg *EventGraph) Apply(op *Operation) error {
-	eg.mu.Lock()
-	defer eg.mu.Unlock()
+	var postListeners []func(*Operation)
 
-	// Check for duplicate
-	if _, exists := eg.events[op.ID]; exists {
-		return nil // idempotent
-	}
+	err := func() error {
+		eg.mu.Lock()
+		defer eg.mu.Unlock()
 
-	// Validate all parents exist
-	for _, parent := range op.Parents {
-		if _, exists := eg.events[parent]; !exists {
-			return fmt.Errorf("missing parent event %v", parent)
+		// Check for duplicate
+		if _, exists := eg.events[op.ID]; exists {
+			return nil // idempotent
 		}
-	}
 
-	// Validate sequence number
-	expected := eg.seqCounters[op.ID.ReplicaID] + 1
-	if op.ID.Seq != expected && len(eg.events) > 0 {
-		// Allow any seq for remote replicas we haven't seen before
-		if _, seen := eg.seqCounters[op.ID.ReplicaID]; seen && op.ID.Seq <= eg.seqCounters[op.ID.ReplicaID] {
-			return fmt.Errorf("stale seq %d for replica %s (expected > %d)", op.ID.Seq, op.ID.ReplicaID, eg.seqCounters[op.ID.ReplicaID])
+		// Validate all parents exist
+		for _, parent := range op.Parents {
+			if _, exists := eg.events[parent]; !exists {
+				return fmt.Errorf("missing parent event %v", parent)
+			}
 		}
+
+		// Validate sequence number
+		expected := eg.seqCounters[op.ID.ReplicaID] + 1
+		if op.ID.Seq != expected && len(eg.events) > 0 {
+			// Allow any seq for remote replicas we haven't seen before
+			if _, seen := eg.seqCounters[op.ID.ReplicaID]; seen && op.ID.Seq <= eg.seqCounters[op.ID.ReplicaID] {
+				return fmt.Errorf("stale seq %d for replica %s (expected > %d)", op.ID.Seq, op.ID.ReplicaID, eg.seqCounters[op.ID.ReplicaID])
+			}
+		}
+
+		// Store the event
+		eg.events[op.ID] = op
+
+		// Update sequence counter
+		if op.ID.Seq > eg.seqCounters[op.ID.ReplicaID] {
+			eg.seqCounters[op.ID.ReplicaID] = op.ID.Seq
+		}
+
+		// Update frontier: remove parents from frontier, add this event
+		for _, parent := range op.Parents {
+			delete(eg.frontier, parent)
+		}
+		eg.frontier[op.ID] = struct{}{}
+
+		// Update children index
+		for _, parent := range op.Parents {
+			eg.children[parent] = append(eg.children[parent], op.ID)
+		}
+
+		// Notify internal listeners (under lock)
+		for _, fn := range eg.listeners {
+			fn(op)
+		}
+
+		// Capture post-listeners to call after releasing lock
+		postListeners = eg.postListeners
+		return nil
+	}()
+
+	if err != nil {
+		return err
 	}
 
-	// Store the event
-	eg.events[op.ID] = op
-
-	// Update sequence counter
-	if op.ID.Seq > eg.seqCounters[op.ID.ReplicaID] {
-		eg.seqCounters[op.ID.ReplicaID] = op.ID.Seq
-	}
-
-	// Update frontier: remove parents from frontier, add this event
-	for _, parent := range op.Parents {
-		delete(eg.frontier, parent)
-	}
-	eg.frontier[op.ID] = struct{}{}
-
-	// Update children index
-	for _, parent := range op.Parents {
-		eg.children[parent] = append(eg.children[parent], op.ID)
-	}
-
-	// Notify listeners
-	for _, fn := range eg.listeners {
+	// Notify post-listeners outside the lock
+	for _, fn := range postListeners {
 		fn(op)
 	}
 
