@@ -456,6 +456,333 @@ func (s *Store) AllEdges() []*crdt.MaterializedEdge {
 	return s.walker.AllEdges()
 }
 
+// --- Reorder ---
+
+// ReorderNode changes a node's position among its siblings.
+func (s *Store) ReorderNode(nodeID uuid.UUID, position string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	_, ok := s.walker.GetNode(nodeID)
+	if !ok {
+		return fmt.Errorf("node %s not found", nodeID)
+	}
+	_, err := s.walker.ReorderNode(nodeID, position)
+	return err
+}
+
+// ReorderBetween places a node between two siblings (or at start/end).
+func (s *Store) ReorderBetween(nodeID uuid.UUID, afterID, beforeID *uuid.UUID) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	_, ok := s.walker.GetNode(nodeID)
+	if !ok {
+		return fmt.Errorf("node %s not found", nodeID)
+	}
+	var afterPos, beforePos string
+	if afterID != nil {
+		if n, ok := s.walker.GetNode(*afterID); ok {
+			afterPos = n.Position
+		}
+	}
+	if beforeID != nil {
+		if n, ok := s.walker.GetNode(*beforeID); ok {
+			beforePos = n.Position
+		}
+	}
+	pos := crdt.PositionBetween(afterPos, beforePos)
+	_, err := s.walker.ReorderNode(nodeID, pos)
+	return err
+}
+
+// GetOrderedChildren returns children sorted by fractional index.
+func (s *Store) GetOrderedChildren(parentID uuid.UUID) []*crdt.MaterializedNode {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.walker.GetOrderedChildren(parentID)
+}
+
+// --- Soft Delete / Restore ---
+
+// SoftDeleteNode soft-deletes a node (keeps it in the graph, marked as deleted).
+func (s *Store) SoftDeleteNode(id uuid.UUID) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	_, ok := s.walker.GetNode(id)
+	if !ok {
+		return fmt.Errorf("node %s not found", id)
+	}
+	_, err := s.walker.DeleteNode(id)
+	return err
+}
+
+// CascadeDeleteNode soft-deletes a node and all its descendants.
+func (s *Store) CascadeDeleteNode(id uuid.UUID) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	var cascadeDelete func(nodeID uuid.UUID) error
+	cascadeDelete = func(nodeID uuid.UUID) error {
+		// Delete children first
+		children := s.walker.GetChildren(nodeID)
+		for _, child := range children {
+			if err := cascadeDelete(child.ID); err != nil {
+				return err
+			}
+		}
+		// Delete associated edges
+		for _, edge := range s.walker.GetOutEdges(nodeID) {
+			if _, err := s.walker.DeleteEdge(edge.ID); err != nil {
+				return err
+			}
+		}
+		for _, edge := range s.walker.GetInEdges(nodeID) {
+			if _, err := s.walker.DeleteEdge(edge.ID); err != nil {
+				return err
+			}
+		}
+		// Remove from indexes
+		if node, ok := s.walker.GetNode(nodeID); ok {
+			s.removeFromIndexes(nodeID, node.Type, node.Properties)
+		}
+		_, err := s.walker.DeleteNode(nodeID)
+		return err
+	}
+
+	return cascadeDelete(id)
+}
+
+// RestoreNode un-deletes a soft-deleted node.
+func (s *Store) RestoreNode(id uuid.UUID) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	node, ok := s.walker.GetNodeIncludingDeleted(id)
+	if !ok {
+		return fmt.Errorf("node %s not found", id)
+	}
+	if !node.Deleted {
+		return fmt.Errorf("node %s is not deleted", id)
+	}
+	_, err := s.walker.RestoreNode(id)
+	if err != nil {
+		return err
+	}
+	// Re-add to indexes
+	s.updateIndexes(id, node.Type, node.Properties)
+	return nil
+}
+
+// GetDeletedNodes returns all soft-deleted nodes.
+func (s *Store) GetDeletedNodes() []*crdt.MaterializedNode {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.walker.GetDeletedNodes()
+}
+
+// --- Orphan Reaping ---
+
+// ReapOrphans finds nodes whose parents are deleted and soft-deletes them.
+// Returns the IDs of reaped nodes.
+func (s *Store) ReapOrphans() ([]uuid.UUID, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	var reaped []uuid.UUID
+	// Iterate all live nodes, check if parent is deleted
+	for _, node := range s.walker.AllNodes() {
+		if node.ParentID == nil {
+			continue
+		}
+		parent, ok := s.walker.GetNode(*node.ParentID)
+		if !ok || parent.Deleted {
+			// Parent is deleted or missing — this is an orphan
+			s.removeFromIndexes(node.ID, node.Type, node.Properties)
+			if _, err := s.walker.DeleteNode(node.ID); err != nil {
+				return reaped, err
+			}
+			reaped = append(reaped, node.ID)
+		}
+	}
+
+	// Repeat until no more orphans found (cascading orphans)
+	if len(reaped) > 0 {
+		more, err := s.reapOrphansUnlocked()
+		if err != nil {
+			return reaped, err
+		}
+		reaped = append(reaped, more...)
+	}
+
+	return reaped, nil
+}
+
+func (s *Store) reapOrphansUnlocked() ([]uuid.UUID, error) {
+	var reaped []uuid.UUID
+	for _, node := range s.walker.AllNodes() {
+		if node.ParentID == nil {
+			continue
+		}
+		parent, ok := s.walker.GetNode(*node.ParentID)
+		if !ok || parent.Deleted {
+			s.removeFromIndexes(node.ID, node.Type, node.Properties)
+			if _, err := s.walker.DeleteNode(node.ID); err != nil {
+				return reaped, err
+			}
+			reaped = append(reaped, node.ID)
+		}
+	}
+	if len(reaped) > 0 {
+		more, err := s.reapOrphansUnlocked()
+		if err != nil {
+			return reaped, err
+		}
+		reaped = append(reaped, more...)
+	}
+	return reaped, nil
+}
+
+// --- Batch Operations ---
+
+// BatchOpType identifies a batch operation.
+type BatchOpType int
+
+const (
+	BatchInsertNode BatchOpType = iota
+	BatchDeleteNode
+	BatchSetProperty
+	BatchDeleteProperty
+	BatchInsertEdge
+	BatchDeleteEdge
+	BatchMoveNode
+	BatchReorderNode
+	BatchRestoreNode
+	BatchCascadeDelete
+)
+
+// BatchOp is a single operation within a batch.
+type BatchOp struct {
+	Type       BatchOpType
+	NodeType   string
+	ParentID   *uuid.UUID
+	Properties map[string]interface{}
+	NodeID     uuid.UUID
+	Key        string
+	Value      interface{}
+	EdgeType   string
+	FromID     uuid.UUID
+	ToID       uuid.UUID
+	EdgeID     uuid.UUID
+	Position   string
+
+	// Output: filled after execution
+	ResultID uuid.UUID
+}
+
+// BatchResult holds the result of a batch execution.
+type BatchResult struct {
+	Results []BatchOp
+}
+
+// ExecuteBatch executes multiple operations atomically.
+// If any operation fails, previously applied operations in this batch
+// are still applied (CRDT operations are idempotent and conflict-free).
+func (s *Store) ExecuteBatch(ops []BatchOp) (*BatchResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	results := make([]BatchOp, len(ops))
+	copy(results, ops)
+
+	for i := range results {
+		op := &results[i]
+		switch op.Type {
+		case BatchInsertNode:
+			id, _, err := s.walker.InsertNode(op.NodeType, op.ParentID, op.Properties)
+			if err != nil {
+				return &BatchResult{Results: results}, fmt.Errorf("batch op %d (InsertNode): %w", i, err)
+			}
+			op.ResultID = id
+			s.updateIndexes(id, op.NodeType, op.Properties)
+
+		case BatchDeleteNode:
+			node, ok := s.walker.GetNode(op.NodeID)
+			if !ok {
+				return &BatchResult{Results: results}, fmt.Errorf("batch op %d (DeleteNode): node %s not found", i, op.NodeID)
+			}
+			s.removeFromIndexes(op.NodeID, node.Type, node.Properties)
+			if _, err := s.walker.DeleteNode(op.NodeID); err != nil {
+				return &BatchResult{Results: results}, fmt.Errorf("batch op %d (DeleteNode): %w", i, err)
+			}
+
+		case BatchSetProperty:
+			if _, err := s.walker.SetProperty(op.NodeID, op.Key, op.Value); err != nil {
+				return &BatchResult{Results: results}, fmt.Errorf("batch op %d (SetProperty): %w", i, err)
+			}
+
+		case BatchDeleteProperty:
+			if _, err := s.walker.DeleteProperty(op.NodeID, op.Key); err != nil {
+				return &BatchResult{Results: results}, fmt.Errorf("batch op %d (DeleteProperty): %w", i, err)
+			}
+
+		case BatchInsertEdge:
+			id, _, err := s.walker.InsertEdge(op.EdgeType, op.FromID, op.ToID, op.Properties)
+			if err != nil {
+				return &BatchResult{Results: results}, fmt.Errorf("batch op %d (InsertEdge): %w", i, err)
+			}
+			op.ResultID = id
+
+		case BatchDeleteEdge:
+			if _, err := s.walker.DeleteEdge(op.EdgeID); err != nil {
+				return &BatchResult{Results: results}, fmt.Errorf("batch op %d (DeleteEdge): %w", i, err)
+			}
+
+		case BatchMoveNode:
+			if _, err := s.walker.MoveNode(op.NodeID, op.ParentID); err != nil {
+				return &BatchResult{Results: results}, fmt.Errorf("batch op %d (MoveNode): %w", i, err)
+			}
+
+		case BatchReorderNode:
+			if _, err := s.walker.ReorderNode(op.NodeID, op.Position); err != nil {
+				return &BatchResult{Results: results}, fmt.Errorf("batch op %d (ReorderNode): %w", i, err)
+			}
+
+		case BatchRestoreNode:
+			if _, err := s.walker.RestoreNode(op.NodeID); err != nil {
+				return &BatchResult{Results: results}, fmt.Errorf("batch op %d (RestoreNode): %w", i, err)
+			}
+
+		case BatchCascadeDelete:
+			var cascadeDelete func(nodeID uuid.UUID) error
+			cascadeDelete = func(nodeID uuid.UUID) error {
+				for _, child := range s.walker.GetChildren(nodeID) {
+					if err := cascadeDelete(child.ID); err != nil {
+						return err
+					}
+				}
+				for _, edge := range s.walker.GetOutEdges(nodeID) {
+					if _, err := s.walker.DeleteEdge(edge.ID); err != nil {
+						return err
+					}
+				}
+				for _, edge := range s.walker.GetInEdges(nodeID) {
+					if _, err := s.walker.DeleteEdge(edge.ID); err != nil {
+						return err
+					}
+				}
+				if node, ok := s.walker.GetNode(nodeID); ok {
+					s.removeFromIndexes(nodeID, node.Type, node.Properties)
+				}
+				_, err := s.walker.DeleteNode(nodeID)
+				return err
+			}
+			if err := cascadeDelete(op.NodeID); err != nil {
+				return &BatchResult{Results: results}, fmt.Errorf("batch op %d (CascadeDelete): %w", i, err)
+			}
+		}
+	}
+
+	return &BatchResult{Results: results}, nil
+}
+
 // --- Sync ---
 
 // ApplyRemote applies a remote operation.

@@ -16,7 +16,10 @@ const (
 	OpDeleteProperty
 	OpInsertEdge
 	OpDeleteEdge
-	OpMoveNode // re-parent in the hierarchy
+	OpMoveNode    // re-parent in the hierarchy
+	OpReorderNode // change sibling order via fractional index
+	OpRestoreNode // un-delete a soft-deleted node
+	OpRestoreEdge // un-delete a soft-deleted edge
 )
 
 // EventID uniquely identifies an event in the causal graph.

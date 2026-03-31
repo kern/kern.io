@@ -18,7 +18,6 @@ export type {
   Edge,
   EventId,
   Operation,
-  OpType,
   FuncResult,
   FuncDef,
   SubscriptionCallback,
@@ -34,7 +33,20 @@ export type {
   ActionCtx,
   GraphReader,
   GraphWriter,
+  DerivedNode,
+  DerivedEdge,
+  BatchOp,
+  BatchOpType,
+  BatchResult,
+  VersionVector,
+  GossipMessage,
+  PeerInfo,
+  DeltaPayload,
+  ClusterStats,
+  ShardInfo,
 } from "./types";
+
+export { OpType, GossipMessageType } from "./types";
 
 // Schema DSL
 export {

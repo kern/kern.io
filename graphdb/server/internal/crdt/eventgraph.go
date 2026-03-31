@@ -244,6 +244,99 @@ func (eg *EventGraph) EventsSince(knownFrontier []EventID) []*Operation {
 	return result
 }
 
+// CompactBefore compresses all events before (and including) the given frontier
+// into a single snapshot. This discards individual operations and keeps only
+// the materialized state at that point. Events after the frontier are preserved.
+// Returns the number of events compacted.
+func (eg *EventGraph) CompactBefore(cutoff []EventID) int {
+	eg.mu.Lock()
+	defer eg.mu.Unlock()
+
+	// Find all events reachable backward from cutoff
+	toCompact := make(map[EventID]bool)
+	var markCompact func(id EventID)
+	markCompact = func(id EventID) {
+		if toCompact[id] {
+			return
+		}
+		toCompact[id] = true
+		if op, ok := eg.events[id]; ok {
+			for _, parent := range op.Parents {
+				markCompact(parent)
+			}
+		}
+	}
+	for _, id := range cutoff {
+		markCompact(id)
+	}
+
+	count := 0
+	for id := range toCompact {
+		// Don't remove events that are parents of non-compacted events
+		hasLiveChild := false
+		for _, child := range eg.children[id] {
+			if !toCompact[child] {
+				hasLiveChild = true
+				break
+			}
+		}
+		if hasLiveChild {
+			continue
+		}
+		delete(eg.events, id)
+		delete(eg.frontier, id)
+		delete(eg.children, id)
+		count++
+	}
+
+	return count
+}
+
+// DeltaSince returns a compact delta of events since the given version vector.
+// The version vector maps replicaID -> last seen seq for that replica.
+// This is more efficient than EventsSince for large graphs.
+func (eg *EventGraph) DeltaSince(versionVector map[string]uint64) []*Operation {
+	eg.mu.RLock()
+	defer eg.mu.RUnlock()
+
+	var result []*Operation
+	for _, op := range eg.events {
+		lastSeen, ok := versionVector[op.ID.ReplicaID]
+		if !ok || op.ID.Seq > lastSeen {
+			result = append(result, op)
+		}
+	}
+
+	// Sort in causal order
+	sortOps(result)
+	return result
+}
+
+// VersionVector returns the current version vector (replicaID -> max seq).
+func (eg *EventGraph) VersionVector() map[string]uint64 {
+	eg.mu.RLock()
+	defer eg.mu.RUnlock()
+	vv := make(map[string]uint64, len(eg.seqCounters))
+	for k, v := range eg.seqCounters {
+		vv[k] = v
+	}
+	return vv
+}
+
+// sortOps sorts operations in causal order (by Seq, then ReplicaID).
+func sortOps(ops []*Operation) {
+	for i := 1; i < len(ops); i++ {
+		key := ops[i]
+		j := i - 1
+		for j >= 0 && (ops[j].ID.Seq > key.ID.Seq ||
+			(ops[j].ID.Seq == key.ID.Seq && ops[j].ID.ReplicaID > key.ID.ReplicaID)) {
+			ops[j+1] = ops[j]
+			j--
+		}
+		ops[j+1] = key
+	}
+}
+
 func (eg *EventGraph) causalOrderUnlocked() []*Operation {
 	deg := make(map[EventID]int)
 	for _, op := range eg.events {

@@ -45,14 +45,17 @@ type MaterializedNode struct {
 	Type       string                 `json:"type"`
 	Properties map[string]interface{} `json:"properties"`
 	ParentID   *uuid.UUID             `json:"parentId,omitempty"`
+	Position   string                 `json:"position"`
 	CreatedAt  time.Time              `json:"createdAt"`
 	UpdatedAt  time.Time              `json:"updatedAt"`
 	Deleted    bool                   `json:"deleted"`
+	DeletedAt  *time.Time             `json:"deletedAt,omitempty"`
 	// Track which event last wrote each property (for LWW resolution)
 	propVersions map[string]EventID
 	// Track the event that created/deleted this node
-	createEvent EventID
-	deleteEvent *EventID
+	createEvent  EventID
+	deleteEvent  *EventID
+	posEvent     *EventID // tracks LWW for position changes
 }
 
 // MaterializedEdge is the computed state of an edge.
@@ -240,6 +243,101 @@ func (w *EGWalker) MoveNode(nodeID uuid.UUID, newParentID *uuid.UUID) (*Operatio
 	return op, nil
 }
 
+// ReorderNode changes a node's fractional index position among its siblings.
+func (w *EGWalker) ReorderNode(nodeID uuid.UUID, position string) (*Operation, error) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+
+	op := w.newOp(OpReorderNode)
+	op.TargetID = nodeID
+	op.Value = position
+
+	if err := w.graph.Apply(op); err != nil {
+		return nil, err
+	}
+
+	return op, nil
+}
+
+// RestoreNode un-deletes a soft-deleted node.
+func (w *EGWalker) RestoreNode(id uuid.UUID) (*Operation, error) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+
+	op := w.newOp(OpRestoreNode)
+	op.TargetID = id
+
+	if err := w.graph.Apply(op); err != nil {
+		return nil, err
+	}
+
+	return op, nil
+}
+
+// RestoreEdge un-deletes a soft-deleted edge.
+func (w *EGWalker) RestoreEdge(id uuid.UUID) (*Operation, error) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+
+	op := w.newOp(OpRestoreEdge)
+	op.TargetID = id
+
+	if err := w.graph.Apply(op); err != nil {
+		return nil, err
+	}
+
+	return op, nil
+}
+
+// GetNodeIncludingDeleted returns a node by ID even if soft-deleted.
+func (w *EGWalker) GetNodeIncludingDeleted(id uuid.UUID) (*MaterializedNode, bool) {
+	w.mu.RLock()
+	defer w.mu.RUnlock()
+	node, ok := w.nodes[id]
+	return node, ok
+}
+
+// GetDeletedNodes returns all soft-deleted nodes.
+func (w *EGWalker) GetDeletedNodes() []*MaterializedNode {
+	w.mu.RLock()
+	defer w.mu.RUnlock()
+	var result []*MaterializedNode
+	for _, node := range w.nodes {
+		if node.Deleted {
+			result = append(result, node)
+		}
+	}
+	return result
+}
+
+// GetOrderedChildren returns children sorted by their fractional index position.
+func (w *EGWalker) GetOrderedChildren(parentID uuid.UUID) []*MaterializedNode {
+	w.mu.RLock()
+	defer w.mu.RUnlock()
+	var result []*MaterializedNode
+	for _, childID := range w.childMap[parentID] {
+		if node, ok := w.nodes[childID]; ok && !node.Deleted {
+			result = append(result, node)
+		}
+	}
+	// Sort by position
+	sortByPosition(result)
+	return result
+}
+
+// sortByPosition sorts nodes by their Position field lexicographically.
+func sortByPosition(nodes []*MaterializedNode) {
+	for i := 1; i < len(nodes); i++ {
+		key := nodes[i]
+		j := i - 1
+		for j >= 0 && nodes[j].Position > key.Position {
+			nodes[j+1] = nodes[j]
+			j--
+		}
+		nodes[j+1] = key
+	}
+}
+
 // ApplyRemote applies an operation from a remote replica.
 func (w *EGWalker) ApplyRemote(op *Operation) error {
 	w.mu.Lock()
@@ -279,11 +377,24 @@ func (w *EGWalker) applyOp(op *Operation) {
 		for k := range props {
 			propVersions[k] = op.ID
 		}
+		// Assign fractional index position
+		position := PositionFirst()
+		if op.ParentRef != nil {
+			siblings := w.childMap[*op.ParentRef]
+			if len(siblings) > 0 {
+				// Place after the last sibling
+				lastSibling := w.nodes[siblings[len(siblings)-1]]
+				if lastSibling != nil {
+					position = positionAfter(lastSibling.Position)
+				}
+			}
+		}
 		node := &MaterializedNode{
 			ID:           op.TargetID,
 			Type:         op.NodeType,
 			Properties:   props,
 			ParentID:     op.ParentRef,
+			Position:     position,
 			CreatedAt:    op.Timestamp,
 			UpdatedAt:    op.Timestamp,
 			Deleted:      false,
@@ -306,6 +417,7 @@ func (w *EGWalker) applyOp(op *Operation) {
 				node.Deleted = true
 				node.deleteEvent = &op.ID
 				node.UpdatedAt = op.Timestamp
+				node.DeletedAt = &op.Timestamp
 			}
 		}
 
@@ -400,6 +512,35 @@ func (w *EGWalker) applyOp(op *Operation) {
 				delete(w.parentMap, op.TargetID)
 			}
 			node.UpdatedAt = op.Timestamp
+		}
+
+	case OpReorderNode:
+		if node, ok := w.nodes[op.TargetID]; ok {
+			pos, _ := op.Value.(string)
+			if node.posEvent == nil || w.eventAfter(op.ID, *node.posEvent) {
+				node.Position = pos
+				node.posEvent = &op.ID
+				node.UpdatedAt = op.Timestamp
+			}
+		}
+
+	case OpRestoreNode:
+		if node, ok := w.nodes[op.TargetID]; ok {
+			// Restore wins if it's after the delete (LWW)
+			if node.deleteEvent != nil && w.eventAfter(op.ID, *node.deleteEvent) {
+				node.Deleted = false
+				node.DeletedAt = nil
+				node.deleteEvent = &op.ID // track as last existence event
+				node.UpdatedAt = op.Timestamp
+			}
+		}
+
+	case OpRestoreEdge:
+		if edge, ok := w.edges[op.TargetID]; ok {
+			if edge.deleteEvent != nil && w.eventAfter(op.ID, *edge.deleteEvent) {
+				edge.Deleted = false
+				edge.deleteEvent = &op.ID
+			}
 		}
 	}
 }

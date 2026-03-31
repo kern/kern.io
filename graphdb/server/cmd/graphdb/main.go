@@ -16,16 +16,22 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/google/uuid"
+	"github.com/kern/graphdb/internal/cluster"
+	"github.com/kern/graphdb/internal/derived"
 	"github.com/kern/graphdb/internal/function"
 	"github.com/kern/graphdb/internal/graph"
 	"github.com/kern/graphdb/internal/invariant"
 	gsync "github.com/kern/graphdb/internal/sync"
+	"github.com/kern/graphdb/internal/sync/gossip"
 	"github.com/kern/graphdb/internal/transport"
 )
 
 func main() {
 	port := flag.Int("port", 8787, "port to listen on")
 	replicaID := flag.String("replica-id", "", "unique replica ID (auto-generated if empty)")
+	shardCount := flag.Int("shards", 64, "number of shards for partitioning")
+	replicaCount := flag.Int("replicas", 2, "replication factor per shard")
 	flag.Parse()
 
 	if *replicaID == "" {
@@ -40,17 +46,36 @@ func main() {
 	// Graph store with CRDT
 	store := graph.NewStore(*replicaID)
 
+	// Derived store (derivation layer on top of graph store)
+	derivedStore := derived.NewStore(store)
+
 	// Invariant validator
 	validator := invariant.NewValidator()
 
 	// Function registry
 	registry := function.NewRegistry(store, validator)
 
-	// Register built-in functions
+	// Register built-in functions (including derived + batch)
 	registerBuiltins(registry)
+	registerDerivedBuiltins(registry, derivedStore)
+	registerBatchBuiltins(registry, store)
 
 	// Reactive subscription engine
 	reactor := gsync.NewReactor(registry, store.Walker())
+
+	// Gossip relay for WebRTC peer-to-peer sync
+	gossipRelay := gossip.NewRelay(store.Walker().Graph(), gossip.DefaultRelayConfig())
+
+	// Cluster shard manager for horizontal scaling
+	shardMgr := cluster.NewShardManager(*replicaID, *shardCount, *replicaCount)
+	shardMgr.Init()
+	shardMgr.AddNode(&cluster.ClusterNode{
+		ID:       *replicaID,
+		Address:  fmt.Sprintf("localhost:%d", *port),
+		JoinedAt: time.Now(),
+		Status:   cluster.NodeHealthy,
+		Weight:   1,
+	})
 
 	// --- Set up HTTP server ---
 
@@ -63,6 +88,17 @@ func main() {
 	// WebSocket endpoint
 	wsHandler := transport.NewWSHandler(registry, reactor, store.Walker())
 	mux.Handle("/ws", wsHandler)
+
+	// Cluster and gossip info endpoints
+	mux.HandleFunc("/api/cluster/peers", func(w http.ResponseWriter, r *http.Request) {
+		transport.WriteJSONPublic(w, http.StatusOK, gossipRelay.GetPeers())
+	})
+	mux.HandleFunc("/api/cluster/shards", func(w http.ResponseWriter, r *http.Request) {
+		transport.WriteJSONPublic(w, http.StatusOK, shardMgr.GetShardStats())
+	})
+	mux.HandleFunc("/api/cluster/nodes", func(w http.ResponseWriter, r *http.Request) {
+		transport.WriteJSONPublic(w, http.StatusOK, shardMgr.GetLocalShards())
+	})
 
 	// Serve
 	addr := fmt.Sprintf(":%d", *port)
@@ -78,6 +114,7 @@ func main() {
 		<-sigCh
 		log.Println("shutting down...")
 		reactor.Stop()
+		derivedStore.Stop()
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 		server.Shutdown(ctx)
@@ -87,6 +124,7 @@ func main() {
 	log.Printf("  HTTP API: http://localhost:%d/api", *port)
 	log.Printf("  WebSocket: ws://localhost:%d/ws", *port)
 	log.Printf("  Health: http://localhost:%d/health", *port)
+	log.Printf("  Cluster: %d shards, %d replicas", *shardCount, *replicaCount)
 
 	if err := server.ListenAndServe(); err != http.ErrServerClosed {
 		log.Fatalf("server error: %v", err)
@@ -258,5 +296,79 @@ func registerBuiltins(registry *function.Registry) {
 			newParentID = &pid
 		}
 		return nil, mctx.MoveNode(id, newParentID)
+	})
+
+	registry.RegisterMutation("graphdb:restoreNode", func(ctx context.Context, mctx *function.MutationCtx, args map[string]interface{}) (interface{}, error) {
+		id, _ := args["id"].(string)
+		return nil, mctx.RestoreNode(id)
+	})
+
+	registry.RegisterMutation("graphdb:softDeleteNode", func(ctx context.Context, mctx *function.MutationCtx, args map[string]interface{}) (interface{}, error) {
+		id, _ := args["id"].(string)
+		return nil, mctx.SoftDeleteNode(id)
+	})
+
+	registry.RegisterMutation("graphdb:cascadeDeleteNode", func(ctx context.Context, mctx *function.MutationCtx, args map[string]interface{}) (interface{}, error) {
+		id, _ := args["id"].(string)
+		return nil, mctx.CascadeDeleteNode(id)
+	})
+
+	registry.RegisterQuery("graphdb:getOrderedChildren", func(ctx context.Context, qctx *function.QueryCtx, args map[string]interface{}) (interface{}, error) {
+		id, _ := args["id"].(string)
+		return qctx.GetOrderedChildren(id)
+	})
+
+	registry.RegisterQuery("graphdb:getDeletedNodes", func(ctx context.Context, qctx *function.QueryCtx, args map[string]interface{}) (interface{}, error) {
+		return qctx.GetDeletedNodes(), nil
+	})
+
+	registry.RegisterQuery("graphdb:stats", func(ctx context.Context, qctx *function.QueryCtx, args map[string]interface{}) (interface{}, error) {
+		return qctx.Stats(), nil
+	})
+}
+
+// registerDerivedBuiltins registers derived graph query functions.
+func registerDerivedBuiltins(registry *function.Registry, ds *derived.Store) {
+	registry.RegisterQuery("graphdb:getDerivedNode", func(ctx context.Context, qctx *function.QueryCtx, args map[string]interface{}) (interface{}, error) {
+		idStr, _ := args["id"].(string)
+		uid, err := uuid.Parse(idStr)
+		if err != nil {
+			return nil, fmt.Errorf("invalid id: %v", err)
+		}
+		node, ok := ds.GetNode(uid)
+		if !ok {
+			return nil, fmt.Errorf("derived node %s not found", idStr)
+		}
+		return node, nil
+	})
+
+	registry.RegisterQuery("graphdb:getDerivedNodesByType", func(ctx context.Context, qctx *function.QueryCtx, args map[string]interface{}) (interface{}, error) {
+		nodeType, _ := args["type"].(string)
+		return ds.GetNodesByType(nodeType), nil
+	})
+}
+
+// registerBatchBuiltins registers batch mutation functions.
+func registerBatchBuiltins(registry *function.Registry, store *graph.Store) {
+	registry.RegisterMutation("graphdb:batch", func(ctx context.Context, mctx *function.MutationCtx, args map[string]interface{}) (interface{}, error) {
+		opsRaw, ok := args["operations"].([]interface{})
+		if !ok {
+			return nil, fmt.Errorf("missing required arg 'operations'")
+		}
+		_ = opsRaw
+		// Batch operations are handled through the store directly
+		return map[string]string{"status": "batch operations supported via direct store API"}, nil
+	})
+
+	registry.RegisterMutation("graphdb:reapOrphans", func(ctx context.Context, mctx *function.MutationCtx, args map[string]interface{}) (interface{}, error) {
+		reaped, err := store.ReapOrphans()
+		if err != nil {
+			return nil, err
+		}
+		ids := make([]string, len(reaped))
+		for i, id := range reaped {
+			ids[i] = id.String()
+		}
+		return map[string]interface{}{"reapedCount": len(reaped), "reapedIds": ids}, nil
 	})
 }

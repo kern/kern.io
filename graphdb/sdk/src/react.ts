@@ -270,6 +270,46 @@ export function useMoveNode() {
   }>("graphdb:moveNode");
 }
 
+/** Hook for soft-deleting nodes */
+export function useSoftDeleteNode() {
+  return useMutation<{ id: Id }>("graphdb:softDeleteNode");
+}
+
+/** Hook for cascade-deleting nodes */
+export function useCascadeDeleteNode() {
+  return useMutation<{ id: Id }>("graphdb:cascadeDeleteNode");
+}
+
+/** Hook for restoring soft-deleted nodes */
+export function useRestoreNode() {
+  return useMutation<{ id: Id }>("graphdb:restoreNode");
+}
+
+/** Hook for reordering nodes (fractional indexing) */
+export function useReorderNode() {
+  return useMutation<{
+    id: Id;
+    position: string;
+  }>("graphdb:reorderNode");
+}
+
+/** Hook to get children sorted by fractional index (reactive) */
+export function useOrderedChildren<T extends Record<string, unknown> = Record<string, unknown>>(
+  id: Id | undefined
+): UseQueryResult<Node<T>[]> {
+  return useQuery<Node<T>[]>("graphdb:getOrderedChildren", id ? { id } : undefined);
+}
+
+/** Hook to get deleted nodes (reactive) */
+export function useDeletedNodes(): UseQueryResult<Node[]> {
+  return useQuery<Node[]>("graphdb:getDeletedNodes", {});
+}
+
+/** Hook to get graph statistics (reactive) */
+export function useStats(): UseQueryResult<Record<string, unknown>> {
+  return useQuery<Record<string, unknown>>("graphdb:stats", {});
+}
+
 // --- Connection status hook ---
 
 export function useConnectionStatus(): boolean {

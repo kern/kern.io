@@ -9,8 +9,11 @@ export interface Node<T extends Record<string, unknown> = Record<string, unknown
   type: string;
   properties: T;
   parentId?: Id;
+  position: string;
   createdAt: string;
   updatedAt: string;
+  deleted?: boolean;
+  deletedAt?: string;
 }
 
 /** An edge in the graph */
@@ -53,6 +56,9 @@ export enum OpType {
   InsertEdge = 4,
   DeleteEdge = 5,
   MoveNode = 6,
+  ReorderNode = 7,
+  RestoreNode = 8,
+  RestoreEdge = 9,
 }
 
 /** Result of a function call */
@@ -215,6 +221,9 @@ export interface GraphWriter {
     parentId?: Id
   ) => Promise<Id>;
   deleteNode: (id: Id) => Promise<void>;
+  softDeleteNode: (id: Id) => Promise<void>;
+  cascadeDeleteNode: (id: Id) => Promise<void>;
+  restoreNode: (id: Id) => Promise<void>;
   patchNode: (id: Id, properties: Record<string, unknown>) => Promise<void>;
   setProperty: (id: Id, key: string, value: unknown) => Promise<void>;
   deleteProperty: (id: Id, key: string) => Promise<void>;
@@ -226,4 +235,124 @@ export interface GraphWriter {
   ) => Promise<Id>;
   deleteEdge: (id: Id) => Promise<void>;
   moveNode: (id: Id, newParentId?: Id) => Promise<void>;
+  reorderNode: (id: Id, position: string) => Promise<void>;
+  reorderBetween: (id: Id, afterId?: Id, beforeId?: Id) => Promise<void>;
+}
+
+// --- Derived graph types ---
+
+/** A derived node produced by a derivation pipeline */
+export interface DerivedNode<T extends Record<string, unknown> = Record<string, unknown>> {
+  id: Id;
+  derivedType: string;
+  sourceId?: Id;
+  sourceType?: string;
+  properties: T;
+  parentId?: Id;
+  createdAt: string;
+  updatedAt: string;
+  derivationId?: string;
+  inheritedFrom?: Id;
+}
+
+/** A derived edge */
+export interface DerivedEdge<T extends Record<string, unknown> = Record<string, unknown>> {
+  id: Id;
+  type: string;
+  fromId: Id;
+  toId: Id;
+  properties: T;
+  sourceId?: Id;
+}
+
+// --- Batch operation types ---
+
+export type BatchOpType =
+  | "insert-node"
+  | "delete-node"
+  | "set-property"
+  | "delete-property"
+  | "insert-edge"
+  | "delete-edge"
+  | "move-node"
+  | "reorder-node"
+  | "restore-node"
+  | "cascade-delete";
+
+export interface BatchOp {
+  op: BatchOpType;
+  nodeType?: string;
+  parentId?: Id;
+  properties?: Record<string, unknown>;
+  nodeId?: Id;
+  edgeId?: Id;
+  key?: string;
+  value?: unknown;
+  edgeType?: string;
+  fromId?: Id;
+  toId?: Id;
+  position?: string;
+}
+
+export interface BatchResult {
+  index: number;
+  type: string;
+  resultId?: Id;
+}
+
+// --- Version vector for sync ---
+
+export type VersionVector = Record<string, number>;
+
+// --- Gossip protocol types ---
+
+export enum GossipMessageType {
+  Offer = 0,
+  Answer = 1,
+  ICECandidate = 2,
+  Delta = 3,
+  VersionVector = 4,
+  DeltaRequest = 5,
+  PeerList = 6,
+  Heartbeat = 7,
+  DeadLetter = 8,
+}
+
+export interface GossipMessage {
+  type: GossipMessageType;
+  from: string;
+  to?: string;
+  payload: unknown;
+  timestamp: string;
+  seqNo: number;
+}
+
+export interface PeerInfo {
+  id: string;
+  replicaId: string;
+  connectedAt: string;
+  lastHeartbeat: string;
+  versionVector: VersionVector;
+}
+
+export interface DeltaPayload {
+  operations: Operation[];
+  versionVector: VersionVector;
+}
+
+// --- Cluster types ---
+
+export interface ClusterStats {
+  totalShards: number;
+  nodeCount: number;
+  distribution: Record<string, number>;
+  migrations: number;
+}
+
+export interface ShardInfo {
+  id: number;
+  state: number;
+  owner: string;
+  replicas: string[];
+  nodeCount: number;
 }

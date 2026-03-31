@@ -214,3 +214,8 @@ func writeJSON(w http.ResponseWriter, status int, v interface{}) {
 	w.WriteHeader(status)
 	json.NewEncoder(w).Encode(v)
 }
+
+// WriteJSONPublic is the exported version of writeJSON for use by main.
+func WriteJSONPublic(w http.ResponseWriter, status int, v interface{}) {
+	writeJSON(w, status, v)
+}

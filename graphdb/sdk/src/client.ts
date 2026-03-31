@@ -402,6 +402,89 @@ export class GraphDBClient {
     await this.mutation("graphdb:moveNode", { id, parentId: newParentId });
   }
 
+  /** Soft-delete a node (marks as deleted but keeps in graph) */
+  async softDeleteNode(id: Id): Promise<void> {
+    await this.mutation("graphdb:softDeleteNode", { id });
+  }
+
+  /** Cascade-delete a node and all its descendants */
+  async cascadeDeleteNode(id: Id): Promise<void> {
+    await this.mutation("graphdb:cascadeDeleteNode", { id });
+  }
+
+  /** Restore a soft-deleted node */
+  async restoreNode(id: Id): Promise<void> {
+    await this.mutation("graphdb:restoreNode", { id });
+  }
+
+  /** Get children sorted by fractional index position */
+  async getOrderedChildren<T extends Record<string, unknown> = Record<string, unknown>>(
+    id: Id
+  ): Promise<Node<T>[]> {
+    return this.query<Node<T>[]>("graphdb:getOrderedChildren", { id });
+  }
+
+  /** Reorder a node to a specific fractional index position */
+  async reorderNode(id: Id, position: string): Promise<void> {
+    await this.mutation("graphdb:reorderNode", { id, position });
+  }
+
+  /** Get deleted nodes */
+  async getDeletedNodes(): Promise<Node[]> {
+    return this.query<Node[]>("graphdb:getDeletedNodes", {});
+  }
+
+  /** Get graph statistics */
+  async getStats(): Promise<Record<string, unknown>> {
+    return this.query<Record<string, unknown>>("graphdb:stats", {});
+  }
+
+  /** Reap orphaned nodes (nodes whose parents are deleted) */
+  async reapOrphans(): Promise<{ reapedCount: number; reapedIds: Id[] }> {
+    return this.mutation("graphdb:reapOrphans", {});
+  }
+
+  /** Execute a batch of operations */
+  async executeBatch(operations: import("./types").BatchOp[]): Promise<import("./types").BatchResult[]> {
+    return this.mutation("graphdb:batch", { operations });
+  }
+
+  /** Get cluster peer info */
+  async getClusterPeers(): Promise<import("./types").PeerInfo[]> {
+    const response = await fetch(`${this.url}/api/cluster/peers`);
+    return response.json();
+  }
+
+  /** Get cluster shard stats */
+  async getClusterStats(): Promise<import("./types").ClusterStats> {
+    const response = await fetch(`${this.url}/api/cluster/shards`);
+    return response.json();
+  }
+
+  /** Get a derived node by ID */
+  async getDerivedNode<T extends Record<string, unknown> = Record<string, unknown>>(
+    id: Id
+  ): Promise<import("./types").DerivedNode<T> | null> {
+    return this.query("graphdb:getDerivedNode", { id });
+  }
+
+  /** Get derived nodes by type */
+  async getDerivedNodesByType<T extends Record<string, unknown> = Record<string, unknown>>(
+    type: string
+  ): Promise<import("./types").DerivedNode<T>[]> {
+    return this.query("graphdb:getDerivedNodesByType", { type });
+  }
+
+  /** Request a sync delta from the server based on local version vector */
+  async requestDelta(versionVector: import("./types").VersionVector): Promise<import("./types").DeltaPayload> {
+    const response = await fetch(`${this.url}/api/sync/delta`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ versionVector }),
+    });
+    return response.json();
+  }
+
   /** List all registered functions */
   async listFunctions(): Promise<FuncDef[]> {
     const response = await fetch(`${this.url}/api/functions`);

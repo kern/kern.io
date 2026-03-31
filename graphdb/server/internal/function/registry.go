@@ -287,6 +287,36 @@ func (q *QueryCtx) AllEdges() interface{} {
 	return q.store.AllEdges()
 }
 
+func (q *QueryCtx) GetOrderedChildren(id string) (interface{}, error) {
+	uid, err := parseUUID(id)
+	if err != nil {
+		return nil, err
+	}
+	return q.store.GetOrderedChildren(uid), nil
+}
+
+func (q *QueryCtx) GetDeletedNodes() interface{} {
+	return q.store.GetDeletedNodes()
+}
+
+func (q *QueryCtx) Stats() interface{} {
+	nodes := q.store.AllNodes()
+	edges := q.store.AllEdges()
+	deleted := q.store.GetDeletedNodes()
+	roots := q.store.GetRoots()
+	typeCounts := make(map[string]int)
+	for _, n := range nodes {
+		typeCounts[n.Type]++
+	}
+	return map[string]interface{}{
+		"totalNodes":   len(nodes),
+		"totalEdges":   len(edges),
+		"deletedNodes": len(deleted),
+		"rootNodes":    len(roots),
+		"nodesByType":  typeCounts,
+	}
+}
+
 // --- MutationCtx methods (read-write) ---
 
 func (m *MutationCtx) InsertNode(nodeType string, parentID *string, properties map[string]interface{}) (string, error) {
@@ -375,6 +405,30 @@ func (m *MutationCtx) MoveNode(nodeID string, newParentID *string) error {
 		pid = &p
 	}
 	return m.store.MoveNode(uid, pid)
+}
+
+func (m *MutationCtx) RestoreNode(id string) error {
+	uid, err := parseUUID(id)
+	if err != nil {
+		return err
+	}
+	return m.store.RestoreNode(uid)
+}
+
+func (m *MutationCtx) SoftDeleteNode(id string) error {
+	uid, err := parseUUID(id)
+	if err != nil {
+		return err
+	}
+	return m.store.SoftDeleteNode(uid)
+}
+
+func (m *MutationCtx) CascadeDeleteNode(id string) error {
+	uid, err := parseUUID(id)
+	if err != nil {
+		return err
+	}
+	return m.store.CascadeDeleteNode(uid)
 }
 
 // MutationCtx also has all QueryCtx read methods

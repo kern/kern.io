@@ -28,6 +28,13 @@ export {
   useInsertEdge,
   useDeleteEdge,
   useMoveNode,
+  useSoftDeleteNode,
+  useCascadeDeleteNode,
+  useRestoreNode,
+  useReorderNode,
+  useOrderedChildren,
+  useDeletedNodes,
+  useStats,
   useConnectionStatus,
 } from "./react";
 
