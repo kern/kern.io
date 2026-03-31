@@ -60,6 +60,33 @@ func TestReapOrphansNoOrphans(t *testing.T) {
 	}
 }
 
+func TestReapOrphansDeeply(t *testing.T) {
+	s := NewStore("r1")
+
+	// Build a 4-level tree to force multiple rounds of reapOrphansUnlocked
+	level0, _ := s.InsertNode("folder", nil, nil)
+	level1, _ := s.InsertNode("folder", &level0, nil)
+	level2, _ := s.InsertNode("folder", &level1, nil)
+	level3, _ := s.InsertNode("file", &level2, nil)
+
+	// Soft-delete only root
+	s.SoftDeleteNode(level0)
+
+	reaped, err := s.ReapOrphans()
+	if err != nil {
+		t.Fatalf("ReapOrphans: %v", err)
+	}
+
+	ids := make(map[uuid.UUID]bool)
+	for _, id := range reaped {
+		ids[id] = true
+	}
+
+	if !ids[level1] || !ids[level2] || !ids[level3] {
+		t.Errorf("expected all descendants to be reaped, got %d reaped", len(reaped))
+	}
+}
+
 func TestReapOrphansWithRootNodes(t *testing.T) {
 	s := NewStore("r1")
 	parent, _ := s.InsertNode("folder", nil, nil)
