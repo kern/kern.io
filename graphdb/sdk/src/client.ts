@@ -475,6 +475,34 @@ export class GraphDBClient {
     return this.query("graphdb:getDerivedNodesByType", { type });
   }
 
+  /** Deploy a compiled schema to the server for a given graph */
+  async deploySchema(schema: import("./compiler").CompiledSchema): Promise<{ status: string; graphName: string }> {
+    const response = await fetch(`${this.url}/api/schema/deploy`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(schema),
+    });
+
+    const result = await response.json();
+    if (result.error) {
+      throw new GraphDBError(result.error, "deploySchema");
+    }
+    return result;
+  }
+
+  /** List all deployed graphs */
+  async listGraphs(): Promise<string[]> {
+    const response = await fetch(`${this.url}/api/graphs`);
+    return response.json();
+  }
+
+  /** Get the schema JSON for a deployed graph */
+  async getGraphSchema(graphName: string): Promise<import("./compiler").CompiledSchema | null> {
+    const response = await fetch(`${this.url}/api/graphs/schema?name=${encodeURIComponent(graphName)}`);
+    if (response.status === 404) return null;
+    return response.json();
+  }
+
   /** Request a sync delta from the server based on local version vector */
   async requestDelta(versionVector: import("./types").VersionVector): Promise<import("./types").DeltaPayload> {
     const response = await fetch(`${this.url}/api/sync/delta`, {

@@ -72,6 +72,26 @@ export {
   edgeConstraint,
 } from "./schema";
 
+// Schema compiler
+export {
+  compileSchema,
+  serializeSchema,
+  SchemaCompiler,
+  NodeCompiler,
+  PipelineCompiler,
+} from "./compiler";
+export type {
+  CompiledSchema,
+  CompiledNodeType,
+  CompiledProperty,
+  CompiledEdgeType,
+  CompiledInvariant,
+  CompiledPipeline,
+  CompiledStage,
+  SerializableTransform,
+  PropertyOptions,
+} from "./compiler";
+
 // Function definitions
 export {
   query,

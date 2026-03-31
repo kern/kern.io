@@ -7,6 +7,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -17,6 +18,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"io"
+
 	"github.com/kern/graphdb/internal/cluster"
 	"github.com/kern/graphdb/internal/derived"
 	"github.com/kern/graphdb/internal/function"
@@ -24,6 +27,7 @@ import (
 	"github.com/kern/graphdb/internal/invariant"
 	gsync "github.com/kern/graphdb/internal/sync"
 	"github.com/kern/graphdb/internal/sync/gossip"
+	"github.com/kern/graphdb/internal/system"
 	"github.com/kern/graphdb/internal/transport"
 )
 
@@ -66,6 +70,9 @@ func main() {
 	// Gossip relay for WebRTC peer-to-peer sync
 	gossipRelay := gossip.NewRelay(store.Walker().Graph(), gossip.DefaultRelayConfig())
 
+	// Multi-graph manager for N independent graph instances
+	multiGraph := system.NewMultiGraph(*replicaID)
+
 	// Cluster shard manager for horizontal scaling
 	shardMgr := cluster.NewShardManager(*replicaID, *shardCount, *replicaCount)
 	shardMgr.Init()
@@ -98,6 +105,64 @@ func main() {
 	})
 	mux.HandleFunc("/api/cluster/nodes", func(w http.ResponseWriter, r *http.Request) {
 		transport.WriteJSONPublic(w, http.StatusOK, shardMgr.GetLocalShards())
+	})
+
+	// Schema deployment endpoint (multi-graph)
+	mux.HandleFunc("/api/schema/deploy", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			transport.WriteJSONPublic(w, http.StatusBadRequest, map[string]string{"error": "failed to read body"})
+			return
+		}
+		// Extract graph name from the schema JSON
+		var schema struct {
+			GraphName string `json:"graphName"`
+		}
+		if err := json.Unmarshal(body, &schema); err != nil || schema.GraphName == "" {
+			transport.WriteJSONPublic(w, http.StatusBadRequest, map[string]string{"error": "invalid schema: missing graphName"})
+			return
+		}
+		if err := multiGraph.DeploySchema(schema.GraphName, body); err != nil {
+			transport.WriteJSONPublic(w, http.StatusConflict, map[string]string{"error": err.Error()})
+			return
+		}
+		transport.WriteJSONPublic(w, http.StatusOK, map[string]string{"status": "deployed", "graphName": schema.GraphName})
+	})
+
+	// Multi-graph management endpoints
+	mux.HandleFunc("/api/graphs", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet {
+			transport.WriteJSONPublic(w, http.StatusOK, multiGraph.List())
+			return
+		}
+		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+	})
+
+	mux.HandleFunc("/api/graphs/schema", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		graphName := r.URL.Query().Get("name")
+		if graphName == "" {
+			transport.WriteJSONPublic(w, http.StatusBadRequest, map[string]string{"error": "missing 'name' query parameter"})
+			return
+		}
+		g, ok := multiGraph.Get(graphName)
+		if !ok {
+			transport.WriteJSONPublic(w, http.StatusNotFound, map[string]string{"error": "graph not found"})
+			return
+		}
+		if g.SchemaJSON == nil {
+			transport.WriteJSONPublic(w, http.StatusOK, nil)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(g.SchemaJSON)
 	})
 
 	// Serve
