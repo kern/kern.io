@@ -293,6 +293,214 @@ func TestSchemaBackwardCompatibility(t *testing.T) {
 	}
 }
 
+func TestModuleComposition(t *testing.T) {
+	mg := NewMultiGraph("test-replica")
+
+	// Deploy a schema with two composable modules
+	schema := CompiledSchema{
+		Version:   1,
+		GraphName: "modular-app",
+		NodeTypes: []CompiledNodeType{}, // base schema has no types
+		Modules: []CompiledModule{
+			{
+				ID:        "users",
+				Name:      "User System",
+				Namespace: "users",
+				NodeTypes: []CompiledNodeType{
+					{
+						Name: "users:profile",
+						Properties: map[string]CompiledProperty{
+							"name":  {Type: "string", Required: true},
+							"email": {Type: "string", Required: true, Unique: true},
+						},
+					},
+				},
+				EdgeTypes: []CompiledEdgeType{
+					{Name: "follows", FromTypes: []string{"users:profile"}, ToTypes: []string{"users:profile"}},
+				},
+			},
+			{
+				ID:        "billing",
+				Name:      "Billing System",
+				Namespace: "billing",
+				DependsOn: []string{"users"},
+				NodeTypes: []CompiledNodeType{
+					{
+						Name: "billing:invoice",
+						Properties: map[string]CompiledProperty{
+							"amount": {Type: "number", Required: true},
+						},
+					},
+				},
+				EdgeTypes: []CompiledEdgeType{
+					// Cross-module edge
+					{Name: "billed_to", FromTypes: []string{"billing:invoice"}, ToTypes: []string{"users:profile"}},
+				},
+			},
+		},
+	}
+
+	schemaJSON, _ := json.Marshal(schema)
+	err := mg.LoadSchema("modular-app", schemaJSON)
+	if err != nil {
+		t.Fatalf("LoadSchema with modules failed: %v", err)
+	}
+
+	g, ok := mg.Get("modular-app")
+	if !ok {
+		t.Fatal("graph should exist")
+	}
+
+	// Both modules should be active
+	if len(g.ActiveModules) != 2 {
+		t.Errorf("expected 2 active modules, got %d: %v", len(g.ActiveModules), g.ActiveModules)
+	}
+
+	// Insert nodes using both module types
+	_, err = g.Store.InsertNode("users:profile", nil, map[string]interface{}{
+		"name":  "Alice",
+		"email": "alice@test.com",
+	})
+	if err != nil {
+		t.Fatalf("insert users:profile failed: %v", err)
+	}
+
+	_, err = g.Store.InsertNode("billing:invoice", nil, map[string]interface{}{
+		"amount": 99.99,
+	})
+	if err != nil {
+		t.Fatalf("insert billing:invoice failed: %v", err)
+	}
+}
+
+func TestModuleConditionalActivation(t *testing.T) {
+	mg := NewMultiGraph("test-replica")
+
+	// Create graph with feature flags
+	g := mg.GetOrCreate("flagged-app")
+	g.FeatureFlags = map[string]bool{"premium": true}
+
+	modules := []CompiledModule{
+		{
+			ID:   "base",
+			Name: "Base",
+			NodeTypes: []CompiledNodeType{
+				{
+					Name:       "item",
+					Properties: map[string]CompiledProperty{"name": {Type: "string", Required: true}},
+				},
+			},
+		},
+		{
+			ID:   "premium-features",
+			Name: "Premium Features",
+			Condition: &ModuleCondition{
+				FeatureFlags: []string{"premium"},
+			},
+			NodeTypes: []CompiledNodeType{
+				{
+					Name:       "premium_item",
+					Properties: map[string]CompiledProperty{"tier": {Type: "string", Required: true}},
+				},
+			},
+		},
+		{
+			ID:   "beta-features",
+			Name: "Beta Features",
+			Condition: &ModuleCondition{
+				FeatureFlags: []string{"beta"},
+			},
+			NodeTypes: []CompiledNodeType{
+				{
+					Name:       "beta_item",
+					Properties: map[string]CompiledProperty{"test": {Type: "string"}},
+				},
+			},
+		},
+	}
+
+	err := mg.ResolveModules("flagged-app", modules)
+	if err != nil {
+		t.Fatalf("ResolveModules failed: %v", err)
+	}
+
+	// base and premium should be active, beta should not
+	if len(g.ActiveModules) != 2 {
+		t.Errorf("expected 2 active modules, got %d: %v", len(g.ActiveModules), g.ActiveModules)
+	}
+
+	// Premium type should be usable
+	_, err = g.Store.InsertNode("premium_item", nil, map[string]interface{}{"tier": "gold"})
+	if err != nil {
+		t.Fatalf("insert premium_item failed: %v", err)
+	}
+}
+
+func TestModuleDependencyCycle(t *testing.T) {
+	mg := NewMultiGraph("test-replica")
+	mg.GetOrCreate("cycle-test")
+
+	modules := []CompiledModule{
+		{ID: "a", Name: "A", DependsOn: []string{"b"}},
+		{ID: "b", Name: "B", DependsOn: []string{"a"}},
+	}
+
+	err := mg.ResolveModules("cycle-test", modules)
+	if err == nil {
+		t.Error("expected circular dependency error")
+	}
+}
+
+func TestModuleMissingDependency(t *testing.T) {
+	mg := NewMultiGraph("test-replica")
+	mg.GetOrCreate("dep-test")
+
+	modules := []CompiledModule{
+		{
+			ID:        "child",
+			Name:      "Child",
+			DependsOn: []string{"nonexistent-parent"},
+		},
+	}
+
+	err := mg.ResolveModules("dep-test", modules)
+	if err == nil {
+		t.Error("expected missing dependency error")
+	}
+}
+
+func TestFeatureFlags(t *testing.T) {
+	mg := NewMultiGraph("test-replica")
+	mg.GetOrCreate("flags-test")
+
+	// Set flags
+	err := mg.SetFeatureFlags("flags-test", map[string]bool{"alpha": true, "beta": false})
+	if err != nil {
+		t.Fatalf("SetFeatureFlags failed: %v", err)
+	}
+
+	flags, err := mg.GetFeatureFlags("flags-test")
+	if err != nil {
+		t.Fatalf("GetFeatureFlags failed: %v", err)
+	}
+	if !flags["alpha"] {
+		t.Error("expected alpha flag to be true")
+	}
+	if flags["beta"] {
+		t.Error("expected beta flag to be false")
+	}
+
+	// Non-existent graph
+	err = mg.SetFeatureFlags("nonexistent", map[string]bool{})
+	if err == nil {
+		t.Error("expected error for non-existent graph")
+	}
+	_, err = mg.GetFeatureFlags("nonexistent")
+	if err == nil {
+		t.Error("expected error for non-existent graph")
+	}
+}
+
 func TestMultiGraphLoadSchema(t *testing.T) {
 	mg := NewMultiGraph("test-replica")
 

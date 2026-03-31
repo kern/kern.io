@@ -79,9 +79,11 @@ export {
   SchemaCompiler,
   NodeCompiler,
   PipelineCompiler,
+  ModuleCompiler,
 } from "./compiler";
 export type {
   CompiledSchema,
+  CompiledModule,
   CompiledNodeType,
   CompiledProperty,
   CompiledEdgeType,
@@ -90,6 +92,7 @@ export type {
   CompiledStage,
   SerializableTransform,
   PropertyOptions,
+  ModuleCondition,
 } from "./compiler";
 
 // Function definitions

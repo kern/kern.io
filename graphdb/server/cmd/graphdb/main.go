@@ -142,6 +142,39 @@ func main() {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 	})
 
+	mux.HandleFunc("/api/graphs/flags", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			graphName := r.URL.Query().Get("name")
+			if graphName == "" {
+				transport.WriteJSONPublic(w, http.StatusBadRequest, map[string]string{"error": "missing 'name' query parameter"})
+				return
+			}
+			flags, err := multiGraph.GetFeatureFlags(graphName)
+			if err != nil {
+				transport.WriteJSONPublic(w, http.StatusNotFound, map[string]string{"error": err.Error()})
+				return
+			}
+			transport.WriteJSONPublic(w, http.StatusOK, flags)
+		case http.MethodPost:
+			var req struct {
+				GraphName string          `json:"graphName"`
+				Flags     map[string]bool `json:"flags"`
+			}
+			if err := json.NewDecoder(r.Body).Decode(&req); err != nil || req.GraphName == "" {
+				transport.WriteJSONPublic(w, http.StatusBadRequest, map[string]string{"error": "invalid request"})
+				return
+			}
+			if err := multiGraph.SetFeatureFlags(req.GraphName, req.Flags); err != nil {
+				transport.WriteJSONPublic(w, http.StatusNotFound, map[string]string{"error": err.Error()})
+				return
+			}
+			transport.WriteJSONPublic(w, http.StatusOK, map[string]string{"status": "ok"})
+		default:
+			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
 	mux.HandleFunc("/api/graphs/schema", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)

@@ -496,6 +496,25 @@ export class GraphDBClient {
     return response.json();
   }
 
+  /** Set feature flags on a graph (controls conditional module activation) */
+  async setFeatureFlags(graphName: string, flags: Record<string, boolean>): Promise<void> {
+    const response = await fetch(`${this.url}/api/graphs/flags`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ graphName, flags }),
+    });
+    const result = await response.json();
+    if (result.error) {
+      throw new GraphDBError(result.error, "setFeatureFlags");
+    }
+  }
+
+  /** Get feature flags for a graph */
+  async getFeatureFlags(graphName: string): Promise<Record<string, boolean>> {
+    const response = await fetch(`${this.url}/api/graphs/flags?name=${encodeURIComponent(graphName)}`);
+    return response.json();
+  }
+
   /** Get the schema JSON for a deployed graph */
   async getGraphSchema(graphName: string): Promise<import("./compiler").CompiledSchema | null> {
     const response = await fetch(`${this.url}/api/graphs/schema?name=${encodeURIComponent(graphName)}`);

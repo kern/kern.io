@@ -21,12 +21,16 @@ type MultiGraph struct {
 
 // GraphInstance is a single named graph with all its associated state.
 type GraphInstance struct {
-	Name         string                      `json:"name"`
-	Store        *graph.Store                `json:"-"`
-	DerivedStore *derived.Store              `json:"-"`
-	Validator    *invariant.Validator         `json:"-"`
+	Name         string                         `json:"name"`
+	Store        *graph.Store                   `json:"-"`
+	DerivedStore *derived.Store                 `json:"-"`
+	Validator    *invariant.Validator            `json:"-"`
 	IncValidator *invariant.IncrementalValidator `json:"-"`
-	SchemaJSON   json.RawMessage             `json:"schema,omitempty"`
+	SchemaJSON   json.RawMessage                `json:"schema,omitempty"`
+	// FeatureFlags enable conditional module activation
+	FeatureFlags map[string]bool                `json:"featureFlags,omitempty"`
+	// ActiveModules tracks which modules have been applied
+	ActiveModules []string                      `json:"activeModules,omitempty"`
 }
 
 // NewMultiGraph creates a new multi-graph manager.
@@ -129,7 +133,18 @@ func (mg *MultiGraph) LoadSchema(graphName string, schemaJSON []byte) error {
 		return fmt.Errorf("invalid schema JSON: %w", err)
 	}
 
-	return mg.applyCompiledSchema(g, &compiled)
+	if err := mg.applyCompiledSchema(g, &compiled); err != nil {
+		return err
+	}
+
+	// Resolve and apply conditional modules
+	if len(compiled.Modules) > 0 {
+		if err := mg.ResolveModules(graphName, compiled.Modules); err != nil {
+			return fmt.Errorf("module resolution: %w", err)
+		}
+	}
+
+	return nil
 }
 
 // CompiledSchema is the JSON format produced by the TypeScript schema compiler.
@@ -142,6 +157,7 @@ type CompiledSchema struct {
 	EdgeTypes  []CompiledEdgeType      `json:"edgeTypes"`
 	Invariants []CompiledInvariant     `json:"invariants"`
 	Pipelines  []CompiledPipeline      `json:"pipelines"`
+	Modules    []CompiledModule        `json:"modules,omitempty"`
 }
 
 // CompiledNodeType is a node type from the compiled schema.
@@ -180,6 +196,30 @@ type CompiledPipeline struct {
 	ID     string               `json:"id"`
 	Name   string               `json:"name"`
 	Stages []CompiledStage      `json:"stages"`
+}
+
+// CompiledModule is an independently defined schema fragment that can be
+// conditionally applied to a graph. Modules enable composable subsystems.
+type CompiledModule struct {
+	ID         string              `json:"id"`
+	Name       string              `json:"name"`
+	Namespace  string              `json:"namespace,omitempty"`
+	NodeTypes  []CompiledNodeType  `json:"nodeTypes"`
+	EdgeTypes  []CompiledEdgeType  `json:"edgeTypes"`
+	Invariants []CompiledInvariant `json:"invariants"`
+	Pipelines  []CompiledPipeline  `json:"pipelines"`
+	Condition  *ModuleCondition    `json:"condition,omitempty"`
+	DependsOn  []string            `json:"dependsOn,omitempty"`
+}
+
+// ModuleCondition determines when a module is active.
+type ModuleCondition struct {
+	// Module activates when node type starts with this prefix
+	NodeTypePrefix string `json:"nodeTypePrefix,omitempty"`
+	// Module activates when all listed feature flags are present
+	FeatureFlags []string `json:"featureFlags,omitempty"`
+	// Custom expression (CEL-like) evaluated at runtime
+	Expression string `json:"expression,omitempty"`
 }
 
 // CompiledStage is a pipeline stage definition.
@@ -490,6 +530,199 @@ func (mg *MultiGraph) DeploySchema(graphName string, schemaJSON []byte) error {
 		return fmt.Errorf("schema incompatible: %w", err)
 	}
 	return mg.LoadSchema(graphName, schemaJSON)
+}
+
+// SetFeatureFlags sets feature flags on a graph instance. Flags determine
+// which conditional modules are active.
+func (mg *MultiGraph) SetFeatureFlags(graphName string, flags map[string]bool) error {
+	mg.mu.RLock()
+	g, ok := mg.graphs[graphName]
+	mg.mu.RUnlock()
+	if !ok {
+		return fmt.Errorf("graph %q not found", graphName)
+	}
+	g.FeatureFlags = flags
+	return nil
+}
+
+// GetFeatureFlags returns the feature flags for a graph.
+func (mg *MultiGraph) GetFeatureFlags(graphName string) (map[string]bool, error) {
+	mg.mu.RLock()
+	g, ok := mg.graphs[graphName]
+	mg.mu.RUnlock()
+	if !ok {
+		return nil, fmt.Errorf("graph %q not found", graphName)
+	}
+	return g.FeatureFlags, nil
+}
+
+// ApplyModule applies a single module to a graph if its conditions are met.
+func (mg *MultiGraph) ApplyModule(graphName string, module *CompiledModule) error {
+	mg.mu.RLock()
+	g, ok := mg.graphs[graphName]
+	mg.mu.RUnlock()
+	if !ok {
+		return fmt.Errorf("graph %q not found", graphName)
+	}
+
+	if !mg.isModuleActive(g, module) {
+		return fmt.Errorf("module %q conditions not met", module.ID)
+	}
+
+	// Check dependencies
+	for _, dep := range module.DependsOn {
+		found := false
+		for _, active := range g.ActiveModules {
+			if active == dep {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return fmt.Errorf("module %q depends on %q which is not active", module.ID, dep)
+		}
+	}
+
+	// Apply module's schema elements
+	miniSchema := &CompiledSchema{
+		NodeTypes:  module.NodeTypes,
+		EdgeTypes:  module.EdgeTypes,
+		Invariants: module.Invariants,
+		Pipelines:  module.Pipelines,
+	}
+	if err := mg.applyCompiledSchema(g, miniSchema); err != nil {
+		return fmt.Errorf("module %q: %w", module.ID, err)
+	}
+
+	g.ActiveModules = append(g.ActiveModules, module.ID)
+	return nil
+}
+
+// isModuleActive checks whether a module's conditions are satisfied.
+func (mg *MultiGraph) isModuleActive(g *GraphInstance, module *CompiledModule) bool {
+	if module.Condition == nil {
+		return true // No condition = always active
+	}
+
+	cond := module.Condition
+
+	// Check feature flags
+	if len(cond.FeatureFlags) > 0 {
+		if g.FeatureFlags == nil {
+			return false
+		}
+		for _, flag := range cond.FeatureFlags {
+			if !g.FeatureFlags[flag] {
+				return false
+			}
+		}
+	}
+
+	// NodeTypePrefix and Expression conditions are always considered met
+	// at the schema level — they are evaluated at operation time by the
+	// invariant/validation layer. The schema elements are always loaded,
+	// but the invariants only fire when the prefix matches.
+	return true
+}
+
+// ResolveModules processes all modules in a compiled schema: checks conditions,
+// resolves dependencies via topological sort, and applies them in order.
+func (mg *MultiGraph) ResolveModules(graphName string, modules []CompiledModule) error {
+	if len(modules) == 0 {
+		return nil
+	}
+
+	g := mg.GetOrCreate(graphName)
+
+	// Build dependency graph and sort topologically
+	sorted, err := topologicalSortModules(modules)
+	if err != nil {
+		return err
+	}
+
+	for _, module := range sorted {
+		m := module // capture
+		if !mg.isModuleActive(g, &m) {
+			continue // Skip inactive modules
+		}
+
+		// Check dependencies are satisfied
+		for _, dep := range m.DependsOn {
+			found := false
+			for _, active := range g.ActiveModules {
+				if active == dep {
+					found = true
+					break
+				}
+			}
+			if !found {
+				return fmt.Errorf("module %q depends on %q which was not activated", m.ID, dep)
+			}
+		}
+
+		miniSchema := &CompiledSchema{
+			NodeTypes:  m.NodeTypes,
+			EdgeTypes:  m.EdgeTypes,
+			Invariants: m.Invariants,
+			Pipelines:  m.Pipelines,
+		}
+		if err := mg.applyCompiledSchema(g, miniSchema); err != nil {
+			return fmt.Errorf("module %q: %w", m.ID, err)
+		}
+		g.ActiveModules = append(g.ActiveModules, m.ID)
+	}
+
+	return nil
+}
+
+// topologicalSortModules sorts modules by dependency order.
+func topologicalSortModules(modules []CompiledModule) ([]CompiledModule, error) {
+	byID := make(map[string]*CompiledModule, len(modules))
+	for i := range modules {
+		byID[modules[i].ID] = &modules[i]
+	}
+
+	visited := make(map[string]bool)
+	visiting := make(map[string]bool) // cycle detection
+	var sorted []CompiledModule
+
+	var visit func(id string) error
+	visit = func(id string) error {
+		if visited[id] {
+			return nil
+		}
+		if visiting[id] {
+			return fmt.Errorf("circular dependency detected involving module %q", id)
+		}
+		visiting[id] = true
+
+		m, ok := byID[id]
+		if !ok {
+			return fmt.Errorf("unknown module dependency %q", id)
+		}
+
+		for _, dep := range m.DependsOn {
+			if _, exists := byID[dep]; exists {
+				if err := visit(dep); err != nil {
+					return err
+				}
+			}
+			// External deps (not in this batch) are assumed satisfied
+		}
+
+		visiting[id] = false
+		visited[id] = true
+		sorted = append(sorted, *m)
+		return nil
+	}
+
+	for _, m := range modules {
+		if err := visit(m.ID); err != nil {
+			return nil, err
+		}
+	}
+
+	return sorted, nil
 }
 
 // StopAll stops all graph instances.

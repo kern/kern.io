@@ -30,6 +30,37 @@ export interface CompiledSchema {
   edgeTypes: CompiledEdgeType[];
   invariants: CompiledInvariant[];
   pipelines: CompiledPipeline[];
+  /** Schema modules for composable/conditional schema application */
+  modules?: CompiledModule[];
+}
+
+/**
+ * A schema module is an independently defined fragment that can be
+ * conditionally applied to a graph. Modules enable:
+ * - Defining separate subsystems (e.g., "users", "billing", "content")
+ * - Conditionally applying invariants based on node type namespaces
+ * - Nesting graphs: each module defines its own types + cross-module edges
+ * - Composing multiple modules into one graph with interoperability
+ */
+export interface CompiledModule {
+  /** Unique module identifier */
+  id: string;
+  /** Human-readable name */
+  name: string;
+  /** Optional namespace prefix applied to all types in this module */
+  namespace?: string;
+  /** Node types defined by this module */
+  nodeTypes: CompiledNodeType[];
+  /** Edge types defined by this module */
+  edgeTypes: CompiledEdgeType[];
+  /** Invariants scoped to this module */
+  invariants: CompiledInvariant[];
+  /** Pipelines scoped to this module */
+  pipelines: CompiledPipeline[];
+  /** Condition for when this module is active (evaluated at runtime) */
+  condition?: ModuleCondition;
+  /** Dependencies on other modules (by ID) */
+  dependsOn?: string[];
 }
 
 export interface CompiledNodeType {
@@ -79,6 +110,21 @@ export interface SerializableTransform {
   includeProperties?: string[];
   excludeProperties?: string[];
   conditions?: string[];
+}
+
+/**
+ * Condition for when a module is active. Modules can be activated based on:
+ * - Node type matching (namespace prefix)
+ * - Feature flags (string tags present on the graph)
+ * - Custom expressions evaluated at the server
+ */
+export interface ModuleCondition {
+  /** Module activates when any operated-on node type starts with this prefix */
+  nodeTypePrefix?: string;
+  /** Module activates when all listed feature flags are present on the graph */
+  featureFlags?: string[];
+  /** Module activates when this CEL-like expression evaluates to true */
+  expression?: string;
 }
 
 // --- Property Options ---
@@ -191,9 +237,47 @@ export class SchemaCompiler {
     return this;
   }
 
+  private modules: CompiledModule[] = [];
+
+  /**
+   * Define a schema module — an independent, composable schema fragment.
+   *
+   * Modules allow you to define subsystems separately and compose them
+   * into a single graph. Each module can have its own node types, edge types,
+   * invariants, and pipelines. Modules can optionally:
+   * - Use a namespace prefix to avoid type name collisions
+   * - Declare dependencies on other modules
+   * - Be conditionally activated based on node type prefixes, feature flags,
+   *   or custom expressions
+   *
+   * @example
+   * ```ts
+   * s.module("users", (m) => {
+   *   m.namespace("users");
+   *   m.node("profile", (n) => { n.string("name", { required: true }); });
+   *   m.edge("follows", ["profile"], ["profile"]);
+   *   m.unique("profile", "name");
+   * });
+   *
+   * s.module("billing", (m) => {
+   *   m.namespace("billing");
+   *   m.dependsOn("users");
+   *   m.node("invoice", (n) => { n.number("amount", { required: true }); });
+   *   // Cross-module edge: billing references users
+   *   m.edge("billed_to", ["billing:invoice"], ["users:profile"]);
+   * });
+   * ```
+   */
+  module(id: string, builder: (m: ModuleCompiler) => void): this {
+    const mc = new ModuleCompiler(id);
+    builder(mc);
+    this.modules.push(mc.build());
+    return this;
+  }
+
   /** Build the compiled schema */
   build(graphName: string): CompiledSchema {
-    return {
+    const result: CompiledSchema = {
       version: 1,
       graphName,
       nodeTypes: this.nodeTypes,
@@ -201,6 +285,10 @@ export class SchemaCompiler {
       invariants: this.invariants,
       pipelines: this.pipelines,
     };
+    if (this.modules.length > 0) {
+      result.modules = this.modules;
+    }
+    return result;
   }
 }
 
@@ -299,6 +387,143 @@ export class NodeCompiler {
       properties: this.properties,
       allowedChildren: this.allowedChildren,
       allowedParents: this.allowedParents,
+    };
+  }
+}
+
+// --- Module Compiler ---
+
+export class ModuleCompiler {
+  private _name: string;
+  private _namespace?: string;
+  private nodeTypes: CompiledNodeType[] = [];
+  private edgeTypes: CompiledEdgeType[] = [];
+  private invariants: CompiledInvariant[] = [];
+  private pipelines: CompiledPipeline[] = [];
+  private condition?: ModuleCondition;
+  private deps: string[] = [];
+
+  constructor(private id: string) {
+    this._name = id;
+  }
+
+  /** Set a human-readable name */
+  name(name: string): this {
+    this._name = name;
+    return this;
+  }
+
+  /**
+   * Set a namespace prefix. When set, all node types defined in this module
+   * are automatically prefixed (e.g., namespace "users" + node "profile" = "users:profile").
+   * This prevents collisions when composing multiple modules.
+   */
+  namespace(ns: string): this {
+    this._namespace = ns;
+    return this;
+  }
+
+  /** Declare a dependency on another module */
+  dependsOn(...moduleIds: string[]): this {
+    this.deps.push(...moduleIds);
+    return this;
+  }
+
+  /** Set a condition for when this module is active */
+  when(condition: ModuleCondition): this {
+    this.condition = condition;
+    return this;
+  }
+
+  /** Activate this module only for node types with this prefix */
+  whenNodeTypePrefix(prefix: string): this {
+    this.condition = { ...this.condition, nodeTypePrefix: prefix };
+    return this;
+  }
+
+  /** Activate this module only when these feature flags are set */
+  whenFeatureFlags(...flags: string[]): this {
+    this.condition = { ...this.condition, featureFlags: flags };
+    return this;
+  }
+
+  /** Define a node type within this module */
+  node(name: string, builder: (n: NodeCompiler) => void): this {
+    const fullName = this._namespace ? `${this._namespace}:${name}` : name;
+    const nc = new NodeCompiler(fullName);
+    builder(nc);
+    this.nodeTypes.push(nc.build());
+    return this;
+  }
+
+  /** Define an edge type within this module */
+  edge(name: string, fromTypes: string[], toTypes: string[]): this {
+    this.edgeTypes.push({ name, fromTypes, toTypes });
+    return this;
+  }
+
+  /** Add a uniqueness invariant */
+  unique(nodeType: string, property: string): this {
+    const fullType = this._namespace ? `${this._namespace}:${nodeType}` : nodeType;
+    const id = `${this.id}-unique-${fullType}-${property}`;
+    this.invariants.push({
+      id,
+      name: `Unique ${fullType}.${property}`,
+      type: "uniqueness",
+      config: { nodeType: fullType, property },
+    });
+    return this;
+  }
+
+  /** Add an acyclicity invariant */
+  acyclic(edgeType: string): this {
+    const id = `${this.id}-acyclic-${edgeType}`;
+    this.invariants.push({
+      id,
+      name: `Acyclic ${edgeType}`,
+      type: "acyclicity",
+      config: { edgeType },
+    });
+    return this;
+  }
+
+  /** Add a cardinality constraint */
+  maxCardinality(
+    nodeType: string,
+    edgeType: string,
+    direction: "in" | "out",
+    max: number
+  ): this {
+    const fullType = this._namespace ? `${this._namespace}:${nodeType}` : nodeType;
+    const id = `${this.id}-max-${fullType}-${edgeType}-${direction}`;
+    this.invariants.push({
+      id,
+      name: `Max ${direction} ${edgeType} on ${fullType}`,
+      type: "cardinality",
+      config: { nodeType: fullType, edgeType, direction, max },
+    });
+    return this;
+  }
+
+  /** Add a derivation pipeline */
+  pipeline(id: string, name: string, builder: (p: PipelineCompiler) => void): this {
+    const pc = new PipelineCompiler(`${this.id}-${id}`, name);
+    builder(pc);
+    this.pipelines.push(pc.build());
+    return this;
+  }
+
+  build(): CompiledModule {
+    return {
+      id: this.id,
+      name: this._name,
+      namespace: this._namespace,
+      nodeTypes: this.nodeTypes,
+      edgeTypes: this.edgeTypes,
+      invariants: this.invariants,
+      pipelines: this.pipelines,
+      condition: this.condition,
+      dependsOn: this.deps.length > 0 ? this.deps : undefined,
     };
   }
 }
