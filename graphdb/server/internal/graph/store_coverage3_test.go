@@ -11,52 +11,39 @@ import (
 // (not just deleted). Also tests the "no more orphans" termination branch.
 // ---------------------------------------------------------------------------
 
-func TestReapOrphansUnlockedParentMissing(t *testing.T) {
-	// Fabricate a scenario where a node's ParentID refers to a node
-	// that is completely missing from the graph (never inserted).
-	// We do this by inserting a child under a parent, then manipulating
-	// the walker so the parent is gone but the child still references it.
-	s := NewStore("r1")
+func TestReapOrphansUnlockedCascading(t *testing.T) {
+	// To reliably trigger reapOrphansUnlocked, we need cascading orphans.
+	// Due to Go map iteration order being non-deterministic, a grandchild
+	// might be iterated before its parent in the first pass. When that
+	// happens, the grandchild's parent is still alive, so it's not reaped.
+	// The parent gets reaped later in the same pass, making the grandchild
+	// an orphan only detectable in the recursive reapOrphansUnlocked call.
+	//
+	// We create many 3-level trees to increase probability that at least
+	// one grandchild is iterated before its parent.
+	for attempt := 0; attempt < 10; attempt++ {
+		s := NewStore("r1")
 
-	// Build: root -> mid -> leaf
-	root, _ := s.InsertNode("folder", nil, nil)
-	mid, _ := s.InsertNode("folder", &root, nil)
-	_, _ = s.InsertNode("file", &mid, nil)
+		root, _ := s.InsertNode("root", nil, nil)
+		// Create many intermediate + leaf nodes
+		for i := 0; i < 20; i++ {
+			mid, _ := s.InsertNode("mid", &root, nil)
+			s.InsertNode("leaf", &mid, nil)
+		}
 
-	// Soft-delete root (makes root.Deleted = true)
-	s.SoftDeleteNode(root)
+		s.SoftDeleteNode(root)
 
-	// Reap should find mid as orphan (parent root is deleted),
-	// then on the recursive call find leaf (parent mid is now deleted).
-	reaped, err := s.ReapOrphans()
-	if err != nil {
-		t.Fatalf("ReapOrphans: %v", err)
-	}
-	if len(reaped) < 2 {
-		t.Errorf("expected at least 2 reaped, got %d", len(reaped))
-	}
-	if len(s.AllNodes()) != 0 {
-		t.Errorf("expected 0 live nodes, got %d", len(s.AllNodes()))
-	}
-}
-
-func TestReapOrphansUnlockedTerminatesWhenNoOrphans(t *testing.T) {
-	s := NewStore("r1")
-
-	// Build: root -> child
-	root, _ := s.InsertNode("folder", nil, nil)
-	s.InsertNode("file", &root, nil)
-
-	// Soft-delete root, reap. After first round all orphans are reaped;
-	// the recursive call should find no more and terminate.
-	s.SoftDeleteNode(root)
-
-	reaped, err := s.ReapOrphans()
-	if err != nil {
-		t.Fatalf("ReapOrphans: %v", err)
-	}
-	if len(reaped) != 1 {
-		t.Errorf("expected 1 reaped, got %d", len(reaped))
+		reaped, err := s.ReapOrphans()
+		if err != nil {
+			t.Fatalf("ReapOrphans: %v", err)
+		}
+		// All 40 children+grandchildren should be reaped
+		if len(reaped) != 40 {
+			t.Errorf("attempt %d: expected 40 reaped, got %d", attempt, len(reaped))
+		}
+		if len(s.AllNodes()) != 0 {
+			t.Errorf("attempt %d: expected 0 live nodes, got %d", attempt, len(s.AllNodes()))
+		}
 	}
 }
 
